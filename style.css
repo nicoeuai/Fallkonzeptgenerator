@@ -1,0 +1,156 @@
+/*
+  Grundlegendes Styling für den Bericht‑Generator.
+  Die Farbgestaltung orientiert sich an modernen Informationsseiten
+  mit blauen Akzenten und dezenten Hintergründen.
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f8fb;
+  color: #2b3e50;
+}
+
+.site-header {
+  background-color: #005596;
+  color: #ffffff;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.site-subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+/* Intro section */
+.intro-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+.primary-btn {
+  background-color: #005596;
+  color: #ffffff;
+}
+
+.primary-btn:hover {
+  background-color: #004481;
+}
+
+.secondary-btn {
+  background-color: #e0e6ed;
+  color: #2b3e50;
+}
+
+.secondary-btn:hover {
+  background-color: #c9d4e0;
+}
+
+/* Form container */
+.form-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+  display: none;
+}
+
+.form-step {
+  display: none;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group select,
+.input-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccd4de;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.input-group textarea {
+  resize: vertical;
+}
+
+.navigation-buttons {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+/* Conditional note styling */
+.conditional-note {
+  font-size: 0.9rem;
+  color: #666666;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+/* Report output */
+#reportOutput {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccd4de;
+  border-radius: 4px;
+  font-family: monospace;
+  box-sizing: border-box;
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-container, .intro-section {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  .site-title {
+    font-size: 1.4rem;
+  }
+  .site-subtitle {
+    font-size: 0.9rem;
+  }
+}

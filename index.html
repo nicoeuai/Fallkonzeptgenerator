@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bericht‑Generator für Psychotherapie‑Anträge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="site-title">Psychotherapie‑Bericht Generator</h1>
+    <p class="site-subtitle">Erstellen Sie strukturiert Berichte nach PTV 3</p>
+  </header>
+
+  <!-- Intro section with start button -->
+  <section id="intro" class="intro-section">
+    <h2>Herzlich willkommen!</h2>
+    <p>
+      Mit diesem Tool können Sie einen strukturierten Bericht für
+      Erst‑, Umwandlungs‑ oder Fortführungsanträge erstellen. Die
+      Eingabemaske führt Sie Schritt für Schritt durch alle notwendigen
+      Angaben entsprechend der gesetzlichen Vorgaben.
+    </p>
+    <button id="startButton" class="primary-btn">Fragebogen starten</button>
+  </section>
+
+  <!-- Multi‑step form container; initially hidden -->
+  <section id="formContainer" class="form-container hidden">
+    <form id="reportForm">
+      <!-- Step 0: Auswahl des Antragstyps -->
+      <div class="form-step" data-step="0">
+        <h2>Antragstyp wählen</h2>
+        <p>Bitte wählen Sie aus, welchen Antrag Sie stellen möchten.</p>
+        <div class="input-group">
+          <label for="applicationType">Antragstyp</label>
+          <select id="applicationType" name="applicationType">
+            <option value="erst">Erstantrag</option>
+            <option value="umwandlung">Umwandlungsantrag (KZT → LZT)</option>
+            <option value="fortfuehrung">Fortführungsantrag</option>
+          </select>
+        </div>
+        <button type="button" class="primary-btn" id="next0">Weiter</button>
+      </div>
+
+      <!-- Step 1: Soziodemographische Daten -->
+      <div class="form-step" data-step="1">
+        <h2>1. Soziodemographische Daten</h2>
+        <div class="input-group">
+          <label for="patientInitials">Patient:innen‑Chiffre / Initialen</label>
+          <input type="text" id="patientInitials" name="patientInitials" />
+        </div>
+        <div class="input-group">
+          <label for="patientAge">Alter</label>
+          <input type="number" id="patientAge" name="patientAge" min="0" />
+        </div>
+        <div class="input-group">
+          <label for="patientGender">Geschlecht</label>
+          <input type="text" id="patientGender" name="patientGender" />
+        </div>
+        <div class="input-group">
+          <label for="occupation">Beruf (optional mit Beschäftigungsstatus)</label>
+          <input type="text" id="occupation" name="occupation" />
+        </div>
+        <div class="input-group">
+          <label for="workStatus">Erwerbsstatus</label>
+          <select id="workStatus" name="workStatus">
+            <option value="">– Bitte wählen –</option>
+            <option value="vollzeit">Vollzeit</option>
+            <option value="teilzeit">Teilzeit</option>
+            <option value="arbeitslos">Arbeitslos</option>
+            <option value="krankengeld">Im Krankengeldbezug</option>
+            <option value="alg2">ALG II Bezug</option>
+            <option value="bu">Berufsunfähigkeit / Rente</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="maritalStatus">Familienstand</label>
+          <select id="maritalStatus" name="maritalStatus">
+            <option value="">– Bitte wählen –</option>
+            <option value="ledig">Ledig</option>
+            <option value="verheiratet">Verheiratet</option>
+            <option value="geschieden">Geschieden</option>
+            <option value="partnerschaft">In fester Partnerschaft</option>
+            <option value="allein">Alleinlebend</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="children">Kinder (Anzahl und Alter)</label>
+          <input type="text" id="children" name="children" placeholder="z.B. 2 Kinder (5 und 8 Jahre)" />
+        </div>
+        <div class="input-group">
+          <label for="livingSituation">Wohnsituation</label>
+          <select id="livingSituation" name="livingSituation">
+            <option value="">– Bitte wählen –</option>
+            <option value="partner">Mit Partner:in</option>
+            <option value="eltern">Mit Eltern</option>
+            <option value="kinder">Mit Kindern</option>
+            <option value="alleine">Alleine</option>
+            <option value="wg">Wohngemeinschaft</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="socialOther">Weitere soziale Angaben (optional)</label>
+          <textarea id="socialOther" name="socialOther" rows="3"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev1">Zurück</button>
+          <button type="button" class="primary-btn" id="next1">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Symptomatik und Leidensdruck -->
+      <div class="form-step" data-step="2">
+        <h2>2. Symptomatik und subjektiver Leidensdruck</h2>
+        <div class="input-group">
+          <label for="mainReason">Hauptgrund der Vorstellung (Warum jetzt?)</label>
+          <textarea id="mainReason" name="mainReason" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="symptomPhys">Symptomatik – physiologische Ebene</label>
+          <textarea id="symptomPhys" name="symptomPhys" rows="3" placeholder="z.B. Schlafstörungen, Appetitveränderung"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="symptomEmo">Symptomatik – emotionale Ebene</label>
+          <textarea id="symptomEmo" name="symptomEmo" rows="3" placeholder="z.B. Traurigkeit, Ängstlichkeit"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="symptomCog">Symptomatik – kognitive Ebene</label>
+          <textarea id="symptomCog" name="symptomCog" rows="3" placeholder="z.B. Grübeln, Selbstzweifel"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="symptomBeh">Symptomatik – Verhaltensebene</label>
+          <textarea id="symptomBeh" name="symptomBeh" rows="3" placeholder="z.B. Vermeidung, Rückzug"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="symptomCourse">Verlauf / Schweregrad der Symptomatik</label>
+          <textarea id="symptomCourse" name="symptomCourse" rows="3" placeholder="Dauer, Häufigkeit, Intensität, Veränderungen"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="comorbidities">Weitere Beschwerden / Komorbiditäten</label>
+          <textarea id="comorbidities" name="comorbidities" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="subjectiveDistress">Subjektiver Leidensdruck</label>
+          <textarea id="subjectiveDistress" name="subjectiveDistress" rows="3"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev2">Zurück</button>
+          <button type="button" class="primary-btn" id="next2">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Psychischer Befund -->
+      <div class="form-step" data-step="3">
+        <h2>3. Psychischer Befund</h2>
+        <p>
+          Bitte beschreiben Sie für jeden Bereich die beobachteten Merkmale. Sie
+          können Stichpunkte verwenden.
+        </p>
+        <div class="input-group">
+          <label for="appearance">Äußeres Erscheinungsbild</label>
+          <textarea id="appearance" name="appearance" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="behaviour">Verhalten in der Untersuchungssituation / Psychomotorik</label>
+          <textarea id="behaviour" name="behaviour" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="consciousness">Bewusstsein</label>
+          <textarea id="consciousness" name="consciousness" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="orientation">Orientierung</label>
+          <textarea id="orientation" name="orientation" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="attentionMemory">Aufmerksamkeit und Gedächtnis</label>
+          <textarea id="attentionMemory" name="attentionMemory" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="thinkingFormal">Formales Denken</label>
+          <textarea id="thinkingFormal" name="thinkingFormal" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="thinkingContent">Inhaltliches Denken</label>
+          <textarea id="thinkingContent" name="thinkingContent" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="perception">Wahrnehmungsstörungen</label>
+          <textarea id="perception" name="perception" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="ichStörungen">Ich‑Störungen</label>
+          <textarea id="ichStörungen" name="ichStörungen" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="affectivity">Affektivität</label>
+          <textarea id="affectivity" name="affectivity" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="drive">Antrieb und Psychomotorik</label>
+          <textarea id="drive" name="drive" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="vegetative">Zirkadiane und vegetative Besonderheiten</label>
+          <textarea id="vegetative" name="vegetative" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="suicidality">Suizidalität und Fremdgefährlichkeit</label>
+          <textarea id="suicidality" name="suicidality" rows="2"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev3">Zurück</button>
+          <button type="button" class="primary-btn" id="next3">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Somatischer Befund / Konsiliarbericht -->
+      <div class="form-step" data-step="4">
+        <h2>4. Somatischer Befund / Konsiliarbericht</h2>
+        <div class="input-group">
+          <label for="consiliar">Liegt ein Konsiliarbericht vor?</label>
+          <select id="consiliar" name="consiliar">
+            <option value="">– Bitte wählen –</option>
+            <option value="ja">Ja</option>
+            <option value="nein">Nein</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="somatic">Relevante körperliche Erkrankungen / Behinderungen</label>
+          <textarea id="somatic" name="somatic" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="heightWeight">Körpergröße / Gewicht</label>
+          <input type="text" id="heightWeight" name="heightWeight" placeholder="z.B. 1,72 m / 70 kg" />
+        </div>
+        <div class="input-group">
+          <label for="substanceUse">Konsum von Alkohol, Nikotin, Drogen</label>
+          <textarea id="substanceUse" name="substanceUse" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="medication">Aktuelle Medikation (v. a. Psychopharmaka)</label>
+          <textarea id="medication" name="medication" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="previousTreatments">Vorbehandlungen (psychotherapeutisch / stationär)</label>
+          <textarea id="previousTreatments" name="previousTreatments" rows="3"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev4">Zurück</button>
+          <button type="button" class="primary-btn" id="next4">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Lebensgeschichte & funktionales Bedingungsmodell -->
+      <div class="form-step" data-step="5">
+        <h2>5. Lebensgeschichte & funktionales Bedingungsmodell</h2>
+        <div class="input-group">
+          <label for="lifeHistory">Relevante Angaben zur Lebensgeschichte und Krankheitsanamnese</label>
+          <textarea id="lifeHistory" name="lifeHistory" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="predispositions">Prädispositionen (Einflüsse der Lebensgeschichte)</label>
+          <textarea id="predispositions" name="predispositions" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="triggers">Auslösende Bedingungen</label>
+          <textarea id="triggers" name="triggers" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="maintenance">Aufrechterhaltende Bedingungen (kognitive Prozesse, Verhaltensweisen, Ressourcen)</label>
+          <textarea id="maintenance" name="maintenance" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="sorkc">Verhaltensanalyse (SORKC‑Schema oder typische Situation)</label>
+          <textarea id="sorkc" name="sorkc" rows="4"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev5">Zurück</button>
+          <button type="button" class="primary-btn" id="next5">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 6: Diagnosen -->
+      <div class="form-step" data-step="6">
+        <h2>6. Diagnosen</h2>
+        <div class="input-group">
+          <label for="primaryDiagnosis">Primäre Diagnose (ICD‑Code und Bezeichnung)</label>
+          <input type="text" id="primaryDiagnosis" name="primaryDiagnosis" />
+        </div>
+        <div class="input-group">
+          <label for="comorbidDiagnosis">Weitere Diagnosen / Komorbiditäten</label>
+          <textarea id="comorbidDiagnosis" name="comorbidDiagnosis" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="differentialDiagnosis">Differentialdiagnosen (optional)</label>
+          <textarea id="differentialDiagnosis" name="differentialDiagnosis" rows="3"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="diagnosisJustification">Begründung der Diagnose(n)</label>
+          <textarea id="diagnosisJustification" name="diagnosisJustification" rows="4"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev6">Zurück</button>
+          <button type="button" class="primary-btn" id="next6">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 7: Behandlungsplan und Prognose -->
+      <div class="form-step" data-step="7">
+        <h2>7. Behandlungsplan und Prognose</h2>
+        <div class="input-group">
+          <label for="therapyGoals">Therapieziele (individuell und verhaltensnah)</label>
+          <textarea id="therapyGoals" name="therapyGoals" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="plannedInterventions">Geplante Interventionen / Methoden</label>
+          <textarea id="plannedInterventions" name="plannedInterventions" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="therapyScope">Beantragter Therapieumfang (z.B. Anzahl Sitzungen)</label>
+          <input type="text" id="therapyScope" name="therapyScope" />
+        </div>
+        <div class="input-group">
+          <label for="prognosis">Prognose (förderliche und hindernde Faktoren)</label>
+          <textarea id="prognosis" name="prognosis" rows="4"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev7">Zurück</button>
+          <button type="button" class="primary-btn" id="next7">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 8: Zusatz für Umwandlung / Fortführung -->
+      <div class="form-step" data-step="8">
+        <h2>8. Zusätzliche Angaben bei Umwandlungs‑/Fortführungsanträgen</h2>
+        <p class="conditional-note">
+          Dieser Abschnitt wird nur benötigt, wenn Sie einen Umwandlungs- oder
+          Fortführungsantrag stellen. Bei Erstanträgen können Sie „Weiter“
+          klicken.
+        </p>
+        <div class="input-group">
+          <label for="previousCourse">Bisheriger Behandlungsverlauf (seit letztem Bericht)</label>
+          <textarea id="previousCourse" name="previousCourse" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="updatedFindings">Aktueller psychischer Befund / Testresultate</label>
+          <textarea id="updatedFindings" name="updatedFindings" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="justification">Begründung der Notwendigkeit der Fortführung / Umwandlung</label>
+          <textarea id="justification" name="justification" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="changedGoals">Geänderte oder erweiterte Therapieziele / Methoden</label>
+          <textarea id="changedGoals" name="changedGoals" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="closingPlan">Prognose, Abschlussplanung und weiterführende Maßnahmen</label>
+          <textarea id="closingPlan" name="closingPlan" rows="4"></textarea>
+        </div>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev8">Zurück</button>
+          <button type="button" class="primary-btn" id="next8">Weiter</button>
+        </div>
+      </div>
+
+      <!-- Step 9: Zusammenfassung & Report -->
+      <div class="form-step" data-step="9">
+        <h2>9. Zusammenfassung</h2>
+        <p>Im folgenden Feld sehen Sie Ihren generierten Bericht. Sie können diesen kopieren oder als Textdatei herunterladen.</p>
+        <textarea id="reportOutput" readonly rows="20"></textarea>
+        <div class="navigation-buttons">
+          <button type="button" class="secondary-btn" id="prev9">Zurück</button>
+          <button type="button" class="primary-btn" id="downloadReport">Herunterladen</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
