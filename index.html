@@ -103,6 +103,74 @@
           <label for="socialOther">Weitere soziale Angaben (optional)</label>
           <textarea id="socialOther" name="socialOther" rows="3"></textarea>
         </div>
+        <!-- Erweiterte soziodemographische Angaben -->
+        <div class="input-group">
+          <label for="education">Schulabschluss / Bildungsabschluss</label>
+          <input type="text" id="education" name="education" />
+        </div>
+        <div class="input-group">
+          <label for="housingType">Wohnform / Eigentumsverhältnis</label>
+          <select id="housingType" name="housingType">
+            <option value="">– Bitte wählen –</option>
+            <option value="Mietwohnung">Mietwohnung</option>
+            <option value="Miethaus">Miethaus</option>
+            <option value="Eigenheim">Eigenheim</option>
+            <option value="WG">Wohngemeinschaft</option>
+            <option value="Andere">Andere</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="partnerDetails">Partnersituation (Altersabstand, Dauer)</label>
+          <input type="text" id="partnerDetails" name="partnerDetails" placeholder="z.B. Partner 2 Jahre älter, seit 5 Jahren zusammen" />
+        </div>
+        <div class="input-group">
+          <label for="financialSituation">Finanzielle Situation</label>
+          <select id="financialSituation" name="financialSituation">
+            <option value="">– Bitte wählen –</option>
+            <option value="ausreichend">ausreichend</option>
+            <option value="angespannt">angespannt</option>
+            <option value="verschuldet">verschuldet</option>
+            <option value="unbekannt">unbekannt</option>
+          </select>
+          <input type="text" id="financialOther" name="financialOther" placeholder="Weitere Angaben (optional)" />
+        </div>
+        <div class="input-group">
+          <label for="socialNetwork">Freundeskreis & Freizeit (Mehrfachauswahl)</label>
+          <select id="socialNetwork" name="socialNetwork" multiple>
+            <option value="großer Freundeskreis">großer Freundeskreis</option>
+            <option value="mittlerer Freundeskreis">mittlerer Freundeskreis</option>
+            <option value="kleiner Freundeskreis">kleiner Freundeskreis</option>
+            <option value="soziale Isolation">soziale Isolation</option>
+            <option value="vielfältige Hobbys">vielfältige Hobbys</option>
+            <option value="wenige Hobbys">wenige Hobbys</option>
+            <option value="soziale Rückzug">sozialer Rückzug</option>
+          </select>
+          <input type="text" id="socialNetworkOther" name="socialNetworkOther" placeholder="Weitere (optional)" />
+        </div>
+        <div class="input-group">
+          <label for="workHours">Arbeitszeit und ‑bedingungen</label>
+          <input type="text" id="workHours" name="workHours" placeholder="z.B. 40 Std/Woche, Überstunden ja/nein, Ausgleich" />
+        </div>
+        <div class="input-group">
+          <label for="vacationUsage">Urlaubsnutzung</label>
+          <select id="vacationUsage" name="vacationUsage">
+            <option value="">– Bitte wählen –</option>
+            <option value="vollständig">vollständig</option>
+            <option value="teilweise">teilweise</option>
+            <option value="kaum">kaum</option>
+            <option value="verzichtet">verzichtet</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="disabilityPension">GdB / Rentenbegehren</label>
+          <select id="disabilityPension" name="disabilityPension">
+            <option value="">– Bitte wählen –</option>
+            <option value="keine">keine</option>
+            <option value="GdB beantragt">GdB beantragt</option>
+            <option value="Rente beantragt">Rente beantragt</option>
+            <option value="GdB und Rente beantragt">GdB und Rente beantragt</option>
+          </select>
+        </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev1">Zurück</button>
           <button type="button" class="primary-btn" id="next1">Weiter</button>
@@ -112,37 +180,182 @@
       <!-- Step 2: Symptomatik und Leidensdruck -->
       <div class="form-step" data-step="2">
         <h2>2. Symptomatik und subjektiver Leidensdruck</h2>
+        <!-- Hauptgrund -->
         <div class="input-group">
           <label for="mainReason">Hauptgrund der Vorstellung (Warum jetzt?)</label>
-          <textarea id="mainReason" name="mainReason" rows="3"></textarea>
+          <textarea id="mainReason" name="mainReason" rows="2"></textarea>
+        </div>
+        <!-- Physiologische Ebene -->
+        <div class="input-group">
+          <label for="symptomPhysList">Symptome auf physiologischer Ebene (Mehrfachauswahl)</label>
+          <select id="symptomPhysList" name="symptomPhysList" multiple>
+            <option value="Schlafstörungen">Schlafstörungen</option>
+            <option value="Appetitveränderung">Appetitveränderung</option>
+            <option value="Müdigkeit/Energielosigkeit">Müdigkeit/Energielosigkeit</option>
+            <option value="Vegetative Symptome (Herzrasen, Schwitzen)">Vegetative Symptome (Herzrasen, Schwitzen)</option>
+            <option value="Spannungszustände">Spannungszustände</option>
+            <option value="Kopfschmerzen">Kopfschmerzen</option>
+          </select>
+          <input type="text" id="symptomPhysOther" name="symptomPhysOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- Emotionale Ebene -->
+        <div class="input-group">
+          <label for="symptomEmoList">Emotionale Ebene (Mehrfachauswahl)</label>
+          <select id="symptomEmoList" name="symptomEmoList" multiple>
+            <option value="Traurigkeit">Traurigkeit</option>
+            <option value="Ängstlichkeit">Ängstlichkeit</option>
+            <option value="Gereiztheit">Gereiztheit</option>
+            <option value="Anspannung">Anspannung</option>
+            <option value="Schuldgefühle">Schuldgefühle</option>
+            <option value="Hilflosigkeit">Hilflosigkeit</option>
+          </select>
+          <input type="text" id="symptomEmoOther" name="symptomEmoOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- Kognitive Ebene -->
+        <div class="input-group">
+          <label for="symptomCogList">Kognitive Ebene (Mehrfachauswahl)</label>
+          <select id="symptomCogList" name="symptomCogList" multiple>
+            <option value="Grübeln">Grübeln</option>
+            <option value="Selbstzweifel">Selbstzweifel</option>
+            <option value="Katastrophisierendes Denken">Katastrophisierendes Denken</option>
+            <option value="Konzentrationsschwierigkeiten">Konzentrationsschwierigkeiten</option>
+            <option value="Perfektionismus">Perfektionismus</option>
+          </select>
+          <input type="text" id="symptomCogOther" name="symptomCogOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- Verhaltensebene -->
+        <div class="input-group">
+          <label for="symptomBehList">Verhaltensebene (Mehrfachauswahl)</label>
+          <select id="symptomBehList" name="symptomBehList" multiple>
+            <option value="Vermeidung">Vermeidung</option>
+            <option value="Rückzug">Rückzug</option>
+            <option value="Sicherheitsverhalten">Sicherheitsverhalten</option>
+            <option value="Prokrastination">Prokrastination</option>
+            <option value="Hypo-/Hyperaktivität">Hypo-/Hyperaktivität</option>
+          </select>
+          <input type="text" id="symptomBehOther" name="symptomBehOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- Verlauf und Schwere -->
+        <div class="input-group">
+          <label for="symptomCourseList">Verlauf / Schweregrad der Symptomatik (Mehrfachauswahl)</label>
+          <select id="symptomCourseList" name="symptomCourseList" multiple>
+            <option value="Akuter Beginn">Akuter Beginn</option>
+            <option value="Schleichender Beginn">Schleichender Beginn</option>
+            <option value="Episodisch">Episodisch</option>
+            <option value="Chronisch">Chronisch</option>
+            <option value="Zunehmende Intensität">Zunehmende Intensität</option>
+            <option value="Abnehmende Intensität">Abnehmende Intensität</option>
+          </select>
+          <input type="text" id="symptomCourseOther" name="symptomCourseOther" placeholder="Weitere Angaben (optional)" />
+        </div>
+        <!-- Komorbiditäten -->
+        <div class="input-group">
+          <label for="comorbiditiesList">Weitere Beschwerden / Komorbiditäten (Mehrfachauswahl)</label>
+          <select id="comorbiditiesList" name="comorbiditiesList" multiple>
+            <option value="keine">Keine</option>
+            <option value="Depressive Störung">Depressive Störung</option>
+            <option value="Angststörung">Angststörung</option>
+            <option value="Somatisierungsstörung">Somatisierungsstörung</option>
+            <option value="Substanzgebrauch">Substanzgebrauch</option>
+            <option value="Posttraumatische Belastungsstörung">Posttraumatische Belastungsstörung</option>
+            <option value="Persönlichkeitsstörung">Persönlichkeitsstörung</option>
+          </select>
+          <input type="text" id="comorbiditiesOther" name="comorbiditiesOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- Subjektiver Leidensdruck -->
+        <div class="input-group">
+          <label for="subjectiveDistressLevel">Subjektiver Leidensdruck</label>
+          <select id="subjectiveDistressLevel" name="subjectiveDistressLevel">
+            <option value="">– Bitte wählen –</option>
+            <option value="gering">gering</option>
+            <option value="mittel">mittel</option>
+            <option value="hoch">hoch</option>
+          </select>
+          <input type="text" id="subjectiveDistressNotes" name="subjectiveDistressNotes" placeholder="Anmerkungen (optional)" />
+        </div>
+
+        <!-- Zusätzliche Angaben: Störungs‑ und Familienanamnese, Testdaten und Therapievariablen -->
+        <h3>Störungs‑ &amp; Familienanamnese, Testdaten und Therapievariablen</h3>
+        <div class="input-group">
+          <label for="familyHistoryList">Familienanamnese (psychische Störungen in der Familie) (Mehrfachauswahl)</label>
+          <select id="familyHistoryList" name="familyHistoryList" multiple>
+            <option value="keine psychischen Störungen">keine psychischen Störungen</option>
+            <option value="Depression">Depression</option>
+            <option value="Angststörungen">Angststörungen</option>
+            <option value="Suchtprobleme">Suchtprobleme</option>
+            <option value="Psychotische Erkrankungen">Psychotische Erkrankungen</option>
+            <option value="Andere">Andere</option>
+          </select>
+          <input type="text" id="familyHistoryOther" name="familyHistoryOther" placeholder="Weitere (optional)" />
         </div>
         <div class="input-group">
-          <label for="symptomPhys">Symptomatik – physiologische Ebene</label>
-          <textarea id="symptomPhys" name="symptomPhys" rows="3" placeholder="z.B. Schlafstörungen, Appetitveränderung"></textarea>
+          <label for="firstOnset">Erstmanifestation / Beginn der Störung (Alter/Jahr)</label>
+          <input type="text" id="firstOnset" name="firstOnset" placeholder="z.B. vor 3 Jahren, mit 15 Jahren" />
         </div>
         <div class="input-group">
-          <label for="symptomEmo">Symptomatik – emotionale Ebene</label>
-          <textarea id="symptomEmo" name="symptomEmo" rows="3" placeholder="z.B. Traurigkeit, Ängstlichkeit"></textarea>
+          <label for="courseDescription">Verlauf &amp; frühere Episoden (kurze Beschreibung)</label>
+          <textarea id="courseDescription" name="courseDescription" rows="2"></textarea>
         </div>
         <div class="input-group">
-          <label for="symptomCog">Symptomatik – kognitive Ebene</label>
-          <textarea id="symptomCog" name="symptomCog" rows="3" placeholder="z.B. Grübeln, Selbstzweifel"></textarea>
+          <label for="testBDI">BDI‑II Wert (optional)</label>
+          <input type="text" id="testBDI" name="testBDI" placeholder="z.B. 24" />
         </div>
         <div class="input-group">
-          <label for="symptomBeh">Symptomatik – Verhaltensebene</label>
-          <textarea id="symptomBeh" name="symptomBeh" rows="3" placeholder="z.B. Vermeidung, Rückzug"></textarea>
+          <label for="testBSI">BSI Wert (optional)</label>
+          <input type="text" id="testBSI" name="testBSI" placeholder="z.B. 0,45" />
         </div>
         <div class="input-group">
-          <label for="symptomCourse">Verlauf / Schweregrad der Symptomatik</label>
-          <textarea id="symptomCourse" name="symptomCourse" rows="3" placeholder="Dauer, Häufigkeit, Intensität, Veränderungen"></textarea>
+          <label for="testINK">INK Wert (optional)</label>
+          <input type="text" id="testINK" name="testINK" placeholder="z.B. 2,5" />
         </div>
         <div class="input-group">
-          <label for="comorbidities">Weitere Beschwerden / Komorbiditäten</label>
-          <textarea id="comorbidities" name="comorbidities" rows="3"></textarea>
+          <label for="testOther">Andere Testverfahren (Name und Wert, optional)</label>
+          <input type="text" id="testOther" name="testOther" placeholder="z.B. SCL‑90: 1,2" />
         </div>
         <div class="input-group">
-          <label for="subjectiveDistress">Subjektiver Leidensdruck</label>
-          <textarea id="subjectiveDistress" name="subjectiveDistress" rows="3"></textarea>
+          <label for="motivationLevel">Therapiemotivation</label>
+          <select id="motivationLevel" name="motivationLevel">
+            <option value="">– Bitte wählen –</option>
+            <option value="hoch">hoch</option>
+            <option value="mittel">mittel</option>
+            <option value="gering">gering</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="introspectionAbility">Introspektions‑ / Reflexionsfähigkeit</label>
+          <select id="introspectionAbility" name="introspectionAbility">
+            <option value="">– Bitte wählen –</option>
+            <option value="ausreichend">ausreichend</option>
+            <option value="eingeschränkt">eingeschränkt</option>
+            <option value="unzureichend">unzureichend</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="empathyAbility">Empathiefähigkeit</label>
+          <select id="empathyAbility" name="empathyAbility">
+            <option value="">– Bitte wählen –</option>
+            <option value="ausreichend">ausreichend</option>
+            <option value="eingeschränkt">eingeschränkt</option>
+            <option value="unzureichend">unzureichend</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="illnessInsight">Krankheitseinsicht (Ich-Dystonie)</label>
+          <select id="illnessInsight" name="illnessInsight">
+            <option value="">– Bitte wählen –</option>
+            <option value="ich-dyston">ich-dyston</option>
+            <option value="ich-synton">ich-synton</option>
+            <option value="unklar">unklar</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="changeAbility">Veränderungsfähigkeit</label>
+          <select id="changeAbility" name="changeAbility">
+            <option value="">– Bitte wählen –</option>
+            <option value="hoch">hoch</option>
+            <option value="mittel">mittel</option>
+            <option value="gering">gering</option>
+          </select>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev2">Zurück</button>
@@ -154,60 +367,173 @@
       <div class="form-step" data-step="3">
         <h2>3. Psychischer Befund</h2>
         <p>
-          Bitte beschreiben Sie für jeden Bereich die beobachteten Merkmale. Sie
-          können Stichpunkte verwenden.
+          Wählen Sie für jeden Bereich die zutreffenden Merkmale aus. Die
+          Auswahl ermöglicht eine schnelle Dokumentation ohne Freitext. Sofern
+          erforderlich, können Sie im letzten Punkt kurze Anmerkungen machen.
         </p>
+        <!-- Äußeres Erscheinungsbild -->
         <div class="input-group">
-          <label for="appearance">Äußeres Erscheinungsbild</label>
-          <textarea id="appearance" name="appearance" rows="2"></textarea>
+          <label for="appearance">Äußeres Erscheinungsbild (Mehrfachauswahl möglich)</label>
+          <select id="appearance" name="appearance" multiple>
+            <option value="keine Auffälligkeiten">keine Auffälligkeiten</option>
+            <option value="gepflegt">gepflegt</option>
+            <option value="ungepflegt">ungepflegt</option>
+            <option value="salopp/modisch">salopp / modisch</option>
+            <option value="auffällig">auffällig</option>
+            <option value="verwahrlost">verwahrlost</option>
+          </select>
         </div>
+        <!-- Verhalten / Psychomotorik -->
         <div class="input-group">
-          <label for="behaviour">Verhalten in der Untersuchungssituation / Psychomotorik</label>
-          <textarea id="behaviour" name="behaviour" rows="2"></textarea>
+          <label for="behaviour">Verhalten / Psychomotorik (Mehrfachauswahl möglich)</label>
+          <select id="behaviour" name="behaviour" multiple>
+            <option value="keine Auffälligkeiten">keine Auffälligkeiten</option>
+            <option value="adäquat">adäquat</option>
+            <option value="kooperativ">kooperativ</option>
+            <option value="gehemmt">gehemmt</option>
+            <option value="unruhig">unruhig</option>
+            <option value="agitiert">agitiert</option>
+          </select>
         </div>
+        <!-- Bewusstsein -->
         <div class="input-group">
           <label for="consciousness">Bewusstsein</label>
-          <textarea id="consciousness" name="consciousness" rows="2"></textarea>
+          <select id="consciousness" name="consciousness">
+            <option value="">– Bitte wählen –</option>
+            <option value="bewusstseinsklar">bewusstseinsklar</option>
+            <option value="somnolent">somnolent</option>
+            <option value="benommen">benommen</option>
+            <option value="eingeschränkt">eingeschränkt</option>
+          </select>
         </div>
+        <!-- Orientierung -->
         <div class="input-group">
           <label for="orientation">Orientierung</label>
-          <textarea id="orientation" name="orientation" rows="2"></textarea>
+          <select id="orientation" name="orientation" multiple>
+            <option value="voll orientiert">voll orientiert</option>
+            <option value="örtlich desorientiert">örtlich desorientiert</option>
+            <option value="zeitlich desorientiert">zeitlich desorientiert</option>
+            <option value="situativ desorientiert">situativ desorientiert</option>
+          </select>
         </div>
+        <!-- Aufmerksamkeit und Gedächtnis -->
         <div class="input-group">
-          <label for="attentionMemory">Aufmerksamkeit und Gedächtnis</label>
-          <textarea id="attentionMemory" name="attentionMemory" rows="2"></textarea>
+          <label for="attentionMemory">Aufmerksamkeit und Gedächtnis (Mehrfachauswahl möglich)</label>
+          <select id="attentionMemory" name="attentionMemory" multiple>
+            <option value="keine Auffälligkeiten">keine Auffälligkeiten</option>
+            <option value="Aufmerksamkeitsstörungen">Aufmerksamkeitsstörungen</option>
+            <option value="Konzentrationsschwäche">Konzentrationsschwäche</option>
+            <option value="Gedächtnisstörungen">Gedächtnisstörungen</option>
+          </select>
         </div>
+        <!-- Formales Denken -->
         <div class="input-group">
-          <label for="thinkingFormal">Formales Denken</label>
-          <textarea id="thinkingFormal" name="thinkingFormal" rows="2"></textarea>
+          <label for="thinkingFormal">Formales Denken (Mehrfachauswahl möglich)</label>
+          <select id="thinkingFormal" name="thinkingFormal" multiple>
+            <option value="keine Auffälligkeiten">keine Auffälligkeiten</option>
+            <option value="geordnet">geordnet</option>
+            <option value="verlangsamt">verlangsamt</option>
+            <option value="beschleunigt">beschleunigt</option>
+            <option value="inkohärent">inkohärent</option>
+            <option value="Grübeln">Grübeln</option>
+          </select>
         </div>
+        <!-- Inhaltliches Denken -->
         <div class="input-group">
-          <label for="thinkingContent">Inhaltliches Denken</label>
-          <textarea id="thinkingContent" name="thinkingContent" rows="2"></textarea>
+          <label for="thinkingContent">Inhaltliches Denken (Mehrfachauswahl möglich)</label>
+          <select id="thinkingContent" name="thinkingContent" multiple>
+            <option value="keine Auffälligkeiten">keine Auffälligkeiten</option>
+            <option value="Wahnerleben">Wahnerleben</option>
+            <option value="Zwangsgedanken">Zwangsgedanken</option>
+            <option value="überwertige Ideen">überwertige Ideen</option>
+            <option value="Phobien">Phobien</option>
+          </select>
         </div>
+        <!-- Wahrnehmungsstörungen -->
         <div class="input-group">
-          <label for="perception">Wahrnehmungsstörungen</label>
-          <textarea id="perception" name="perception" rows="2"></textarea>
+          <label for="perception">Wahrnehmungsstörungen (Mehrfachauswahl möglich)</label>
+          <select id="perception" name="perception" multiple>
+            <option value="keine Störungen">keine Störungen</option>
+            <option value="akustische Halluzinationen">akustische Halluzinationen</option>
+            <option value="optische Halluzinationen">optische Halluzinationen</option>
+            <option value="Illusionen">Illusionen</option>
+          </select>
         </div>
+        <!-- Ich‑Störungen -->
         <div class="input-group">
-          <label for="ichStörungen">Ich‑Störungen</label>
-          <textarea id="ichStörungen" name="ichStörungen" rows="2"></textarea>
+          <label for="ichStoerungen">Ich‑Störungen (Mehrfachauswahl möglich)</label>
+          <select id="ichStoerungen" name="ichStoerungen" multiple>
+            <option value="keine Störung">keine Störung</option>
+            <option value="Depersonalisation">Depersonalisation</option>
+            <option value="Derealisation">Derealisation</option>
+            <option value="Gedankeneingebung">Gedankeneingebung</option>
+            <option value="Gedankenausbreitung">Gedankenausbreitung</option>
+            <option value="Gedankenentzug">Gedankenentzug</option>
+          </select>
         </div>
+        <!-- Affektivität -->
         <div class="input-group">
-          <label for="affectivity">Affektivität</label>
-          <textarea id="affectivity" name="affectivity" rows="2"></textarea>
+          <label for="affectivity">Affektivität (Mehrfachauswahl möglich)</label>
+          <select id="affectivity" name="affectivity" multiple>
+            <option value="normothym">normothym</option>
+            <option value="depressiv">depressiv</option>
+            <option value="ängstlich">ängstlich</option>
+            <option value="gereizt">gereizt</option>
+            <option value="affektlabil">affektlabil</option>
+            <option value="affektstarr">affektstarr</option>
+            <option value="gehoben">gehoben</option>
+          </select>
         </div>
+        <!-- Antrieb / Psychomotorik -->
         <div class="input-group">
           <label for="drive">Antrieb und Psychomotorik</label>
-          <textarea id="drive" name="drive" rows="2"></textarea>
+          <select id="drive" name="drive">
+            <option value="">– Bitte wählen –</option>
+            <option value="normal">normal</option>
+            <option value="gesteigert">gesteigert</option>
+            <option value="vermindert">vermindert</option>
+            <option value="innerlich unruhig">innerlich unruhig</option>
+          </select>
+        </div>
+        <!-- Vegetative Besonderheiten -->
+        <div class="input-group">
+          <label for="vegetative">Zirkadiane und vegetative Besonderheiten (Mehrfachauswahl möglich)</label>
+          <select id="vegetative" name="vegetative" multiple>
+            <option value="keine Besonderheiten">keine Besonderheiten</option>
+            <option value="Schlafstörung">Schlafstörung</option>
+            <option value="Appetitveränderung">Appetitveränderung</option>
+            <option value="Libidoveränderung">Libidoveränderung</option>
+            <option value="Tagesrhythmusstörung">Tagesrhythmusstörung</option>
+          </select>
+        </div>
+        <!-- Suizidalität / Fremdgefährlichkeit -->
+        <div class="input-group">
+          <label for="suicideIdeation">Aktuelle Suizidgedanken?</label>
+          <select id="suicideIdeation" name="suicideIdeation">
+            <option value="">– Bitte wählen –</option>
+            <option value="nein">Nein</option>
+            <option value="ja">Ja</option>
+          </select>
         </div>
         <div class="input-group">
-          <label for="vegetative">Zirkadiane und vegetative Besonderheiten</label>
-          <textarea id="vegetative" name="vegetative" rows="2"></textarea>
+          <label for="suicideAttempts">Frühere Suizidversuche / Selbstverletzungen?</label>
+          <select id="suicideAttempts" name="suicideAttempts">
+            <option value="">– Bitte wählen –</option>
+            <option value="nein">Nein</option>
+            <option value="ja">Ja</option>
+          </select>
         </div>
         <div class="input-group">
-          <label for="suicidality">Suizidalität und Fremdgefährlichkeit</label>
-          <textarea id="suicidality" name="suicidality" rows="2"></textarea>
+          <label for="harmOthers">Fremdgefährdung?</label>
+          <select id="harmOthers" name="harmOthers">
+            <option value="">– Bitte wählen –</option>
+            <option value="nein">Nein</option>
+            <option value="ja">Ja</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="suicideNotes">Kurzbeschreibung / Anmerkungen (optional)</label>
+          <textarea id="suicideNotes" name="suicideNotes" rows="2"></textarea>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev3">Zurück</button>
@@ -227,24 +553,73 @@
           </select>
         </div>
         <div class="input-group">
-          <label for="somatic">Relevante körperliche Erkrankungen / Behinderungen</label>
-          <textarea id="somatic" name="somatic" rows="3"></textarea>
+          <label for="somaticConditions">Relevante körperliche Erkrankungen / Behinderungen (Mehrfachauswahl)</label>
+          <select id="somaticConditions" name="somaticConditions" multiple>
+            <option value="keine relevanten somatischen Erkrankungen">keine relevanten somatischen Erkrankungen</option>
+            <option value="Hypertonie">Hypertonie</option>
+            <option value="Diabetes mellitus">Diabetes mellitus</option>
+            <option value="Herz-Kreislauf-Erkrankung">Herz-Kreislauf-Erkrankung</option>
+            <option value="Chronische Schmerzen">Chronische Schmerzen</option>
+            <option value="Neurologische Erkrankung">Neurologische Erkrankung</option>
+            <option value="Endokrine Erkrankung">Endokrine Erkrankung</option>
+            <option value="Gastrointestinale Erkrankung">Gastrointestinale Erkrankung</option>
+          </select>
+          <input type="text" id="somaticOther" name="somaticOther" placeholder="Weitere (optional)" />
         </div>
         <div class="input-group">
           <label for="heightWeight">Körpergröße / Gewicht</label>
           <input type="text" id="heightWeight" name="heightWeight" placeholder="z.B. 1,72 m / 70 kg" />
         </div>
         <div class="input-group">
-          <label for="substanceUse">Konsum von Alkohol, Nikotin, Drogen</label>
-          <textarea id="substanceUse" name="substanceUse" rows="3"></textarea>
+          <label for="substanceUseList">Substanzkonsum (Mehrfachauswahl)</label>
+          <select id="substanceUseList" name="substanceUseList" multiple>
+            <option value="kein Substanzkonsum">kein Substanzkonsum</option>
+            <option value="Alkohol">Alkohol</option>
+            <option value="Nikotin">Nikotin</option>
+            <option value="Cannabis">Cannabis</option>
+            <option value="Stimulanzien">Stimulanzien</option>
+            <option value="Opiate">Opiate</option>
+          </select>
+          <input type="text" id="substanceUseOther" name="substanceUseOther" placeholder="Weitere (optional)" />
         </div>
         <div class="input-group">
-          <label for="medication">Aktuelle Medikation (v. a. Psychopharmaka)</label>
-          <textarea id="medication" name="medication" rows="3"></textarea>
+          <label for="medicationList">Aktuelle Medikation (Mehrfachauswahl)</label>
+          <select id="medicationList" name="medicationList" multiple>
+            <option value="keine Medikation">keine Medikation</option>
+            <option value="Antidepressiva">Antidepressiva</option>
+            <option value="Neuroleptika">Neuroleptika</option>
+            <option value="Benzodiazepine">Benzodiazepine</option>
+            <option value="Stimmungsstabilisierer">Stimmungsstabilisierer</option>
+            <option value="Stimulanzien">Stimulanzien</option>
+            <option value="Andere Psychopharmaka">Andere Psychopharmaka</option>
+          </select>
+          <input type="text" id="medicationOther" name="medicationOther" placeholder="Weitere (optional)" />
         </div>
         <div class="input-group">
-          <label for="previousTreatments">Vorbehandlungen (psychotherapeutisch / stationär)</label>
-          <textarea id="previousTreatments" name="previousTreatments" rows="3"></textarea>
+          <label for="previousTreatmentsList">Vorbehandlungen (psychotherapeutisch / stationär) (Mehrfachauswahl)</label>
+          <select id="previousTreatmentsList" name="previousTreatmentsList" multiple>
+            <option value="keine psychotherapeutischen Vorbehandlungen">keine psychotherapeutischen Vorbehandlungen</option>
+            <option value="Ambulante Psychotherapie">Ambulante Psychotherapie</option>
+            <option value="Stationäre Therapie">Stationäre Therapie</option>
+            <option value="Rehabilitationsmaßnahme">Rehabilitationsmaßnahme</option>
+            <option value="Medikamentöse Behandlung">Medikamentöse Behandlung</option>
+            <option value="Andere">Andere</option>
+          </select>
+          <input type="text" id="previousTreatmentsOther" name="previousTreatmentsOther" placeholder="Weitere Angaben (optional)" />
+        </div>
+
+        <!-- Zusätzliche Details zu Konsum, pathologischen Befunden und bisherigen Psychotherapien -->
+        <div class="input-group">
+          <label for="substanceDetails">Konsumdetails (Menge, Dauer, Abstinenzphasen etc., optional)</label>
+          <textarea id="substanceDetails" name="substanceDetails" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="pathologicalFindings">Aktuelle pathologische Untersuchungsbefunde (optional)</label>
+          <textarea id="pathologicalFindings" name="pathologicalFindings" rows="2"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="previousPsychotherapyDetails">Details zu bisherigen psychotherapeutischen Behandlungen (Form, Zeitraum, Dauer, Anlass, Ergebnis) (optional)</label>
+          <textarea id="previousPsychotherapyDetails" name="previousPsychotherapyDetails" rows="3"></textarea>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev4">Zurück</button>
@@ -255,25 +630,92 @@
       <!-- Step 5: Lebensgeschichte & funktionales Bedingungsmodell -->
       <div class="form-step" data-step="5">
         <h2>5. Lebensgeschichte & funktionales Bedingungsmodell</h2>
+        <!-- Lebensgeschichtliche Einflüsse -->
         <div class="input-group">
-          <label for="lifeHistory">Relevante Angaben zur Lebensgeschichte und Krankheitsanamnese</label>
-          <textarea id="lifeHistory" name="lifeHistory" rows="4"></textarea>
+          <label for="lifeInfluences">Lebensgeschichtliche Einflüsse (Mehrfachauswahl)</label>
+          <select id="lifeInfluences" name="lifeInfluences" multiple>
+            <option value="keine besonderen Belastungen">keine besonderen Belastungen</option>
+            <option value="Traumatische Kindheitserfahrungen">Traumatische Kindheitserfahrungen (Gewalt, Missbrauch)</option>
+            <option value="Mobbing/Leistungsdruck in Schule">Mobbing/Leistungsdruck in Schule</option>
+            <option value="Psychische Erkrankungen in der Familie">Psychische Erkrankungen in der Familie</option>
+            <option value="Konfliktreiche familiäre Beziehungen">Konfliktreiche familiäre Beziehungen</option>
+            <option value="Verlust eines Elternteils">Verlust eines Elternteils</option>
+            <option value="Vernachlässigung">Vernachlässigung</option>
+            <option value="Migration/Flucht">Migration/Flucht</option>
+            <option value="Soziale Isolation">Soziale Isolation</option>
+            <option value="Chronische körperliche Erkrankungen">Chronische körperliche Erkrankungen</option>
+          </select>
+          <input type="text" id="lifeInfluencesOther" name="lifeInfluencesOther" placeholder="Weitere (optional)" />
         </div>
+
+        <!-- Familienstruktur und prägende Erfahrungen -->
         <div class="input-group">
-          <label for="predispositions">Prädispositionen (Einflüsse der Lebensgeschichte)</label>
-          <textarea id="predispositions" name="predispositions" rows="3"></textarea>
+          <label for="familyBackground">Familienstruktur &amp; prägende Erfahrungen (optional)</label>
+          <textarea id="familyBackground" name="familyBackground" rows="3" placeholder="Kurzbeschreibung der familiären Beziehungen, Erziehung, Geschwister, wichtige Kindheitserlebnisse"></textarea>
         </div>
+        <!-- Prädispositionen -->
         <div class="input-group">
-          <label for="triggers">Auslösende Bedingungen</label>
-          <textarea id="triggers" name="triggers" rows="3"></textarea>
+          <label for="predispositionsList">Prädispositionen / langfristige Faktoren (Mehrfachauswahl)</label>
+          <select id="predispositionsList" name="predispositionsList" multiple>
+            <option value="Ängstliche Persönlichkeit">Ängstliche Persönlichkeit</option>
+            <option value="Perfektionistische Züge">Perfektionistische Züge</option>
+            <option value="Geringes Selbstwertgefühl">Geringes Selbstwertgefühl</option>
+            <option value="Unzureichende emotionale Unterstützung">Unzureichende emotionale Unterstützung</option>
+            <option value="Hohes Verantwortungsgefühl">Hohes Verantwortungsgefühl</option>
+            <option value="Erschwertes Konfliktverhalten">Erschwertes Konfliktverhalten</option>
+            <option value="Fehlende Selbstfürsorge">Fehlende Selbstfürsorge</option>
+          </select>
+          <input type="text" id="predispositionsOther" name="predispositionsOther" placeholder="Weitere (optional)" />
         </div>
+        <!-- Auslösende Bedingungen -->
         <div class="input-group">
-          <label for="maintenance">Aufrechterhaltende Bedingungen (kognitive Prozesse, Verhaltensweisen, Ressourcen)</label>
-          <textarea id="maintenance" name="maintenance" rows="4"></textarea>
+          <label for="triggersList">Auslösende Bedingungen (Mehrfachauswahl)</label>
+          <select id="triggersList" name="triggersList" multiple>
+            <option value="Trennung/Beziehungskonflikte">Trennung/Beziehungskonflikte</option>
+            <option value="Arbeitsplatzverlust/berufliche Belastung">Arbeitsplatzverlust/berufliche Belastung</option>
+            <option value="Krankheit/Unfall">Krankheit/Unfall</option>
+            <option value="Todesfall">Todesfall</option>
+            <option value="Geburt">Geburt</option>
+            <option value="Umzug">Umzug</option>
+            <option value="Finanzielle Probleme">Finanzielle Probleme</option>
+            <option value="Schleichender Beginn ohne klaren Auslöser">Schleichender Beginn ohne klaren Auslöser</option>
+          </select>
+          <input type="text" id="triggersOther" name="triggersOther" placeholder="Weitere (optional)" />
         </div>
+        <!-- Aufrechterhaltende Bedingungen -->
+        <div class="input-group">
+          <label for="maintenanceBehaviors">Aufrechterhaltende Bedingungen – problematische Verhaltensweisen & kognitive Prozesse (Mehrfachauswahl)</label>
+          <select id="maintenanceBehaviors" name="maintenanceBehaviors" multiple>
+            <option value="Vermeidung">Vermeidung</option>
+            <option value="Rückzug">Rückzug</option>
+            <option value="Sicherheitsverhalten">Sicherheitsverhalten</option>
+            <option value="Grübeln">Grübeln</option>
+            <option value="Katastrophisieren">Katastrophisieren</option>
+            <option value="Selbstabwertung">Selbstabwertung</option>
+            <option value="Substanzmissbrauch">Substanzmissbrauch</option>
+            <option value="Überarbeitung/Perfektionismus">Überarbeitung/Perfektionismus</option>
+          </select>
+          <input type="text" id="maintenanceOther" name="maintenanceOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- Ressourcen -->
+        <div class="input-group">
+          <label for="resources">Ressourcen / Stärken (Mehrfachauswahl)</label>
+          <select id="resources" name="resources" multiple>
+            <option value="Soziale Unterstützung">Soziale Unterstützung</option>
+            <option value="Stabile Partnerschaft">Stabile Partnerschaft</option>
+            <option value="Positive Hobbies">Positive Hobbies</option>
+            <option value="Humor">Humor</option>
+            <option value="Intelligenz">Intelligenz</option>
+            <option value="Sportliche Aktivität">Sportliche Aktivität</option>
+            <option value="Kreativität">Kreativität</option>
+            <option value="Spirituelle Ressourcen">Spirituelle Ressourcen</option>
+          </select>
+          <input type="text" id="resourcesOther" name="resourcesOther" placeholder="Weitere (optional)" />
+        </div>
+        <!-- SORKC -->
         <div class="input-group">
           <label for="sorkc">Verhaltensanalyse (SORKC‑Schema oder typische Situation)</label>
-          <textarea id="sorkc" name="sorkc" rows="4"></textarea>
+          <textarea id="sorkc" name="sorkc" rows="3"></textarea>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev5">Zurück</button>
@@ -284,21 +726,90 @@
       <!-- Step 6: Diagnosen -->
       <div class="form-step" data-step="6">
         <h2>6. Diagnosen</h2>
+        <!-- Primäre Diagnose -->
         <div class="input-group">
-          <label for="primaryDiagnosis">Primäre Diagnose (ICD‑Code und Bezeichnung)</label>
-          <input type="text" id="primaryDiagnosis" name="primaryDiagnosis" />
+          <label for="primaryDiagnosisSelect">Primäre Diagnose (ICD‑Code und Bezeichnung)</label>
+          <select id="primaryDiagnosisSelect" name="primaryDiagnosisSelect">
+            <option value="">– Bitte wählen –</option>
+            <option value="F32 Depressive Episode">F32 Depressive Episode</option>
+            <option value="F33 Rezidivierende depressive Störung">F33 Rezidivierende depressive Störung</option>
+            <option value="F34.1 Dysthymia">F34.1 Dysthymia</option>
+            <option value="F41.0 Panikstörung">F41.0 Panikstörung</option>
+            <option value="F41.1 Generalisierte Angststörung">F41.1 Generalisierte Angststörung</option>
+            <option value="F40.1 Soziale Phobie">F40.1 Soziale Phobie</option>
+            <option value="F45.0 Somatisierungsstörung">F45.0 Somatisierungsstörung</option>
+            <option value="F60.31 Borderline-Persönlichkeitsstörung">F60.31 Borderline-Persönlichkeitsstörung</option>
+            <option value="F84.5 Asperger-Syndrom">F84.5 Asperger-Syndrom</option>
+            <option value="F90.0 Hyperkinetische Störung (ADHS)">F90.0 Hyperkinetische Störung (ADHS)</option>
+            <option value="Andere">Andere (bitte unten angeben)</option>
+          </select>
+          <input type="text" id="primaryDiagnosisOther" name="primaryDiagnosisOther" placeholder="Falls 'Andere', ICD‑Code und Bezeichnung eintragen" />
+        </div>
+        <!-- Status der primären Diagnose -->
+        <div class="input-group">
+          <label for="primaryDiagnosisStatus">Status der primären Diagnose</label>
+          <select id="primaryDiagnosisStatus" name="primaryDiagnosisStatus">
+            <option value="">– Bitte wählen –</option>
+            <option value="gesichert">Gesichert (G)</option>
+            <option value="Verdacht">Verdachtsdiagnose (V)</option>
+            <option value="Ausschluss">Ausschluss (A)</option>
+          </select>
+        </div>
+        <!-- Weitere Diagnosen -->
+        <div class="input-group">
+          <label for="comorbidDiagnosisList">Weitere Diagnosen / Komorbiditäten (Mehrfachauswahl)</label>
+          <select id="comorbidDiagnosisList" name="comorbidDiagnosisList" multiple>
+            <option value="keine weiteren Diagnosen">keine weiteren Diagnosen</option>
+            <option value="F32 Depressive Episode">F32 Depressive Episode</option>
+            <option value="F33 Rezidivierende depressive Störung">F33 Rezidivierende depressive Störung</option>
+            <option value="F34.1 Dysthymia">F34.1 Dysthymia</option>
+            <option value="F41.0 Panikstörung">F41.0 Panikstörung</option>
+            <option value="F41.1 Generalisierte Angststörung">F41.1 Generalisierte Angststörung</option>
+            <option value="F40.1 Soziale Phobie">F40.1 Soziale Phobie</option>
+            <option value="F45.0 Somatisierungsstörung">F45.0 Somatisierungsstörung</option>
+            <option value="F60.31 Borderline-Persönlichkeitsstörung">F60.31 Borderline-Persönlichkeitsstörung</option>
+            <option value="F84.5 Asperger-Syndrom">F84.5 Asperger-Syndrom</option>
+            <option value="F90.0 Hyperkinetische Störung (ADHS)">F90.0 Hyperkinetische Störung (ADHS)</option>
+            <option value="Andere">Andere</option>
+          </select>
+          <input type="text" id="comorbidDiagnosisOther" name="comorbidDiagnosisOther" placeholder="Weitere Diagnosen (optional)" />
+        </div>
+        <!-- Differentialdiagnosen -->
+        <div class="input-group">
+          <label for="differentialDiagnosisList">Differentialdiagnosen (Mehrfachauswahl)</label>
+          <select id="differentialDiagnosisList" name="differentialDiagnosisList" multiple>
+            <option value="keine">keine</option>
+            <option value="Organische Erkrankung ausgeschlossen">Organische Erkrankung ausgeschlossen</option>
+            <option value="Psychotische Störung">Psychotische Störung</option>
+            <option value="Bipolare Störung">Bipolare Störung</option>
+            <option value="Demenz">Demenz</option>
+            <option value="ADHS">ADHS</option>
+            <option value="Substanzbedingte Störung">Substanzbedingte Störung</option>
+            <option value="Andere">Andere</option>
+          </select>
+          <input type="text" id="differentialDiagnosisOther" name="differentialDiagnosisOther" placeholder="Weitere Differentialdiagnosen (optional)" />
+        </div>
+        <!-- Begründung -->
+        <div class="input-group">
+          <label for="diagnosisJustificationList">Begründung der Diagnose(n) (Mehrfachauswahl)</label>
+          <select id="diagnosisJustificationList" name="diagnosisJustificationList" multiple>
+            <option value="Symptome erfüllen Diagnosekriterien">Symptome erfüllen Diagnosekriterien</option>
+            <option value="Erheblicher Leidensdruck">Erheblicher Leidensdruck</option>
+            <option value="Beeinträchtigung der sozialen/beruflichen Funktionsfähigkeit">Beeinträchtigung der sozialen/beruflichen Funktionsfähigkeit</option>
+            <option value="Komorbiditäten berücksichtigt">Komorbiditäten berücksichtigt</option>
+            <option value="Keine organische Ursache">Keine organische Ursache</option>
+          </select>
+          <input type="text" id="diagnosisJustificationOther" name="diagnosisJustificationOther" placeholder="Weitere Begründungen (optional)" />
+        </div>
+
+        <!-- Weitere Angaben zu Diagnosen -->
+        <div class="input-group">
+          <label for="somaticDiagnoses">Somatische Diagnosen (Klartext, optional)</label>
+          <textarea id="somaticDiagnoses" name="somaticDiagnoses" rows="2"></textarea>
         </div>
         <div class="input-group">
-          <label for="comorbidDiagnosis">Weitere Diagnosen / Komorbiditäten</label>
-          <textarea id="comorbidDiagnosis" name="comorbidDiagnosis" rows="3"></textarea>
-        </div>
-        <div class="input-group">
-          <label for="differentialDiagnosis">Differentialdiagnosen (optional)</label>
-          <textarea id="differentialDiagnosis" name="differentialDiagnosis" rows="3"></textarea>
-        </div>
-        <div class="input-group">
-          <label for="diagnosisJustification">Begründung der Diagnose(n)</label>
-          <textarea id="diagnosisJustification" name="diagnosisJustification" rows="4"></textarea>
+          <label for="emotionalProblems">Emotionale Probleme / Kernprobleme (optional)</label>
+          <textarea id="emotionalProblems" name="emotionalProblems" rows="2"></textarea>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev6">Zurück</button>
@@ -309,21 +820,84 @@
       <!-- Step 7: Behandlungsplan und Prognose -->
       <div class="form-step" data-step="7">
         <h2>7. Behandlungsplan und Prognose</h2>
+        <!-- Therapieziele -->
         <div class="input-group">
-          <label for="therapyGoals">Therapieziele (individuell und verhaltensnah)</label>
-          <textarea id="therapyGoals" name="therapyGoals" rows="4"></textarea>
+          <label for="therapyGoalsList">Therapieziele (Mehrfachauswahl)</label>
+          <select id="therapyGoalsList" name="therapyGoalsList" multiple>
+            <option value="Symptomreduktion">Symptomreduktion</option>
+            <option value="Verbesserung der Stimmung">Verbesserung der Stimmung</option>
+            <option value="Reduktion von Angst/Panik">Reduktion von Angst/Panik</option>
+            <option value="Aufbau von Alltagsaktivitäten">Aufbau von Alltagsaktivitäten</option>
+            <option value="Stärkung des Selbstwerts">Stärkung des Selbstwerts</option>
+            <option value="Verbesserung sozialer Beziehungen">Verbesserung sozialer Beziehungen</option>
+            <option value="Entwicklung von Coping-Strategien">Entwicklung von Coping‑Strategien / Emotionsregulation</option>
+            <option value="Rückfallprophylaxe">Rückfallprophylaxe</option>
+            <option value="Stärkung der Ressourcen">Stärkung der Ressourcen</option>
+            <option value="Erkennen eigener Gefühle und Bedürfnisse">Erkennen eigener Gefühle und Bedürfnisse</option>
+            <option value="Abbau von Perfektionismus">Abbau von Perfektionismus</option>
+            <option value="Selbstfürsorge und Selbstakzeptanz">Selbstfürsorge und Selbstakzeptanz</option>
+            <option value="Verbesserung der Konfliktfähigkeit">Verbesserung der Konfliktfähigkeit</option>
+            <option value="Stressbewältigung und Frustrationstoleranz">Stressbewältigung und Frustrationstoleranz</option>
+          </select>
+          <input type="text" id="therapyGoalsOther" name="therapyGoalsOther" placeholder="Weitere Ziele (optional)" />
+        </div>
+        <!-- Geplante Interventionen -->
+        <div class="input-group">
+          <label for="plannedInterventionsList">Geplante Interventionen / Methoden (Mehrfachauswahl)</label>
+          <select id="plannedInterventionsList" name="plannedInterventionsList" multiple>
+            <option value="Psychoedukation">Psychoedukation</option>
+            <option value="Kognitive Umstrukturierung">Kognitive Umstrukturierung</option>
+            <option value="Expositionsverfahren">Expositionsverfahren</option>
+            <option value="Verhaltensaktivierung">Verhaltensaktivierung</option>
+            <option value="Achtsamkeitsübungen">Achtsamkeitsübungen</option>
+            <option value="Problemlösetraining">Problemlösetraining</option>
+            <option value="Soziales Kompetenztraining">Soziales Kompetenztraining</option>
+            <option value="Rückfallprophylaxe">Rückfallprophylaxe</option>
+            <option value="Selbstbeobachtung & Tagebücher">Selbstbeobachtung & Tagebücher</option>
+            <option value="Sokratischer Dialog / Identifikation dysfunktionaler Kognitionen">Sokratischer Dialog / Identifikation dysfunktionaler Kognitionen</option>
+            <option value="Ressourcenarbeit">Ressourcenarbeit</option>
+            <option value="Stressimpfungstraining">Stressimpfungstraining</option>
+            <option value="Entspannungsverfahren">Entspannungsverfahren (PMR, Atemübungen, Imagination)</option>
+            <option value="Selbstfürsorge-Übungen">Selbstfürsorge‑Übungen</option>
+          </select>
+          <input type="text" id="plannedInterventionsOther" name="plannedInterventionsOther" placeholder="Weitere Interventionen (optional)" />
+        </div>
+        <!-- Therapieumfang -->
+        <div class="input-group">
+          <label for="therapyScopeSelect">Beantragter Therapieumfang</label>
+          <select id="therapyScopeSelect" name="therapyScopeSelect">
+            <option value="">– Bitte wählen –</option>
+            <option value="Kurzzeittherapie (12 Sitzungen)">Kurzzeittherapie (12 Sitzungen)</option>
+            <option value="Kurzzeittherapie (24 Sitzungen)">Kurzzeittherapie (24 Sitzungen)</option>
+            <option value="Langzeittherapie (60 Sitzungen)">Langzeittherapie (60 Sitzungen)</option>
+            <option value="Langzeittherapie (80 Sitzungen)">Langzeittherapie (80 Sitzungen)</option>
+            <option value="Langzeittherapie (100 Sitzungen)">Langzeittherapie (100 Sitzungen)</option>
+          </select>
+          <input type="text" id="therapyScopeOther" name="therapyScopeOther" placeholder="Andere Anzahl (optional)" />
+        </div>
+        <!-- Prognose -->
+        <div class="input-group">
+          <label for="prognosisPositive">Förderliche Faktoren (Mehrfachauswahl)</label>
+          <select id="prognosisPositive" name="prognosisPositive" multiple>
+            <option value="Hohe Motivation / Compliance">Hohe Motivation / Compliance</option>
+            <option value="Gute Coping-Fähigkeiten">Gute Coping‑Fähigkeiten</option>
+            <option value="Stabile soziale Unterstützung">Stabile soziale Unterstützung</option>
+            <option value="Geringe Chronifizierung">Geringe Chronifizierung</option>
+            <option value="Günstige Therapievoraussetzungen">Günstige Therapievoraussetzungen</option>
+          </select>
+          <input type="text" id="prognosisPositiveOther" name="prognosisPositiveOther" placeholder="Weitere (optional)" />
         </div>
         <div class="input-group">
-          <label for="plannedInterventions">Geplante Interventionen / Methoden</label>
-          <textarea id="plannedInterventions" name="plannedInterventions" rows="4"></textarea>
-        </div>
-        <div class="input-group">
-          <label for="therapyScope">Beantragter Therapieumfang (z.B. Anzahl Sitzungen)</label>
-          <input type="text" id="therapyScope" name="therapyScope" />
-        </div>
-        <div class="input-group">
-          <label for="prognosis">Prognose (förderliche und hindernde Faktoren)</label>
-          <textarea id="prognosis" name="prognosis" rows="4"></textarea>
+          <label for="prognosisNegative">Hindernde Faktoren (Mehrfachauswahl)</label>
+          <select id="prognosisNegative" name="prognosisNegative" multiple>
+            <option value="Chronischer Verlauf">Chronischer Verlauf</option>
+            <option value="Geringe Motivation">Geringe Motivation</option>
+            <option value="Komorbide Störungen">Komorbide Störungen</option>
+            <option value="Soziale Belastungen">Soziale Belastungen</option>
+            <option value="Geringe Krankheitseinsicht">Geringe Krankheitseinsicht</option>
+            <option value="Viele erfolglose Vorbehandlungen">Viele erfolglose Vorbehandlungen</option>
+          </select>
+          <input type="text" id="prognosisNegativeOther" name="prognosisNegativeOther" placeholder="Weitere (optional)" />
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev7">Zurück</button>
@@ -340,24 +914,54 @@
           klicken.
         </p>
         <div class="input-group">
-          <label for="previousCourse">Bisheriger Behandlungsverlauf (seit letztem Bericht)</label>
-          <textarea id="previousCourse" name="previousCourse" rows="4"></textarea>
+          <label for="previousCourse">Bisheriger Behandlungsverlauf (seit letztem Bericht) – Freitext</label>
+          <textarea id="previousCourse" name="previousCourse" rows="3"></textarea>
         </div>
         <div class="input-group">
-          <label for="updatedFindings">Aktueller psychischer Befund / Testresultate</label>
-          <textarea id="updatedFindings" name="updatedFindings" rows="4"></textarea>
+          <label for="updatedFindingsList">Aktueller psychischer Befund / Testresultate (Mehrfachauswahl)</label>
+          <select id="updatedFindingsList" name="updatedFindingsList" multiple>
+            <option value="Keine Veränderungen">Keine Veränderungen</option>
+            <option value="Symptomverbesserung">Symptomverbesserung</option>
+            <option value="Symptomverschlechterung">Symptomverschlechterung</option>
+            <option value="Neue Diagnosen/Symptome">Neue Diagnosen/Symptome</option>
+            <option value="Testwerte verbessert">Testwerte verbessert</option>
+            <option value="Testwerte verschlechtert">Testwerte verschlechtert</option>
+          </select>
+          <input type="text" id="updatedFindingsOther" name="updatedFindingsOther" placeholder="Weitere Angaben (optional)" />
         </div>
         <div class="input-group">
-          <label for="justification">Begründung der Notwendigkeit der Fortführung / Umwandlung</label>
-          <textarea id="justification" name="justification" rows="4"></textarea>
+          <label for="justificationList">Begründung der Fortführung / Umwandlung (Mehrfachauswahl)</label>
+          <select id="justificationList" name="justificationList" multiple>
+            <option value="Ziele noch nicht erreicht">Ziele noch nicht erreicht</option>
+            <option value="Symptome persistieren">Symptome persistieren</option>
+            <option value="Teilweise Verbesserung – Stabilisierung erforderlich">Teilweise Verbesserung – Stabilisierung erforderlich</option>
+            <option value="Neue Problemthemen aufgetreten">Neue Problemthemen aufgetreten</option>
+            <option value="Fortsetzung zur Rückfallprophylaxe">Fortsetzung zur Rückfallprophylaxe</option>
+          </select>
+          <input type="text" id="justificationOther" name="justificationOther" placeholder="Weitere Begründungen (optional)" />
         </div>
         <div class="input-group">
-          <label for="changedGoals">Geänderte oder erweiterte Therapieziele / Methoden</label>
-          <textarea id="changedGoals" name="changedGoals" rows="4"></textarea>
+          <label for="changedGoalsList">Geänderte oder erweiterte Therapieziele / Methoden (Mehrfachauswahl)</label>
+          <select id="changedGoalsList" name="changedGoalsList" multiple>
+            <option value="Neue Ziele ergänzt">Neue Ziele ergänzt</option>
+            <option value="Interventionsfokus geändert">Interventionsfokus geändert</option>
+            <option value="Weiterführende Psychoedukation">Weiterführende Psychoedukation</option>
+            <option value="Vertiefte Expositionsübungen">Vertiefte Expositionsübungen</option>
+            <option value="Erweiterte Sozialkompetenztrainings">Erweiterte Sozialkompetenztrainings</option>
+            <option value="Zusätzliche Rückfallprophylaxe">Zusätzliche Rückfallprophylaxe</option>
+          </select>
+          <input type="text" id="changedGoalsOther" name="changedGoalsOther" placeholder="Weitere Änderungen (optional)" />
         </div>
         <div class="input-group">
-          <label for="closingPlan">Prognose, Abschlussplanung und weiterführende Maßnahmen</label>
-          <textarea id="closingPlan" name="closingPlan" rows="4"></textarea>
+          <label for="closingPlanList">Prognose, Abschlussplanung und weiterführende Maßnahmen (Mehrfachauswahl)</label>
+          <select id="closingPlanList" name="closingPlanList" multiple>
+            <option value="Fortführung bis Zielerreichung">Fortführung bis Zielerreichung</option>
+            <option value="Stabilisierung und Rückfallprophylaxe">Stabilisierung und Rückfallprophylaxe</option>
+            <option value="Überleitung in ambulante Nachsorge">Überleitung in ambulante Nachsorge</option>
+            <option value="Anschluss-Rehabilitationsmaßnahme">Anschluss-Rehabilitationsmaßnahme</option>
+            <option value="Abschluss der Therapie">Abschluss der Therapie</option>
+          </select>
+          <input type="text" id="closingPlanOther" name="closingPlanOther" placeholder="Weitere Maßnahmen (optional)" />
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev8">Zurück</button>
