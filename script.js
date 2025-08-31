@@ -145,14 +145,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // Befund
     // Helfer, um Mehrfachauswahl aus <select multiple> zu extrahieren
     function getSelectValues(selectId) {
-      const select = document.getElementById(selectId);
-      if (!select) return [];
+      const element = document.getElementById(selectId);
       const values = [];
-      for (const option of select.options) {
-        if (option.selected && option.value) {
-          values.push(option.value);
+      // Wenn ein Select vorhanden ist (klassische Mehrfachauswahl)
+      if (element && element.options) {
+        for (const option of element.options) {
+          if (option.selected && option.value) {
+            values.push(option.value);
+          }
         }
+        return values;
       }
+      // Ansonsten versuchen wir, Checkboxen mit entsprechendem Namen zu sammeln
+      const checkboxes = document.querySelectorAll('input[name="' + selectId + '"]:checked');
+      checkboxes.forEach(cb => {
+        if (cb.value) {
+          values.push(cb.value);
+        }
+      });
       return values;
     }
     data.appearance = getSelectValues("appearance");
@@ -468,4 +478,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   addNavHandlers();
+
+  // Nachdem die Navigation eingerichtet ist, initialisieren wir die Checkbox‑Labels.
+  // Jede Checkbox innerhalb einer `.checkbox-group` erhält einen Click‑Listener, der
+  // die Klasse `.checked` am zugehörigen Label setzt oder entfernt. Dies sorgt für
+  // eine visuelle Rückmeldung (Invertierung der Farbe) bei Auswahl.
+  function setupCheckboxLabels() {
+    const checkboxInputs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
+    checkboxInputs.forEach((cb) => {
+      const label = cb.parentElement;
+      // Initialstatus setzen
+      if (cb.checked) {
+        label.classList.add('checked');
+      }
+      // Bei Änderung Klasse toggeln
+      cb.addEventListener('change', () => {
+        if (cb.checked) {
+          label.classList.add('checked');
+        } else {
+          label.classList.remove('checked');
+        }
+      });
+      // Klicken auf das Label toggelt das Kontrollkästchen manuell
+      label.addEventListener('click', (e) => {
+        // Verhindern, dass der Klick doppelt verarbeitet wird
+        if (e.target !== cb) {
+          cb.checked = !cb.checked;
+          const event = new Event('change');
+          cb.dispatchEvent(event);
+        }
+      });
+    });
+  }
+  setupCheckboxLabels();
 });

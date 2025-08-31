@@ -162,6 +162,99 @@ body {
   margin-top: 2rem;
 }
 
+/*
+  Gruppe von Checkboxen für übersichtliche Mehrfachauswahl.
+  Die Checkboxen werden als pill‑förmige Schaltflächen dargestellt, um die Auswahl
+  intuitiver und moderner zu gestalten. Die eigentlichen Eingabefelder sind unsichtbar,
+  stattdessen wird der Zustand über die Klasse `.checked` am Label gesteuert
+  (per JavaScript).
+*/
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.checkbox-group label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem 0.35rem 2rem;
+  margin: 0.2rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--accent-color);
+  background-color: #ffffff;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+/* kleine Checkbox‑Box vor dem Text */
+.checkbox-group label::before {
+  content: "";
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+/* Eingabefeld ausblenden */
+.checkbox-group input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Markierter Zustand: Hintergrund und Textfarbe invertieren */
+.checkbox-group label.checked {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border-color: var(--accent-color);
+}
+/* Markierte Box: weißer Hintergrund mit farbigem Häkchen */
+.checkbox-group label.checked::before {
+  content: "✓";
+  background-color: #ffffff;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  border-color: #ffffff;
+}
+
+/* Kollapsible Detail-Gruppen für umfangreiche Auswahlfelder */
+.details-group {
+  border: 1px solid #ccd4de;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1rem;
+  background-color: #f9fafa;
+}
+.details-group summary {
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  padding-left: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+.details-group summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.details-group[open] summary::before {
+  transform: rotate(90deg);
+}
+
 /* Conditional note styling */
 .conditional-note {
   font-size: 0.9rem;
