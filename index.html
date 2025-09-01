@@ -799,23 +799,35 @@
             </div>
             <div class="input-group">
               <label>SORKC – Konsequenzen kurzzeitig (K)</label>
-              <div class="checkbox-group sorkcConsequenceShort">
-                <label><input type="checkbox" value="C+"> C+</label>
-                <label><input type="checkbox" value="C-"> C-</label>
-                <label><input type="checkbox" value="C+/"> C+/</label>
-                <label><input type="checkbox" value="C-/"> C-/</label>
+              <div class="short-consequences">
+                <div class="consequence-item">
+                  <select class="consequence-type">
+                    <option value="">– Art wählen –</option>
+                    <option value="C+">C+</option>
+                    <option value="C-">C-</option>
+                    <option value="C+/">C+/</option>
+                    <option value="C-/">C-/</option>
+                  </select>
+                  <input type="text" class="consequence-text" placeholder="Beschreibung" />
+                </div>
               </div>
-              <textarea class="sorkcConsequenceShortText" rows="2" placeholder="Beschreibung der kurzfristigen Konsequenzen"></textarea>
+              <button type="button" class="secondary-btn add-short-consequence">Weiteren Eintrag hinzufügen</button>
             </div>
             <div class="input-group">
               <label>SORKC – Konsequenzen langfristig</label>
-              <div class="checkbox-group sorkcConsequenceLong">
-                <label><input type="checkbox" value="C+"> C+</label>
-                <label><input type="checkbox" value="C-"> C-</label>
-                <label><input type="checkbox" value="C+/"> C+/</label>
-                <label><input type="checkbox" value="C-/"> C-/</label>
+              <div class="long-consequences">
+                <div class="consequence-item">
+                  <select class="consequence-type">
+                    <option value="">– Art wählen –</option>
+                    <option value="C+">C+</option>
+                    <option value="C-">C-</option>
+                    <option value="C+/">C+/</option>
+                    <option value="C-/">C-/</option>
+                  </select>
+                  <input type="text" class="consequence-text" placeholder="Beschreibung" />
+                </div>
               </div>
-              <textarea class="sorkcConsequenceLongText" rows="2" placeholder="Beschreibung der langfristigen Konsequenzen"></textarea>
+              <button type="button" class="secondary-btn add-long-consequence">Weiteren Eintrag hinzufügen</button>
             </div>
           </div>
         </div>

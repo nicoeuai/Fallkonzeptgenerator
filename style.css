@@ -426,6 +426,12 @@ body.dark-mode .navbar-title {
   margin-top: 0.5rem;
 }
 
+.consequence-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 /* Kollapsible Detail-Gruppen für umfangreiche Auswahlfelder */
 .details-group {
   border: 1px solid #ccd4de;

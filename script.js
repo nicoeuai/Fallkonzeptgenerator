@@ -285,30 +285,28 @@ document.addEventListener("DOMContentLoaded", () => {
     data.resources = getSelectValues("resources");
     // SORKC Felder (dynamische Einträge)
     data.sorkcEntries = [];
-    const sorkcEntries = document.querySelectorAll("#sorkcContainer .sorkc-entry");
-    sorkcEntries.forEach((entry) => {
+    document.querySelectorAll("#sorkcContainer .sorkc-entry").forEach((entry) => {
       const situation = entry.querySelector(".sorkcSituation")?.value || "";
       const organism = entry.querySelector(".sorkcOrganism")?.value || "";
       const reaction = entry.querySelector(".sorkcReaction")?.value || "";
-      // Sammeln der angekreuzten Konsequenzarten
-      const shortCats = [];
-      entry.querySelectorAll(".sorkcConsequenceShort input[type='checkbox']:checked").forEach((cb) => {
-        shortCats.push(cb.value);
+      const short = [];
+      entry.querySelectorAll(".short-consequences .consequence-item").forEach((item) => {
+        const type = item.querySelector(".consequence-type")?.value || "";
+        const text = item.querySelector(".consequence-text")?.value || "";
+        if (type || text) short.push({ type: type, text: text });
       });
-      const shortText = entry.querySelector(".sorkcConsequenceShortText")?.value || "";
-      const longCats = [];
-      entry.querySelectorAll(".sorkcConsequenceLong input[type='checkbox']:checked").forEach((cb) => {
-        longCats.push(cb.value);
+      const long = [];
+      entry.querySelectorAll(".long-consequences .consequence-item").forEach((item) => {
+        const type = item.querySelector(".consequence-type")?.value || "";
+        const text = item.querySelector(".consequence-text")?.value || "";
+        if (type || text) long.push({ type: type, text: text });
       });
-      const longText = entry.querySelector(".sorkcConsequenceLongText")?.value || "";
       data.sorkcEntries.push({
         situation: situation,
         organism: organism,
         reaction: reaction,
-        shortCats: shortCats,
-        shortText: shortText,
-        longCats: longCats,
-        longText: longText
+        short: short,
+        long: long,
       });
     });
     // Zusätzliche Anamnesen und Störungsmodell (Step 5)
@@ -524,9 +522,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mehrere SORKC‑Einträge ausgeben
     if (Array.isArray(data.sorkcEntries) && data.sorkcEntries.length > 0) {
       data.sorkcEntries.forEach((entry, idx) => {
-        const shortCats = (Array.isArray(entry.shortCats) && entry.shortCats.length > 0) ? entry.shortCats.join(", ") : "-";
-        const longCats = (Array.isArray(entry.longCats) && entry.longCats.length > 0) ? entry.longCats.join(", ") : "-";
-        report += `Verhaltensanalyse (SORKC) – Situation ${idx + 1}: Situation: ${entry.situation || "-"}; Organismus: ${entry.organism || "-"}; Reaktion: ${entry.reaction || "-"}; Kurzfristige Konsequenzen (${shortCats}): ${entry.shortText || "-"}; Langfristige Konsequenzen (${longCats}): ${entry.longText || "-"}\n`;
+        const shortStr = (Array.isArray(entry.short) && entry.short.length > 0)
+          ? entry.short.map((c) => `${c.type}: ${c.text}`).join("; ")
+          : "-";
+        const longStr = (Array.isArray(entry.long) && entry.long.length > 0)
+          ? entry.long.map((c) => `${c.type}: ${c.text}`).join("; ")
+          : "-";
+        report += `Verhaltensanalyse (SORKC) – Situation ${idx + 1}: Situation: ${entry.situation || "-"}; Organismus: ${entry.organism || "-"}; Reaktion: ${entry.reaction || "-"}; Kurzfristige Konsequenzen: ${shortStr}; Langfristige Konsequenzen: ${longStr}\n`;
       });
     }
     // Verhaltensanalytische Problemdefinition (Störungsmodell)
@@ -622,22 +624,57 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function createConsequenceItem() {
+    const div = document.createElement('div');
+    div.className = 'consequence-item';
+    div.innerHTML = `<select class="consequence-type">
+        <option value="">– Art wählen –</option>
+        <option value="C+">C+</option>
+        <option value="C-">C-</option>
+        <option value="C+/">C+/</option>
+        <option value="C-/">C-/</option>
+      </select>
+      <input type="text" class="consequence-text" placeholder="Beschreibung" />`;
+    return div;
+  }
+
+  function setupSorkcConsequences(entry) {
+    const shortContainer = entry.querySelector('.short-consequences');
+    const addShort = entry.querySelector('.add-short-consequence');
+    if (shortContainer && addShort) {
+      addShort.addEventListener('click', () => {
+        shortContainer.appendChild(createConsequenceItem());
+      });
+    }
+    const longContainer = entry.querySelector('.long-consequences');
+    const addLong = entry.querySelector('.add-long-consequence');
+    if (longContainer && addLong) {
+      addLong.addEventListener('click', () => {
+        longContainer.appendChild(createConsequenceItem());
+      });
+    }
+  }
+
+  const sorkcContainer = document.getElementById('sorkcContainer');
+  const sorkcTemplateHTML = sorkcContainer ? sorkcContainer.querySelector('.sorkc-entry').outerHTML : '';
+  if (sorkcContainer) {
+    const firstEntry = sorkcContainer.querySelector('.sorkc-entry');
+    if (firstEntry) setupSorkcConsequences(firstEntry);
+  }
+
   // Handler zum Hinzufügen neuer SORKC‑Situationen
-  const addSorkcBtn = document.getElementById("addSorkc");
+  const addSorkcBtn = document.getElementById('addSorkc');
   if (addSorkcBtn) {
-    addSorkcBtn.addEventListener("click", () => {
-      const container = document.getElementById("sorkcContainer");
-      if (!container) return;
-      const template = container.querySelector(".sorkc-entry");
-      if (!template) return;
-      const clone = template.cloneNode(true);
-      const count = container.querySelectorAll(".sorkc-entry").length + 1;
-      const heading = clone.querySelector("h3");
+    addSorkcBtn.addEventListener('click', () => {
+      if (!sorkcContainer) return;
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = sorkcTemplateHTML;
+      const clone = wrapper.firstElementChild;
+      const count = sorkcContainer.querySelectorAll('.sorkc-entry').length + 1;
+      const heading = clone.querySelector('h3');
       if (heading) heading.textContent = `SORKC‑Situation ${count}`;
-      clone.querySelectorAll('textarea').forEach((ta) => { ta.value = ""; });
-      clone.querySelectorAll('input[type="checkbox"]').forEach((cb) => { cb.checked = false; });
-      container.appendChild(clone);
-      setupSelectableLabels();
+      sorkcContainer.appendChild(clone);
+      setupSorkcConsequences(clone);
     });
   }
 
