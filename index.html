@@ -16,21 +16,11 @@
     </div>
     <div class="nav-right">
       <button id="themeToggle" class="theme-toggle" title="Dark/Light Mode wechseln">🌙</button>
-      <button class="login-btn">Login</button>
     </div>
   </header>
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Psychotherapie‑Bericht Generator</h1>
-      <p>Erstellen Sie strukturiert Berichte nach PTV 3</p>
-      <button id="startButton" class="cta-btn">Fragebogen starten</button>
-    </div>
-  </section>
-
-  <!-- Multi‑step form container; initially hidden -->
-  <section id="formContainer" class="form-container hidden">
-    <ul id="stepNav" class="step-nav">
-      <li data-step="0" class="active">Antrag</li>
+  <nav id="headerMenu" class="header-menu hidden">
+    <ul>
+      <li data-step="0">Antrag</li>
       <li data-step="1">Soziodemographie</li>
       <li data-step="2">Symptomatik</li>
       <li data-step="3">Befund</li>
@@ -41,14 +31,26 @@
       <li data-step="8">Zusatz</li>
       <li data-step="9">Zusammenfassung</li>
     </ul>
+  </nav>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Psychotherapie‑Bericht Generator</h1>
+      <p>Erstellen Sie strukturiert Berichte nach PTV 3</p>
+      <button id="startButton" class="cta-btn">Fragebogen starten</button>
+    </div>
+  </section>
+
+  <!-- Multi‑step form container; initially hidden -->
+  <section id="formContainer" class="form-container hidden">
+    <div id="progressBar"><div id="progress"></div></div>
     <form id="reportForm">
       <!-- Step 0: Auswahl des Antragstyps -->
       <div class="form-step" data-step="0">
         <h2>Antragstyp wählen</h2>
         <p>Bitte wählen Sie aus, welchen Antrag Sie stellen möchten.</p>
         <div class="input-group">
-          <label for="applicationType">Antragstyp</label>
-          <select id="applicationType" name="applicationType">
+          <label for="applicationType" class="required">Antragstyp</label>
+          <select id="applicationType" name="applicationType" required>
             <option value="erst">Erstantrag</option>
             <option value="umwandlung">Umwandlungsantrag (KZT → LZT)</option>
             <option value="fortfuehrung">Fortführungsantrag</option>
@@ -61,12 +63,12 @@
       <div class="form-step" data-step="1">
         <h2>1. Soziodemographische Daten</h2>
         <div class="input-group">
-          <label for="patientInitials">Patient:innen‑Chiffre / Initialen</label>
-          <input type="text" id="patientInitials" name="patientInitials" />
+          <label for="patientInitials" class="required">Patient:innen‑Chiffre / Initialen <span class="info-icon" title="Bitte anonymisierte Initialen oder eine Chiffre eintragen">i</span></label>
+          <input type="text" id="patientInitials" name="patientInitials" required />
         </div>
         <div class="input-group">
-          <label for="patientAge">Alter</label>
-          <input type="number" id="patientAge" name="patientAge" min="0" />
+          <label for="patientAge" class="required">Alter</label>
+          <input type="number" id="patientAge" name="patientAge" min="0" required />
         </div>
         <div class="input-group">
           <label for="patientGender">Geschlecht</label>
@@ -1271,7 +1273,13 @@
       </div>
     </form>
   </section>
-
+  <footer class="site-footer">
+    <p class="privacy-note">
+      Hinweis: Die eingegebenen Daten werden ausschließlich lokal im Browser verarbeitet
+      und nicht an einen Server gesendet. Bitte speichern Sie den Bericht nur auf
+      gesicherten Geräten und beachten Sie die geltenden Datenschutzrichtlinien (DSGVO).
+    </p>
+  </footer>
   <script src="script.js"></script>
 </body>
 </html>
