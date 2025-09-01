@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", () => {
     if (heroSection) heroSection.classList.add("hidden");
     formContainer.classList.remove("hidden");
+    if (headerMenu) headerMenu.classList.add("open");
     showStep(0);
   });
 
