@@ -172,12 +172,14 @@
           <input type="text" id="financialOther" name="financialOther" placeholder="Weitere Angaben (optional)" />
         </div>
         <div class="input-group">
-          <label>Freundeskreis & Freizeit (Mehrfachauswahl)</label>
-          <div class="checkbox-group" id="socialNetworkGroup">
-            <label><input type="checkbox" name="socialNetwork" value="großer Freundeskreis"> großer Freundeskreis</label>
-            <label><input type="checkbox" name="socialNetwork" value="mittlerer Freundeskreis"> mittlerer Freundeskreis</label>
-            <label><input type="checkbox" name="socialNetwork" value="kleiner Freundeskreis"> kleiner Freundeskreis</label>
-            <label><input type="checkbox" name="socialNetwork" value="soziale Isolation"> soziale Isolation</label>
+          <label>Freundeskreis & Freizeit</label>
+          <div class="radio-group" id="socialNetworkGroup">
+            <label><input type="radio" name="socialNetwork" value="kein Freundeskreis"> kein Freundeskreis</label>
+            <label><input type="radio" name="socialNetwork" value="kleiner Freundeskreis"> kleiner Freundeskreis</label>
+            <label><input type="radio" name="socialNetwork" value="mittlerer Freundeskreis"> mittlerer Freundeskreis</label>
+            <label><input type="radio" name="socialNetwork" value="großer Freundeskreis"> großer Freundeskreis</label>
+          </div>
+          <div class="checkbox-group">
             <label><input type="checkbox" name="socialNetwork" value="vielfältige Hobbys"> vielfältige Hobbys</label>
             <label><input type="checkbox" name="socialNetwork" value="wenige Hobbys"> wenige Hobbys</label>
             <label><input type="checkbox" name="socialNetwork" value="sozialer Rückzug"> sozialer Rückzug</label>
@@ -199,14 +201,13 @@
           </select>
         </div>
         <div class="input-group">
-          <label for="disabilityPension">GdB / Rentenbegehren</label>
-          <select id="disabilityPension" name="disabilityPension">
-            <option value="">– Bitte wählen –</option>
-            <option value="keine">keine</option>
-            <option value="GdB beantragt">GdB beantragt</option>
-            <option value="Rente beantragt">Rente beantragt</option>
-            <option value="GdB und Rente beantragt">GdB und Rente beantragt</option>
-          </select>
+          <label>GdB / Rentenbegehren</label>
+          <div class="radio-group" id="disabilityPension">
+            <label><input type="radio" name="disabilityPension" value="keine"> keine</label>
+            <label><input type="radio" name="disabilityPension" value="GdB beantragt"> GdB beantragt</label>
+            <label><input type="radio" name="disabilityPension" value="Rente beantragt"> Rente beantragt</label>
+            <label><input type="radio" name="disabilityPension" value="GdB und Rente beantragt"> GdB und Rente beantragt</label>
+          </div>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev1">Zurück</button>
@@ -313,13 +314,12 @@
         </div>
         <!-- Subjektiver Leidensdruck -->
         <div class="input-group">
-          <label for="subjectiveDistressLevel">Subjektiver Leidensdruck</label>
-          <select id="subjectiveDistressLevel" name="subjectiveDistressLevel">
-            <option value="">– Bitte wählen –</option>
-            <option value="gering">gering</option>
-            <option value="mittel">mittel</option>
-            <option value="hoch">hoch</option>
-          </select>
+          <label>Subjektiver Leidensdruck</label>
+          <div class="radio-group" id="subjectiveDistressLevel">
+            <label><input type="radio" name="subjectiveDistressLevel" value="gering"> gering</label>
+            <label><input type="radio" name="subjectiveDistressLevel" value="mittel"> mittel</label>
+            <label><input type="radio" name="subjectiveDistressLevel" value="hoch"> hoch</label>
+          </div>
           <input type="text" id="subjectiveDistressNotes" name="subjectiveDistressNotes" placeholder="Anmerkungen (optional)" />
         </div>
 
@@ -346,20 +346,20 @@
           <textarea id="courseDescription" name="courseDescription" rows="2"></textarea>
         </div>
         <div class="input-group">
-          <label for="testBDI">BDI‑II Wert (optional)</label>
-          <input type="text" id="testBDI" name="testBDI" placeholder="z.B. 24" />
-        </div>
-        <div class="input-group">
-          <label for="testBSI">BSI Wert (optional)</label>
-          <input type="text" id="testBSI" name="testBSI" placeholder="z.B. 0,45" />
-        </div>
-        <div class="input-group">
-          <label for="testINK">INK Wert (optional)</label>
-          <input type="text" id="testINK" name="testINK" placeholder="z.B. 2,5" />
-        </div>
-        <div class="input-group">
-          <label for="testOther">Andere Testverfahren (Name und Wert, optional)</label>
-          <input type="text" id="testOther" name="testOther" placeholder="z.B. SCL‑90: 1,2" />
+          <label>Testverfahren und Werte</label>
+          <table id="testTable">
+            <thead>
+              <tr><th>Testverfahren</th><th>Wert</th><th>Art des Werts</th></tr>
+            </thead>
+            <tbody>
+              <tr class="test-row">
+                <td><input type="text" name="testName[]" placeholder="z.B. BDI-II" /></td>
+                <td><input type="number" name="testValue[]" step="any" /></td>
+                <td><input type="text" name="testType[]" placeholder="Summenwert, Perzentil ..." /></td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="secondary-btn" id="addTest">Weiteren Test hinzufügen</button>
         </div>
         <div class="input-group">
           <label for="motivationLevel">Therapiemotivation</label>
