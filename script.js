@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Hero‑Section statt Intro
   const heroSection = document.querySelector(".hero");
   const steps = document.querySelectorAll(".form-step");
+  const navItems = document.querySelectorAll("#stepNav li");
   let currentStep = 0;
 
   // Geschlechtsauswahl: zeigt optionales Textfeld bei Auswahl "selbst angegeben"
@@ -57,8 +58,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target) {
       target.classList.add("active");
       currentStep = stepIndex;
+      navItems.forEach((nav) => {
+        nav.classList.toggle("active", parseInt(nav.dataset.step, 10) === stepIndex);
+      });
+      if (stepIndex === 9) {
+        compileReport();
+      }
     }
   }
+
+  navItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const step = parseInt(item.dataset.step, 10);
+      showStep(step);
+    });
+  });
 
   // Start: Fragebogen anzeigen
   startButton.addEventListener("click", () => {
@@ -318,14 +332,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Familienstruktur und prägende Erfahrungen
     data.familyBackground = document.getElementById("familyBackground") ? document.getElementById("familyBackground").value : "";
     // Diagnosen
-    data.primaryDiagnosis = document.getElementById("primaryDiagnosisSelect").value;
-    data.primaryDiagnosisStatus = document.getElementById("primaryDiagnosisStatus") ? document.getElementById("primaryDiagnosisStatus").value : "";
-    data.comorbidDiagnosis = getSelectValues("comorbidDiagnosisList");
-    data.differentialDiagnosis = getSelectValues("differentialDiagnosisList");
-    data.diagnosisJustification = getSelectValues("diagnosisJustificationList");
+    data.primaryDiagnosis = document.getElementById("primaryDiagnosis") ? document.getElementById("primaryDiagnosis").value : "";
+    data.additionalDiagnoses = [];
+    document.querySelectorAll("#additionalDiagnoses .diagnosis-item").forEach(item => {
+      const diag = item.querySelector(".diagnosis-input")?.value.trim();
+      const status = item.querySelector('.diagnosis-status')?.value;
+      if (diag) data.additionalDiagnoses.push({ diagnosis: diag, status: status });
+    });
     // Weitere Angaben zu Diagnosen
     data.somaticDiagnoses = document.getElementById("somaticDiagnoses") ? document.getElementById("somaticDiagnoses").value : "";
-    data.emotionalProblems = document.getElementById("emotionalProblems") ? document.getElementById("emotionalProblems").value : "";
     // Therapieplanung
     data.therapyGoals = getSelectValues("therapyGoalsList");
     data.plannedInterventions = getSelectValues("plannedInterventionsList");
@@ -540,28 +555,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung
     report += "\n5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung\n";
-    // Primäre Diagnose
-    let primaryDiag = "";
-    if (data.primaryDiagnosis === "Andere" && data.primaryDiagnosisOther && data.primaryDiagnosisOther.length > 0) {
-      primaryDiag = data.primaryDiagnosisOther[0];
-    } else {
-      primaryDiag = data.primaryDiagnosis || (data.primaryDiagnosisOther && data.primaryDiagnosisOther[0]) || "";
+    if (data.primaryDiagnosis) {
+      report += `Primäre Diagnose: ${data.primaryDiagnosis} (gesichert)\n`;
     }
-    if (primaryDiag) {
-      report += `Primäre Diagnose: ${primaryDiag}`;
-      if (data.primaryDiagnosisStatus) report += ` (Status: ${data.primaryDiagnosisStatus})`;
-      report += "\n";
+    if (Array.isArray(data.additionalDiagnoses) && data.additionalDiagnoses.length > 0) {
+      const addStr = data.additionalDiagnoses.map(d => `${d.diagnosis} (${d.status})`).join(", ");
+      report += `Weitere Diagnosen: ${addStr}\n`;
     }
-    const comorbidDiagStr = listWithOther(data.comorbidDiagnosis, data.comorbidDiagnosisOther);
-    if (comorbidDiagStr) report += `Weitere Diagnosen/Komorbiditäten: ${comorbidDiagStr}\n`;
-    const diffDiagStr = listWithOther(data.differentialDiagnosis, data.differentialDiagnosisOther);
-    if (diffDiagStr) report += `Differentialdiagnosen: ${diffDiagStr}\n`;
-    const diagJustifStr = listWithOther(data.diagnosisJustification, data.diagnosisJustificationOther);
-    if (diagJustifStr) report += `Begründung der Diagnose(n): ${diagJustifStr}\n`;
-
-    // Somatische Diagnosen und emotionale Probleme
-    if (data.somaticDiagnoses) report += `Somatische Diagnosen: ${data.somaticDiagnoses}\n`;
-    if (data.emotionalProblems) report += `Emotionale Probleme/Kernprobleme: ${data.emotionalProblems}\n`;
+    if (data.somaticDiagnoses) {
+        report += `Somatische Diagnosen: ${data.somaticDiagnoses}\n`;
+      }
 
     // 6. Behandlungsplan und Prognose
     report += "\n6. Behandlungsplan und Prognose\n";
@@ -663,6 +666,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Handler zum Hinzufügen neuer SORKC‑Situationen
+  const addDiagBtn = document.getElementById("addDiagnosis");
+  const additionalDiagContainer = document.getElementById("additionalDiagnoses");
+  if (addDiagBtn && additionalDiagContainer) {
+    addDiagBtn.addEventListener("click", () => {
+      const div = document.createElement("div");
+      div.className = "diagnosis-item";
+      div.innerHTML = `<input type="text" list="diagnosisOptions" class="diagnosis-input" placeholder="Diagnose suchen oder eintragen" />
+      <select class="diagnosis-status">
+        <option value="gesichert">gesichert</option>
+        <option value="Verdachtsdiagnose">Verdachtsdiagnose</option>
+      </select>
+      <button type="button" class="remove-diagnosis">✖</button>`;
+      additionalDiagContainer.appendChild(div);
+      const removeBtn = div.querySelector('.remove-diagnosis');
+      if (removeBtn) {
+        removeBtn.addEventListener('click', () => div.remove());
+      }
+    });
+  }
+
   const addSorkcBtn = document.getElementById('addSorkc');
   if (addSorkcBtn) {
     addSorkcBtn.addEventListener('click', () => {
