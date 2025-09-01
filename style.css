@@ -93,7 +93,6 @@ body.dark-mode .navbar-title {
   align-items: center;
   gap: 0.75rem;
 }
-.lang-btn,
 .theme-toggle,
 .login-btn {
   padding: 0.35rem 0.8rem;
@@ -103,19 +102,10 @@ body.dark-mode .navbar-title {
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-.lang-btn {
-  background-color: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
-}
-.lang-btn:hover {
-  background-color: var(--accent-hover-color);
-  color: var(--on-accent-color);
-}
 .theme-toggle {
   background-color: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
+  color: #ffffff;
+  border: 1px solid #ffffff;
   width: 32px;
   height: 32px;
   display: flex;
@@ -138,14 +128,12 @@ body.dark-mode .navbar-title {
 }
 
 /* Weniger Gold im Header des Dunkelmodus */
-body.dark-mode .lang-btn,
 body.dark-mode .theme-toggle,
 body.dark-mode .menu-toggle {
   color: var(--subtext-color);
   border-color: var(--subtext-color);
 }
 
-body.dark-mode .lang-btn:hover,
 body.dark-mode .theme-toggle:hover,
 body.dark-mode .menu-toggle:hover {
   background-color: var(--accent-color);
@@ -156,8 +144,8 @@ body.dark-mode .menu-toggle:hover {
 /* Hamburger‑Menü */
 .menu-toggle {
   background-color: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
+  color: #ffffff;
+  border: 1px solid #ffffff;
   padding: 0.35rem 0.6rem;
   border-radius: 4px;
   font-size: 1.2rem;
