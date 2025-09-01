@@ -64,9 +64,6 @@ body {
 
 /* Navigationsleiste im EUAIditor-Stil */
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
@@ -106,9 +103,16 @@ body {
 }
 
 .main-nav {
-  margin-left: auto;
+  position: sticky;
+  top: 0;
+  z-index: 99;
   display: flex;
+  justify-content: center;
   gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: var(--on-primary-color);
+  box-shadow: 0 2px 6px var(--shadow-color);
 }
 
 .brand {
@@ -118,7 +122,7 @@ body {
 }
 
 .main-nav a {
-  color: var(--on-primary-color);
+  color: inherit;
   text-decoration: none;
   font-weight: 500;
 }
@@ -127,6 +131,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-left: auto;
 }
 
 .header-controls .theme-toggle {
@@ -151,16 +156,12 @@ body {
     display: block;
   }
   .main-nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: var(--primary-color);
-    flex-direction: column;
-    padding: 1rem;
     display: none;
+    flex-direction: column;
+    background-color: var(--primary-color);
+    padding: 1rem;
   }
-  .site-header.nav-open .main-nav {
+  .main-nav.open {
     display: flex;
   }
 }

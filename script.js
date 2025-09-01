@@ -11,8 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalSteps = steps.length - 1;
 
     // Header Menü
-    const headerEl = document.querySelector(".site-header");
-    const menuToggle = headerEl ? headerEl.querySelector(".menu-toggle") : null;
+    const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
     const menuItems = nav ? nav.querySelectorAll("[data-step]") : [];
 
@@ -82,19 +81,19 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const step = parseInt(item.dataset.step, 10);
         showStep(step);
-        if (headerEl) headerEl.classList.remove("nav-open");
+        if (nav) nav.classList.remove("open");
       });
     });
 
-    if (menuToggle && headerEl) {
+    if (menuToggle && nav) {
       menuToggle.addEventListener("click", () => {
-        headerEl.classList.toggle("nav-open");
+        nav.classList.toggle("open");
       });
     }
 
     document.addEventListener("click", (e) => {
-      if (headerEl && headerEl.classList.contains("nav-open") && !headerEl.contains(e.target)) {
-        headerEl.classList.remove("nav-open");
+      if (nav && nav.classList.contains("open") && !nav.contains(e.target) && !menuToggle.contains(e.target)) {
+        nav.classList.remove("open");
       }
     });
 
