@@ -14,23 +14,29 @@
 :root {
   /* Basisfarben im Light‑Modus */
   /* Light‑Mode Farbschema */
-  --primary-color: #254d60;     /* gedämpftes Blau für Header/Hintergrund im Light‑Modus */
-  --accent-color: #3b82f6;      /* frisches Blau als Akzentfarbe im Light‑Modus */
+  --primary-color: #1e3a8a;     /* dunkles Blau für Header/Hintergrund im Light‑Modus */
+  --accent-color: #2563eb;      /* kräftiges Blau als Akzentfarbe im Light‑Modus */
+  --accent-hover-color: #1d4ed8;/* dunklere Variante für Hover-Effekte */
   --secondary-color: #f4f6f8;   /* sehr helles Grau als Seitenhintergrund */
   --surface-color: #ffffff;     /* Karten und Formularflächen */
   --text-color: #04101a;        /* sehr dunkles Blau als Primärtextfarbe */
   --subtext-color: #475569;     /* gedämpftes Grau‑Blau für Untertexte */
+  --on-accent-color: #ffffff;   /* Text auf Akzentflächen */
+  --on-primary-color: #ffffff;  /* Text auf Primärflächen */
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Dunkler Modus: überschreibt die Variablen für eine dunkle Oberfläche */
 body.dark-mode {
   --primary-color: #062032;     /* sehr dunkles Blau für Header/Hintergrund */
-  --accent-color: #3b82f6;      /* Akzentfarbe im Dunkelmodus */
+  --accent-color: #d4af37;      /* dezentes Gold als Akzentfarbe */
+  --accent-hover-color: #b9941d;/* etwas dunkleres Gold für Hover-Effekte */
   --secondary-color: #04101a;   /* tiefes Dunkelblau als Seitenhintergrund */
   --surface-color: #0b1c29;     /* dunkle Karte */
-  --text-color: #e2e8f0;        /* helles Grau für Primärtext */
-  --subtext-color: #94a3b8;     /* bläuliches Grau für Untertexte */
+  --text-color: #ffffff;        /* weiße Primärtextfarbe */
+  --subtext-color: #cbd5e1;     /* helles Blau‑Grau für Untertexte */
+  --on-accent-color: #04101a;   /* dunkler Text auf Gold */
+  --on-primary-color: #ffffff;  /* Text auf Primärflächen */
   --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -63,7 +69,7 @@ body {
   align-items: center;
   padding: 1rem 1.5rem;
   background-color: var(--primary-color);
-  color: var(--surface-color);
+  color: var(--on-primary-color);
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 .nav-left {
@@ -80,7 +86,7 @@ body {
 .navbar-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--surface-color);
+  color: var(--on-primary-color);
 }
 
 /* Navigations-Titel im Dunkelmodus heller darstellen */
@@ -108,8 +114,8 @@ body.dark-mode .navbar-title {
   border: 1px solid var(--accent-color);
 }
 .lang-btn:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 .theme-toggle {
   background-color: transparent;
@@ -123,17 +129,17 @@ body.dark-mode .navbar-title {
   font-size: 1rem;
 }
 .theme-toggle:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 .login-btn {
   background-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
   font-weight: 600;
 }
 .login-btn:hover {
-  background-color: #60a5fa;
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 
 /* Hamburger‑Menü */
@@ -148,8 +154,8 @@ body.dark-mode .navbar-title {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .menu-toggle:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 
 /* Hero‑Section */
@@ -200,14 +206,14 @@ body.dark-mode .navbar-title {
   border: none;
   border-radius: 6px;
   background-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
   cursor: pointer;
   font-weight: 600;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .cta-btn:hover {
-  background-color: #60a5fa;
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 
 .site-title {
@@ -249,12 +255,12 @@ body.dark-mode .navbar-title {
 
 .primary-btn {
   background-color: var(--accent-color);
-  color: #ffffff;
+  color: var(--on-accent-color);
   font-weight: 600;
 }
 
 .primary-btn:hover {
-  background-color: #2563eb;
+  background-color: var(--accent-hover-color);
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 
@@ -267,7 +273,7 @@ body.dark-mode .navbar-title {
 
 .secondary-btn:hover {
   background-color: var(--accent-color);
-  color: #ffffff;
+  color: var(--on-accent-color);
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 
@@ -374,7 +380,7 @@ body.dark-mode .navbar-title {
 .checkbox-group label.checked {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
 }
 
 /* Radio-Button-Gruppen im gleichen Stil wie Checkboxen */
@@ -404,7 +410,7 @@ body.dark-mode .navbar-title {
 .radio-group label.checked {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
 }
 
 /* Tabelle für Testverfahren */
