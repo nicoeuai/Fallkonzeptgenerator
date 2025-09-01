@@ -73,6 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (stepIndex === 9) {
         compileReport();
       }
+      // Aktives Element in der Navigationsleiste markieren
+      menuItems.forEach((item) => item.classList.remove("active"));
+      const activeItem = Array.from(menuItems).find(
+        (item) => parseInt(item.dataset.step, 10) === stepIndex
+      );
+      if (activeItem) activeItem.classList.add("active");
     }
   }
 
@@ -80,13 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
     item.addEventListener("click", () => {
       const step = parseInt(item.dataset.step, 10);
       showStep(step);
-      if (headerMenu) headerMenu.classList.add("hidden");
+      if (headerMenu) headerMenu.classList.remove("open");
     });
   });
 
   if (menuToggle && headerMenu) {
     menuToggle.addEventListener("click", () => {
-      headerMenu.classList.toggle("hidden");
+      headerMenu.classList.toggle("open");
     });
   }
 
