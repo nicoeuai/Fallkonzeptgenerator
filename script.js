@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     data.maritalStatus = document.getElementById("maritalStatus").value;
     data.children = document.getElementById("children").value;
     data.livingSituation = document.getElementById("livingSituation").value;
-    data.socialOther = document.getElementById("socialOther").value;
+    // "Weitere"-Freitextangaben werden später gesammelt
     // Erweiterte soziodemographische Angaben
     // Bildungsabschluss: bei "Andere" den spezifischen Text übernehmen
     const educationSel = document.getElementById("education");
@@ -175,45 +175,40 @@ document.addEventListener("DOMContentLoaded", () => {
       data.partnerDetails = "";
     }
     data.financialSituation = document.getElementById("financialSituation") ? document.getElementById("financialSituation").value : "";
-    data.financialOther = document.getElementById("financialOther") ? document.getElementById("financialOther").value : "";
     data.socialNetwork = getSelectValues("socialNetwork");
-    data.socialNetworkOther = document.getElementById("socialNetworkOther") ? document.getElementById("socialNetworkOther").value : "";
     data.workHours = document.getElementById("workHours") ? document.getElementById("workHours").value : "";
     data.vacationUsage = document.getElementById("vacationUsage") ? document.getElementById("vacationUsage").value : "";
-    data.disabilityPension = document.getElementById("disabilityPension") ? document.getElementById("disabilityPension").value : "";
+    const disabilityRadio = document.querySelector('input[name="disabilityPension"]:checked');
+    data.disabilityPension = disabilityRadio ? disabilityRadio.value : "";
     // Symptomatik
     data.mainReason = document.getElementById("mainReason").value;
     // Physiologische Ebene
     data.symptomPhys = getSelectValues("symptomPhysList");
-    data.symptomPhysOther = document.getElementById("symptomPhysOther").value;
-    // Emotionale Ebene
     data.symptomEmo = getSelectValues("symptomEmoList");
-    data.symptomEmoOther = document.getElementById("symptomEmoOther").value;
-    // Kognitive Ebene
     data.symptomCog = getSelectValues("symptomCogList");
-    data.symptomCogOther = document.getElementById("symptomCogOther").value;
-    // Verhaltensebene
     data.symptomBeh = getSelectValues("symptomBehList");
-    data.symptomBehOther = document.getElementById("symptomBehOther").value;
-    // Verlauf/Schwere
     data.symptomCourse = getSelectValues("symptomCourseList");
-    data.symptomCourseOther = document.getElementById("symptomCourseOther").value;
-    // Komorbiditäten
     data.comorbidities = getSelectValues("comorbiditiesList");
-    data.comorbiditiesOther = document.getElementById("comorbiditiesOther").value;
-    // Subjektiver Leidensdruck
-    data.subjectiveDistress = document.getElementById("subjectiveDistressLevel").value;
+    const distressRadio = document.querySelector('input[name="subjectiveDistressLevel"]:checked');
+    data.subjectiveDistress = distressRadio ? distressRadio.value : "";
     data.subjectiveDistressNotes = document.getElementById("subjectiveDistressNotes").value;
 
     // Zusätzliche Angaben: Störungs- & Familienanamnese, Testdaten und Therapievariablen
     data.familyHistory = getSelectValues("familyHistoryList");
-    data.familyHistoryOther = document.getElementById("familyHistoryOther") ? document.getElementById("familyHistoryOther").value : "";
     data.firstOnset = document.getElementById("firstOnset") ? document.getElementById("firstOnset").value : "";
     data.courseDescription = document.getElementById("courseDescription") ? document.getElementById("courseDescription").value : "";
-    data.testBDI = document.getElementById("testBDI") ? document.getElementById("testBDI").value : "";
-    data.testBSI = document.getElementById("testBSI") ? document.getElementById("testBSI").value : "";
-    data.testINK = document.getElementById("testINK") ? document.getElementById("testINK").value : "";
-    data.testOther = document.getElementById("testOther") ? document.getElementById("testOther").value : "";
+    data.tests = [];
+    const testNames = document.querySelectorAll('input[name="testName[]"]');
+    const testValues = document.querySelectorAll('input[name="testValue[]"]');
+    const testTypes = document.querySelectorAll('input[name="testType[]"]');
+    testNames.forEach((tn, idx) => {
+      const name = tn.value.trim();
+      const value = testValues[idx] ? testValues[idx].value.trim() : "";
+      const type = testTypes[idx] ? testTypes[idx].value.trim() : "";
+      if (name || value || type) {
+        data.tests.push({ name, value, type });
+      }
+    });
     data.motivationLevel = document.getElementById("motivationLevel") ? document.getElementById("motivationLevel").value : "";
     data.introspectionAbility = document.getElementById("introspectionAbility") ? document.getElementById("introspectionAbility").value : "";
     data.empathyAbility = document.getElementById("empathyAbility") ? document.getElementById("empathyAbility").value : "";
@@ -242,6 +237,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       return values;
     }
+    function hasConflicts(d) {
+      const issues = [];
+      const social = d.socialNetwork || [];
+      if (social.includes('kein Freundeskreis') && (social.includes('kleiner Freundeskreis') || social.includes('mittlerer Freundeskreis') || social.includes('großer Freundeskreis'))) {
+        issues.push('Konflikt bei Freundeskreis-Angaben');
+      }
+      if (issues.length > 0) {
+        alert(issues.join('\n'));
+        return true;
+      }
+      return false;
+    }
     data.appearance = getSelectValues("appearance");
     data.behaviour = getSelectValues("behaviour");
     data.consciousness = document.getElementById("consciousness").value;
@@ -262,55 +269,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // Somatik
     data.consiliar = document.getElementById("consiliar").value;
     data.somaticConditions = getSelectValues("somaticConditions");
-    data.somaticOther = document.getElementById("somaticOther") ? document.getElementById("somaticOther").value : "";
     data.heightWeight = document.getElementById("heightWeight").value;
     data.substanceUse = getSelectValues("substanceUseList");
-    data.substanceUseOther = document.getElementById("substanceUseOther") ? document.getElementById("substanceUseOther").value : "";
     data.medication = getSelectValues("medicationList");
-    data.medicationOther = document.getElementById("medicationOther") ? document.getElementById("medicationOther").value : "";
     data.previousTreatments = getSelectValues("previousTreatmentsList");
-    data.previousTreatmentsOther = document.getElementById("previousTreatmentsOther") ? document.getElementById("previousTreatmentsOther").value : "";
     // Zusätzliche Details zum Konsum, pathologischen Befunden und bisherigen Psychotherapien
     data.substanceDetails = document.getElementById("substanceDetails") ? document.getElementById("substanceDetails").value : "";
     data.pathologicalFindings = document.getElementById("pathologicalFindings") ? document.getElementById("pathologicalFindings").value : "";
     data.previousPsychotherapyDetails = document.getElementById("previousPsychotherapyDetails") ? document.getElementById("previousPsychotherapyDetails").value : "";
     // Lebensgeschichte & funktionales Modell
     data.lifeInfluences = getSelectValues("lifeInfluences");
-    data.lifeInfluencesOther = document.getElementById("lifeInfluencesOther") ? document.getElementById("lifeInfluencesOther").value : "";
     data.predispositionsList = getSelectValues("predispositionsList");
-    data.predispositionsOther = document.getElementById("predispositionsOther") ? document.getElementById("predispositionsOther").value : "";
     data.triggersList = getSelectValues("triggersList");
-    data.triggersOther = document.getElementById("triggersOther") ? document.getElementById("triggersOther").value : "";
     data.maintenanceBehaviors = getSelectValues("maintenanceBehaviors");
-    data.maintenanceOther = document.getElementById("maintenanceOther") ? document.getElementById("maintenanceOther").value : "";
     data.resources = getSelectValues("resources");
-    data.resourcesOther = document.getElementById("resourcesOther") ? document.getElementById("resourcesOther").value : "";
     // SORKC Felder (dynamische Einträge)
     data.sorkcEntries = [];
-    const sorkcEntries = document.querySelectorAll("#sorkcContainer .sorkc-entry");
-    sorkcEntries.forEach((entry) => {
+    document.querySelectorAll("#sorkcContainer .sorkc-entry").forEach((entry) => {
       const situation = entry.querySelector(".sorkcSituation")?.value || "";
       const organism = entry.querySelector(".sorkcOrganism")?.value || "";
       const reaction = entry.querySelector(".sorkcReaction")?.value || "";
-      // Sammeln der angekreuzten Konsequenzarten
-      const shortCats = [];
-      entry.querySelectorAll(".sorkcConsequenceShort input[type='checkbox']:checked").forEach((cb) => {
-        shortCats.push(cb.value);
+      const short = [];
+      entry.querySelectorAll(".short-consequences .consequence-item").forEach((item) => {
+        const type = item.querySelector(".consequence-type")?.value || "";
+        const text = item.querySelector(".consequence-text")?.value || "";
+        if (type || text) short.push({ type: type, text: text });
       });
-      const shortText = entry.querySelector(".sorkcConsequenceShortText")?.value || "";
-      const longCats = [];
-      entry.querySelectorAll(".sorkcConsequenceLong input[type='checkbox']:checked").forEach((cb) => {
-        longCats.push(cb.value);
+      const long = [];
+      entry.querySelectorAll(".long-consequences .consequence-item").forEach((item) => {
+        const type = item.querySelector(".consequence-type")?.value || "";
+        const text = item.querySelector(".consequence-text")?.value || "";
+        if (type || text) long.push({ type: type, text: text });
       });
-      const longText = entry.querySelector(".sorkcConsequenceLongText")?.value || "";
       data.sorkcEntries.push({
         situation: situation,
         organism: organism,
         reaction: reaction,
-        shortCats: shortCats,
-        shortText: shortText,
-        longCats: longCats,
-        longText: longText
+        short: short,
+        long: long,
       });
     });
     // Zusätzliche Anamnesen und Störungsmodell (Step 5)
@@ -323,38 +319,35 @@ document.addEventListener("DOMContentLoaded", () => {
     data.familyBackground = document.getElementById("familyBackground") ? document.getElementById("familyBackground").value : "";
     // Diagnosen
     data.primaryDiagnosis = document.getElementById("primaryDiagnosisSelect").value;
-    data.primaryDiagnosisOther = document.getElementById("primaryDiagnosisOther") ? document.getElementById("primaryDiagnosisOther").value : "";
     data.primaryDiagnosisStatus = document.getElementById("primaryDiagnosisStatus") ? document.getElementById("primaryDiagnosisStatus").value : "";
     data.comorbidDiagnosis = getSelectValues("comorbidDiagnosisList");
-    data.comorbidDiagnosisOther = document.getElementById("comorbidDiagnosisOther") ? document.getElementById("comorbidDiagnosisOther").value : "";
     data.differentialDiagnosis = getSelectValues("differentialDiagnosisList");
-    data.differentialDiagnosisOther = document.getElementById("differentialDiagnosisOther") ? document.getElementById("differentialDiagnosisOther").value : "";
     data.diagnosisJustification = getSelectValues("diagnosisJustificationList");
-    data.diagnosisJustificationOther = document.getElementById("diagnosisJustificationOther") ? document.getElementById("diagnosisJustificationOther").value : "";
     // Weitere Angaben zu Diagnosen
     data.somaticDiagnoses = document.getElementById("somaticDiagnoses") ? document.getElementById("somaticDiagnoses").value : "";
     data.emotionalProblems = document.getElementById("emotionalProblems") ? document.getElementById("emotionalProblems").value : "";
     // Therapieplanung
     data.therapyGoals = getSelectValues("therapyGoalsList");
-    data.therapyGoalsOther = document.getElementById("therapyGoalsOther") ? document.getElementById("therapyGoalsOther").value : "";
     data.plannedInterventions = getSelectValues("plannedInterventionsList");
-    data.plannedInterventionsOther = document.getElementById("plannedInterventionsOther") ? document.getElementById("plannedInterventionsOther").value : "";
     data.therapyScope = document.getElementById("therapyScopeSelect").value;
-    data.therapyScopeOther = document.getElementById("therapyScopeOther") ? document.getElementById("therapyScopeOther").value : "";
     data.prognosisPositive = getSelectValues("prognosisPositive");
-    data.prognosisPositiveOther = document.getElementById("prognosisPositiveOther") ? document.getElementById("prognosisPositiveOther").value : "";
     data.prognosisNegative = getSelectValues("prognosisNegative");
-    data.prognosisNegativeOther = document.getElementById("prognosisNegativeOther") ? document.getElementById("prognosisNegativeOther").value : "";
     // Zusatz
     data.previousCourse = document.getElementById("previousCourse").value;
     data.updatedFindings = getSelectValues("updatedFindingsList");
-    data.updatedFindingsOther = document.getElementById("updatedFindingsOther") ? document.getElementById("updatedFindingsOther").value : "";
     data.justification = getSelectValues("justificationList");
-    data.justificationOther = document.getElementById("justificationOther") ? document.getElementById("justificationOther").value : "";
     data.changedGoals = getSelectValues("changedGoalsList");
-    data.changedGoalsOther = document.getElementById("changedGoalsOther") ? document.getElementById("changedGoalsOther").value : "";
     data.closingPlan = getSelectValues("closingPlanList");
-    data.closingPlanOther = document.getElementById("closingPlanOther") ? document.getElementById("closingPlanOther").value : "";
+
+    // Zusätzliche Freitextangaben aus dynamischen "Weitere"-Feldern sammeln
+    document.querySelectorAll('input[name$="Other[]"]').forEach((input) => {
+      const key = input.name.slice(0, -2);
+      if (!data[key]) data[key] = [];
+      if (input.value.trim()) data[key].push(input.value.trim());
+    });
+
+    if (hasConflicts(data)) return;
+
     // Bericht zusammenbauen
     // Hilfsfunktionen zum Kombinieren von Listen und "Weitere"-Feldern
     const joinList = (arr) => Array.isArray(arr) && arr.length > 0 ? arr.join(", ") : "";
@@ -363,7 +356,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (Array.isArray(arr) && arr.length > 0) {
         items.push(...arr);
       }
-      if (other && other.trim() !== "") {
+      if (Array.isArray(other)) {
+        other.forEach((o) => {
+          if (o && o.trim() !== "") items.push(o.trim());
+        });
+      } else if (other && typeof other === "string" && other.trim() !== "") {
         items.push(other.trim());
       }
       return items.length > 0 ? items.join(", ") : "";
@@ -397,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Finanzen
     if (data.financialSituation) {
       report += `Finanzielle Situation: ${data.financialSituation}`;
-      if (data.financialOther) report += ` (${data.financialOther})`;
+      if (data.financialOther && data.financialOther.length > 0) report += ` (${data.financialOther.join(", ")})`;
       report += "\n";
     }
     // Sozialer Freundeskreis & Freizeit
@@ -406,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.workHours) report += `Arbeitszeit/Bedingungen: ${data.workHours}\n`;
     if (data.vacationUsage) report += `Urlaubsnutzung: ${data.vacationUsage}\n`;
     if (data.disabilityPension) report += `GdB/Rentenbegehren: ${data.disabilityPension}\n`;
-    if (data.socialOther) report += `Weitere soziale Angaben: ${data.socialOther}\n`;
+    if (data.socialOther && data.socialOther.length > 0) report += `Weitere soziale Angaben: ${data.socialOther.join(", ")}\n`;
 
     // 2. Symptomatik und psychischer Befund
     report += "\n2. Symptomatik und psychischer Befund\n";
@@ -430,19 +427,22 @@ document.addEventListener("DOMContentLoaded", () => {
       report += "\n";
     }
     // Störungs- & Familienanamnese, Testdaten und Therapievariablen (falls vorhanden)
-    if (data.familyHistory || data.familyHistoryOther || data.firstOnset || data.courseDescription || data.testBDI || data.testBSI || data.testINK || data.testOther || data.familyBackground || data.motivationLevel || data.introspectionAbility || data.empathyAbility || data.illnessInsight || data.changeAbility) {
+    if (data.familyHistory || (data.familyHistoryOther && data.familyHistoryOther.length > 0) || data.firstOnset || data.courseDescription || (data.tests && data.tests.length > 0) || data.familyBackground || data.motivationLevel || data.introspectionAbility || data.empathyAbility || data.illnessInsight || data.changeAbility) {
       const familyHistStr = listWithOther(data.familyHistory, data.familyHistoryOther);
       if (familyHistStr) report += `Familienanamnese: ${familyHistStr}\n`;
       if (data.familyBackground) report += `Familienstruktur/Kindheit: ${data.familyBackground}\n`;
       if (data.firstOnset) report += `Beginn der Störung: ${data.firstOnset}\n`;
       if (data.courseDescription) report += `Verlauf & frühere Episoden: ${data.courseDescription}\n`;
       // Testdaten
-      const testParts = [];
-      if (data.testBDI) testParts.push(`BDI-II: ${data.testBDI}`);
-      if (data.testBSI) testParts.push(`BSI: ${data.testBSI}`);
-      if (data.testINK) testParts.push(`INK: ${data.testINK}`);
-      if (data.testOther) testParts.push(`Andere Tests: ${data.testOther}`);
-      if (testParts.length > 0) report += `Testwerte: ${testParts.join(", ")}\n`;
+      if (data.tests && data.tests.length > 0) {
+        const testParts = data.tests.map(t => {
+          let part = t.name || "Test";
+          if (t.value) part += `: ${t.value}`;
+          if (t.type) part += ` (${t.type})`;
+          return part;
+        });
+        report += `Testwerte: ${testParts.join(", ")}\n`;
+      }
       // Therapievariablen
       const tvars = [];
       if (data.motivationLevel) tvars.push(`Motivation: ${data.motivationLevel}`);
@@ -522,9 +522,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mehrere SORKC‑Einträge ausgeben
     if (Array.isArray(data.sorkcEntries) && data.sorkcEntries.length > 0) {
       data.sorkcEntries.forEach((entry, idx) => {
-        const shortCats = (Array.isArray(entry.shortCats) && entry.shortCats.length > 0) ? entry.shortCats.join(", ") : "-";
-        const longCats = (Array.isArray(entry.longCats) && entry.longCats.length > 0) ? entry.longCats.join(", ") : "-";
-        report += `Verhaltensanalyse (SORKC) – Situation ${idx + 1}: Situation: ${entry.situation || "-"}; Organismus: ${entry.organism || "-"}; Reaktion: ${entry.reaction || "-"}; Kurzfristige Konsequenzen (${shortCats}): ${entry.shortText || "-"}; Langfristige Konsequenzen (${longCats}): ${entry.longText || "-"}\n`;
+        const shortStr = (Array.isArray(entry.short) && entry.short.length > 0)
+          ? entry.short.map((c) => `${c.type}: ${c.text}`).join("; ")
+          : "-";
+        const longStr = (Array.isArray(entry.long) && entry.long.length > 0)
+          ? entry.long.map((c) => `${c.type}: ${c.text}`).join("; ")
+          : "-";
+        report += `Verhaltensanalyse (SORKC) – Situation ${idx + 1}: Situation: ${entry.situation || "-"}; Organismus: ${entry.organism || "-"}; Reaktion: ${entry.reaction || "-"}; Kurzfristige Konsequenzen: ${shortStr}; Langfristige Konsequenzen: ${longStr}\n`;
       });
     }
     // Verhaltensanalytische Problemdefinition (Störungsmodell)
@@ -538,10 +542,10 @@ document.addEventListener("DOMContentLoaded", () => {
     report += "\n5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung\n";
     // Primäre Diagnose
     let primaryDiag = "";
-    if (data.primaryDiagnosis === "Andere" && data.primaryDiagnosisOther) {
-      primaryDiag = data.primaryDiagnosisOther;
+    if (data.primaryDiagnosis === "Andere" && data.primaryDiagnosisOther && data.primaryDiagnosisOther.length > 0) {
+      primaryDiag = data.primaryDiagnosisOther[0];
     } else {
-      primaryDiag = data.primaryDiagnosis || data.primaryDiagnosisOther || "";
+      primaryDiag = data.primaryDiagnosis || (data.primaryDiagnosisOther && data.primaryDiagnosisOther[0]) || "";
     }
     if (primaryDiag) {
       report += `Primäre Diagnose: ${primaryDiag}`;
@@ -565,7 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (therapyGoalsStr) report += `Therapieziele: ${therapyGoalsStr}\n`;
     const interventionsStr = listWithOther(data.plannedInterventions, data.plannedInterventionsOther);
     if (interventionsStr) report += `Geplante Interventionen: ${interventionsStr}\n`;
-    const scopeStr = data.therapyScope || data.therapyScopeOther;
+    const scopeStr = data.therapyScope || (data.therapyScopeOther && data.therapyScopeOther.join(", "));
     if (scopeStr) report += `Beantragter Therapieumfang: ${scopeStr}\n`;
     // Prognose
     const progPosStr = listWithOther(data.prognosisPositive, data.prognosisPositiveOther);
@@ -606,44 +610,111 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   addNavHandlers();
-
-  // Handler zum Hinzufügen neuer SORKC‑Situationen
-  const addSorkcBtn = document.getElementById("addSorkc");
-  if (addSorkcBtn) {
-    addSorkcBtn.addEventListener("click", () => {
-      const container = document.getElementById("sorkcContainer");
-      if (!container) return;
-      // Ersten Eintrag als Vorlage klonen
-      const template = container.querySelector(".sorkc-entry");
-      if (!template) return;
-      const clone = template.cloneNode(true);
-      // Aktualisiere die Überschrift mit neuer Nummer
-      const count = container.querySelectorAll(".sorkc-entry").length + 1;
-      const heading = clone.querySelector("h3");
-      if (heading) heading.textContent = `SORKC‑Situation ${count}`;
-      // Leere alle Input‑ und Textareas sowie Checkboxen im Klon
-      clone.querySelectorAll('textarea').forEach((ta) => { ta.value = ""; });
-      clone.querySelectorAll('input[type="checkbox"]').forEach((cb) => { cb.checked = false; });
-      container.appendChild(clone);
-      // Reinitialisieren der Checkbox‑Darstellung (damit visuell richtig markiert wird)
-      setupCheckboxLabels();
+  const addTestBtn = document.getElementById("addTest");
+  if (addTestBtn) {
+    addTestBtn.addEventListener("click", () => {
+      const tbody = document.querySelector("#testTable tbody");
+      if (!tbody) return;
+      const row = document.createElement("tr");
+      row.classList.add("test-row");
+      row.innerHTML = '<td><input type="text" name="testName[]" /></td>' +
+                      '<td><input type="number" name="testValue[]" step="any" /></td>' +
+                      '<td><input type="text" name="testType[]" /></td>';
+      tbody.appendChild(row);
     });
   }
-  // Nachdem die Navigation eingerichtet ist, initialisieren wir die Checkbox‑Labels.
-  // Jede Checkbox innerhalb einer `.checkbox-group` erhält einen Click‑Listener, der
-  // die Klasse `.checked` am zugehörigen Label setzt oder entfernt. Dies sorgt für
-  // eine visuelle Rückmeldung (Invertierung der Farbe) bei Auswahl.
-  function setupCheckboxLabels() {
-    const checkboxInputs = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
-    checkboxInputs.forEach((cb) => {
-      const label = cb.parentElement;
-      // Initialstatus setzen
-      if (cb.checked) {
+
+  function createConsequenceItem() {
+    const div = document.createElement('div');
+    div.className = 'consequence-item';
+    div.innerHTML = `<select class="consequence-type">
+        <option value="">– Art wählen –</option>
+        <option value="C+">C+</option>
+        <option value="C-">C-</option>
+        <option value="C+/">C+/</option>
+        <option value="C-/">C-/</option>
+      </select>
+      <input type="text" class="consequence-text" placeholder="Beschreibung" />`;
+    return div;
+  }
+
+  function setupSorkcConsequences(entry) {
+    const shortContainer = entry.querySelector('.short-consequences');
+    const addShort = entry.querySelector('.add-short-consequence');
+    if (shortContainer && addShort) {
+      addShort.addEventListener('click', () => {
+        shortContainer.appendChild(createConsequenceItem());
+      });
+    }
+    const longContainer = entry.querySelector('.long-consequences');
+    const addLong = entry.querySelector('.add-long-consequence');
+    if (longContainer && addLong) {
+      addLong.addEventListener('click', () => {
+        longContainer.appendChild(createConsequenceItem());
+      });
+    }
+  }
+
+  const sorkcContainer = document.getElementById('sorkcContainer');
+  const sorkcTemplateHTML = sorkcContainer ? sorkcContainer.querySelector('.sorkc-entry').outerHTML : '';
+  if (sorkcContainer) {
+    const firstEntry = sorkcContainer.querySelector('.sorkc-entry');
+    if (firstEntry) setupSorkcConsequences(firstEntry);
+  }
+
+  // Handler zum Hinzufügen neuer SORKC‑Situationen
+  const addSorkcBtn = document.getElementById('addSorkc');
+  if (addSorkcBtn) {
+    addSorkcBtn.addEventListener('click', () => {
+      if (!sorkcContainer) return;
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = sorkcTemplateHTML;
+      const clone = wrapper.firstElementChild;
+      const count = sorkcContainer.querySelectorAll('.sorkc-entry').length + 1;
+      const heading = clone.querySelector('h3');
+      if (heading) heading.textContent = `SORKC‑Situation ${count}`;
+      sorkcContainer.appendChild(clone);
+      setupSorkcConsequences(clone);
+    });
+  }
+
+  function setupDynamicOtherFields() {
+    document.querySelectorAll('input[id$="Other"]').forEach((input) => {
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('additional-inputs');
+      input.parentNode.insertBefore(wrapper, input);
+      wrapper.appendChild(input);
+      input.name = input.id + '[]';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'secondary-btn add-more';
+      btn.textContent = 'Weiteren Eintrag hinzufügen';
+      btn.addEventListener('click', () => {
+        const clone = input.cloneNode();
+        clone.value = '';
+        clone.id = '';
+        clone.name = input.name;
+        wrapper.appendChild(clone);
+      });
+      wrapper.parentNode.insertBefore(btn, wrapper.nextSibling);
+    });
+  }
+  setupDynamicOtherFields();
+  // Initialisiert Checkbox- und Radio-Labels für visuelles Feedback
+  function setupSelectableLabels() {
+    const inputs = document.querySelectorAll('.checkbox-group input[type="checkbox"], .radio-group input[type="radio"]');
+    inputs.forEach((inp) => {
+      const label = inp.parentElement;
+      if (inp.checked) {
         label.classList.add('checked');
       }
-      // Bei Änderung Klasse toggeln
-      cb.addEventListener('change', () => {
-        if (cb.checked) {
+      inp.addEventListener('change', () => {
+        if (inp.type === 'radio') {
+          document.querySelectorAll(`input[name="${inp.name}"]`).forEach((r) => {
+            if (r.parentElement) r.parentElement.classList.remove('checked');
+          });
+        }
+        if (inp.checked) {
           label.classList.add('checked');
         } else {
           label.classList.remove('checked');
@@ -651,7 +722,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-  setupCheckboxLabels();
+  setupSelectableLabels();
 
   // Dark/Light‑Modus Umschalter
   const themeToggleBtn = document.getElementById("themeToggle");
