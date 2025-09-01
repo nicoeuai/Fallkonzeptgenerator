@@ -15,8 +15,8 @@
   /* Basisfarben im Light‑Modus */
   /* Light‑Mode Farbschema */
   --primary-color: #1e3a8a;     /* dunkles Blau für Header/Hintergrund im Light‑Modus */
-  --accent-color: #2563eb;      /* kräftiges Blau als Akzentfarbe im Light‑Modus */
-  --accent-hover-color: #1d4ed8;/* dunklere Variante für Hover-Effekte */
+  --accent-color: #0d6efd;      /* klares Blau als Akzentfarbe im Light‑Modus */
+  --accent-hover-color: #0a58ca;/* dunklere Variante für Hover-Effekte */
   --secondary-color: #f4f6f8;   /* sehr helles Grau als Seitenhintergrund */
   --surface-color: #ffffff;     /* Karten und Formularflächen */
   --text-color: #04101a;        /* sehr dunkles Blau als Primärtextfarbe */
@@ -89,9 +89,9 @@ body {
   color: var(--on-primary-color);
 }
 
-/* Navigations-Titel im Dunkelmodus heller darstellen */
+/* Titel im Dunkelmodus in Primärfarbe halten */
 body.dark-mode .navbar-title {
-  color: var(--accent-color);
+  color: var(--on-primary-color);
 }
 .nav-right {
   display: flex;
@@ -140,6 +140,22 @@ body.dark-mode .navbar-title {
 .login-btn:hover {
   background-color: var(--accent-hover-color);
   color: var(--on-accent-color);
+}
+
+/* Weniger Gold im Header des Dunkelmodus */
+body.dark-mode .lang-btn,
+body.dark-mode .theme-toggle,
+body.dark-mode .menu-toggle {
+  color: var(--subtext-color);
+  border-color: var(--subtext-color);
+}
+
+body.dark-mode .lang-btn:hover,
+body.dark-mode .theme-toggle:hover,
+body.dark-mode .menu-toggle:hover {
+  background-color: var(--accent-color);
+  color: var(--on-accent-color);
+  border-color: var(--accent-color);
 }
 
 /* Hamburger‑Menü */
@@ -329,8 +345,20 @@ body.dark-mode .navbar-title {
 .input-group select:focus,
 .input-group textarea:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
   outline: none;
+}
+
+.input-group select {
+  color: var(--text-color);
+}
+
+.input-group select option {
+  color: var(--text-color);
+}
+
+.input-group select option[disabled] {
+  color: var(--subtext-color);
 }
 
 .input-group textarea {
