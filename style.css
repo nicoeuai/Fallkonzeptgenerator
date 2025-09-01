@@ -462,20 +462,21 @@ body.dark-mode .menu-toggle:hover {
   cursor: pointer;
   list-style: none;
   position: relative;
-  padding-left: 1.3rem;
+  padding: 0.4rem 0.8rem 0.4rem 1.6rem;
   margin-bottom: 0.5rem;
 }
 .details-group summary::before {
-  content: "▸";
+  content: "+";
   position: absolute;
   left: 0;
-  top: 2px;
-  font-size: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.1rem;
   line-height: 1;
-  transition: transform 0.2s ease;
+  transition: color 0.2s ease;
 }
 .details-group[open] summary::before {
-  transform: rotate(90deg);
+  content: "−";
 }
 
 /* Conditional note styling */
@@ -515,8 +516,12 @@ body.dark-mode .menu-toggle:hover {
   flex-wrap: wrap;
   list-style: none;
   gap: 0.5rem;
-  margin-bottom: 1rem;
-  padding: 0;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--surface-color);
 }
 .step-nav li {
   padding: 0.35rem 0.8rem;
@@ -531,10 +536,54 @@ body.dark-mode .menu-toggle:hover {
   background-color: var(--accent-color);
   color: var(--on-accent-color);
 }
+#progressBar {
+  height: 4px;
+  width: 100%;
+  background-color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+#progress {
+  height: 100%;
+  width: 0%;
+  background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
 .diagnosis-item {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+label.required::after {
+  content: " *";
+  color: #d00;
+}
+
+.info-icon {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.25rem;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  color: var(--on-accent-color);
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1rem;
+  cursor: help;
+}
+
+.site-footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--subtext-color);
+}
+.privacy-note {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.4;
 }
 .diagnosis-item .remove-diagnosis {
   background-color: var(--accent-color);

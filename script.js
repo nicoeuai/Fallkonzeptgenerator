@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const steps = document.querySelectorAll(".form-step");
   const navItems = document.querySelectorAll("#stepNav li");
   let currentStep = 0;
+  const progressEl = document.getElementById("progress");
+  const totalSteps = steps.length - 1;
 
   // Geschlechtsauswahl: zeigt optionales Textfeld bei Auswahl "selbst angegeben"
   const genderSelect = document.getElementById("patientGender");
@@ -61,6 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
       navItems.forEach((nav) => {
         nav.classList.toggle("active", parseInt(nav.dataset.step, 10) === stepIndex);
       });
+      if (progressEl) {
+        const percent = (stepIndex / totalSteps) * 100;
+        progressEl.style.width = `${percent}%`;
+      }
       if (stepIndex === 9) {
         compileReport();
       }
