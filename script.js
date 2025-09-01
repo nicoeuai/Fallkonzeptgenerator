@@ -285,7 +285,34 @@ document.addEventListener("DOMContentLoaded", () => {
     data.maintenanceOther = document.getElementById("maintenanceOther") ? document.getElementById("maintenanceOther").value : "";
     data.resources = getSelectValues("resources");
     data.resourcesOther = document.getElementById("resourcesOther") ? document.getElementById("resourcesOther").value : "";
-    data.sorkc = document.getElementById("sorkc").value;
+    // SORKC Felder (dynamische Einträge)
+    data.sorkcEntries = [];
+    const sorkcEntries = document.querySelectorAll("#sorkcContainer .sorkc-entry");
+    sorkcEntries.forEach((entry) => {
+      const situation = entry.querySelector(".sorkcSituation")?.value || "";
+      const organism = entry.querySelector(".sorkcOrganism")?.value || "";
+      const reaction = entry.querySelector(".sorkcReaction")?.value || "";
+      // Sammeln der angekreuzten Konsequenzarten
+      const shortCats = [];
+      entry.querySelectorAll(".sorkcConsequenceShort input[type='checkbox']:checked").forEach((cb) => {
+        shortCats.push(cb.value);
+      });
+      const shortText = entry.querySelector(".sorkcConsequenceShortText")?.value || "";
+      const longCats = [];
+      entry.querySelectorAll(".sorkcConsequenceLong input[type='checkbox']:checked").forEach((cb) => {
+        longCats.push(cb.value);
+      });
+      const longText = entry.querySelector(".sorkcConsequenceLongText")?.value || "";
+      data.sorkcEntries.push({
+        situation: situation,
+        organism: organism,
+        reaction: reaction,
+        shortCats: shortCats,
+        shortText: shortText,
+        longCats: longCats,
+        longText: longText
+      });
+    });
     // Zusätzliche Anamnesen und Störungsmodell (Step 5)
     data.schoolHistory = document.getElementById("schoolHistory") ? document.getElementById("schoolHistory").value : "";
     data.illnessHistory = document.getElementById("illnessHistory") ? document.getElementById("illnessHistory").value : "";
@@ -474,20 +501,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Behandlungsrelevante Angaben zur Lebensgeschichte, zur Krankheitsanamnese, zum funktionalen Bedingungsmodell
     report += "\n4. Behandlungsrelevante Angaben zur Lebensgeschichte, zur Krankheitsanamnese, zum funktionalen Bedingungsmodell\n";
     const lifeInfStr = listWithOther(data.lifeInfluences, data.lifeInfluencesOther);
-    if (lifeInfStr) report += `Lebensgeschichtliche Einflüsse: ${lifeInfStr}\n`;
+    if (lifeInfStr) {
+      report += `Lebensgeschichtliche Einflüsse: ${lifeInfStr}. Diese Einflüsse bilden den Hintergrund der geschilderten Symptomatik.\n`;
+    }
     const familyBg = data.familyBackground;
     if (familyBg) report += `Familienstruktur & prägende Erfahrungen: ${familyBg}\n`;
     const predisStr = listWithOther(data.predispositionsList, data.predispositionsOther);
     if (predisStr) report += `Prädispositionen / langfristige Faktoren: ${predisStr}\n`;
     const triggersStr = listWithOther(data.triggersList, data.triggersOther);
-    if (triggersStr) report += `Auslösende Bedingungen: ${triggersStr}\n`;
+    if (triggersStr) {
+      report += `Auslösende Bedingungen: ${triggersStr}. Diese Ereignisse stehen im zeitlichen Zusammenhang mit der Symptomatik.\n`;
+    }
     const maintStr = listWithOther(data.maintenanceBehaviors, data.maintenanceOther);
     if (maintStr) report += `Aufrechterhaltende Bedingungen: ${maintStr}\n`;
     const resourcesStr = listWithOther(data.resources, data.resourcesOther);
     if (resourcesStr) report += `Ressourcen/Stärken: ${resourcesStr}\n`;
     if (data.schoolHistory) report += `Schulische Anamnese: ${data.schoolHistory}\n`;
     if (data.illnessHistory) report += `Krankheitsanamnese: ${data.illnessHistory}\n`;
-    if (data.sorkc) report += `Verhaltensanalyse (SORKC): ${data.sorkc}\n`;
+    // SORKC zusammenstellen
+    // Mehrere SORKC‑Einträge ausgeben
+    if (Array.isArray(data.sorkcEntries) && data.sorkcEntries.length > 0) {
+      data.sorkcEntries.forEach((entry, idx) => {
+        const shortCats = (Array.isArray(entry.shortCats) && entry.shortCats.length > 0) ? entry.shortCats.join(", ") : "-";
+        const longCats = (Array.isArray(entry.longCats) && entry.longCats.length > 0) ? entry.longCats.join(", ") : "-";
+        report += `Verhaltensanalyse (SORKC) – Situation ${idx + 1}: Situation: ${entry.situation || "-"}; Organismus: ${entry.organism || "-"}; Reaktion: ${entry.reaction || "-"}; Kurzfristige Konsequenzen (${shortCats}): ${entry.shortText || "-"}; Langfristige Konsequenzen (${longCats}): ${entry.longText || "-"}\n`;
+      });
+    }
     // Verhaltensanalytische Problemdefinition (Störungsmodell)
     if (data.modelPredisposing || data.modelTrigger || data.modelMaintaining) {
       report += `Störungsmodell – Prädisponierende Faktoren: ${data.modelPredisposing || "-"}\n`;
@@ -568,6 +607,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addNavHandlers();
 
+  // Handler zum Hinzufügen neuer SORKC‑Situationen
+  const addSorkcBtn = document.getElementById("addSorkc");
+  if (addSorkcBtn) {
+    addSorkcBtn.addEventListener("click", () => {
+      const container = document.getElementById("sorkcContainer");
+      if (!container) return;
+      // Ersten Eintrag als Vorlage klonen
+      const template = container.querySelector(".sorkc-entry");
+      if (!template) return;
+      const clone = template.cloneNode(true);
+      // Aktualisiere die Überschrift mit neuer Nummer
+      const count = container.querySelectorAll(".sorkc-entry").length + 1;
+      const heading = clone.querySelector("h3");
+      if (heading) heading.textContent = `SORKC‑Situation ${count}`;
+      // Leere alle Input‑ und Textareas sowie Checkboxen im Klon
+      clone.querySelectorAll('textarea').forEach((ta) => { ta.value = ""; });
+      clone.querySelectorAll('input[type="checkbox"]').forEach((cb) => { cb.checked = false; });
+      container.appendChild(clone);
+      // Reinitialisieren der Checkbox‑Darstellung (damit visuell richtig markiert wird)
+      setupCheckboxLabels();
+    });
+  }
   // Nachdem die Navigation eingerichtet ist, initialisieren wir die Checkbox‑Labels.
   // Jede Checkbox innerhalb einer `.checkbox-group` erhält einen Click‑Listener, der
   // die Klasse `.checked` am zugehörigen Label setzt oder entfernt. Dies sorgt für

@@ -13,19 +13,20 @@
 /* Farbschema angepasst an den EUAIDITOR‑Dark/Light‑Modus */
 :root {
   /* Basisfarben im Light‑Modus */
-  --primary-color: #0d2739;     /* dunkles Blau für Header/Hintergrund */
-  --accent-color: #aea27a;      /* warmes Beige als Akzentfarbe */
-  --secondary-color: #f3f5f6;   /* sehr helles Grau als Seitenhintergrund */
+  /* Light‑Mode Farbschema */
+  --primary-color: #254d60;     /* gedämpftes Blau für Header/Hintergrund im Light‑Modus */
+  --accent-color: #bfa96b;      /* warmes Gold‑Beige als Akzentfarbe im Light‑Modus */
+  --secondary-color: #f4f6f8;   /* sehr helles Grau als Seitenhintergrund */
   --surface-color: #ffffff;     /* Karten und Formularflächen */
   --text-color: #04101a;        /* sehr dunkles Blau als Primärtextfarbe */
-  --subtext-color: #254d60;     /* mittleres Blau (Blue Dianne) für Untertexte */
+  --subtext-color: #254d60;     /* mittleres Blau für Untertexte */
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Dunkler Modus: überschreibt die Variablen für eine dunkle Oberfläche */
 body.dark-mode {
   --primary-color: #062032;     /* sehr dunkles Blau für Header/Hintergrund */
-  --accent-color: #aea27a;      /* Akzent bleibt gleich */
+  --accent-color: #bfa96b;      /* Akzentfarbe im Dunkelmodus (leicht goldener Ton) */
   --secondary-color: #04101a;   /* tiefes Dunkelblau als Seitenhintergrund */
   --surface-color: #0b1c29;     /* dunkle Karte */
   --text-color: #ffffff;        /* weißer Primärtext */

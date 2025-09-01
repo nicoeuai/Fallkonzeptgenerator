@@ -6,7 +6,7 @@
   <title>Bericht‑Generator für Psychotherapie‑Anträge</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="dark-mode">
+<body>
   <!-- Navigationsleiste und Hero‑Section -->
   <header class="navbar">
     <div class="nav-left">
@@ -781,11 +781,45 @@
           </div>
           <input type="text" id="resourcesOther" name="resourcesOther" placeholder="Weitere (optional)" />
         </div>
-        <!-- SORKC -->
-        <div class="input-group">
-          <label for="sorkc">Verhaltensanalyse (SORKC‑Schema oder typische Situation)</label>
-          <textarea id="sorkc" name="sorkc" rows="3"></textarea>
+        <!-- SORKC‑Situationen (dynamisch) -->
+        <div id="sorkcContainer">
+          <div class="sorkc-entry">
+            <h3>SORKC‑Situation 1</h3>
+            <div class="input-group">
+              <label>SORKC – Situation (S)</label>
+              <textarea class="sorkcSituation" rows="2" placeholder="Beschreiben Sie die auslösende Situation"></textarea>
+            </div>
+            <div class="input-group">
+              <label>SORKC – Organismus (O)</label>
+              <textarea class="sorkcOrganism" rows="3" placeholder="Gedanken, Gefühle, körperliche Empfindungen"></textarea>
+            </div>
+            <div class="input-group">
+              <label>SORKC – Reaktion (R)</label>
+              <textarea class="sorkcReaction" rows="2" placeholder="Beobachtetes Verhalten"></textarea>
+            </div>
+            <div class="input-group">
+              <label>SORKC – Konsequenzen kurzzeitig (K)</label>
+              <div class="checkbox-group sorkcConsequenceShort">
+                <label><input type="checkbox" value="C+"> C+</label>
+                <label><input type="checkbox" value="C-"> C-</label>
+                <label><input type="checkbox" value="C+/"> C+/</label>
+                <label><input type="checkbox" value="C-/"> C-/</label>
+              </div>
+              <textarea class="sorkcConsequenceShortText" rows="2" placeholder="Beschreibung der kurzfristigen Konsequenzen"></textarea>
+            </div>
+            <div class="input-group">
+              <label>SORKC – Konsequenzen langfristig</label>
+              <div class="checkbox-group sorkcConsequenceLong">
+                <label><input type="checkbox" value="C+"> C+</label>
+                <label><input type="checkbox" value="C-"> C-</label>
+                <label><input type="checkbox" value="C+/"> C+/</label>
+                <label><input type="checkbox" value="C-/"> C-/</label>
+              </div>
+              <textarea class="sorkcConsequenceLongText" rows="2" placeholder="Beschreibung der langfristigen Konsequenzen"></textarea>
+            </div>
+          </div>
         </div>
+        <button type="button" class="secondary-btn" id="addSorkc">Weitere Situation hinzufügen</button>
 
         <!-- Schulische Anamnese -->
         <div class="input-group">
