@@ -624,15 +624,26 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bericht herunterladen
   function downloadReport() {
     const text = document.getElementById("reportOutput").value;
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "bericht.txt";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    const formatEl = document.getElementById("exportFormat");
+    const format = formatEl ? formatEl.value : "pdf";
+    if (format === "pdf") {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const lines = doc.splitTextToSize(text, 180);
+      doc.text(lines, 10, 10);
+      doc.save("bericht.pdf");
+    } else if (format === "word") {
+      const content = `<html><head><meta charset="utf-8"></head><body><pre>${text}</pre></body></html>`;
+      const blob = new Blob(["\ufeff", content], { type: "application/msword" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "bericht.doc";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
   }
 
   addNavHandlers();

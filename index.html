@@ -1264,11 +1264,18 @@
       <!-- Step 9: Zusammenfassung & Report -->
       <div class="form-step" data-step="9">
         <h2>9. Zusammenfassung</h2>
-        <p>Im folgenden Feld sehen Sie Ihren generierten Bericht. Sie können diesen kopieren oder als Textdatei herunterladen.</p>
+        <p>Im folgenden Feld sehen Sie Ihren generierten Bericht. Sie können ihn als PDF‑ oder Word‑Datei herunterladen.</p>
         <textarea id="reportOutput" readonly rows="20"></textarea>
+        <div class="download-controls">
+          <label for="exportFormat">Exportformat:</label>
+          <select id="exportFormat">
+            <option value="pdf">PDF</option>
+            <option value="word">Word</option>
+          </select>
+          <button type="button" class="primary-btn" id="downloadReport">Herunterladen</button>
+        </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev9">Zurück</button>
-          <button type="button" class="primary-btn" id="downloadReport">Herunterladen</button>
         </div>
       </div>
     </form>
@@ -1280,6 +1287,7 @@
       gesicherten Geräten und beachten Sie die geltenden Datenschutzrichtlinien (DSGVO).
     </p>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

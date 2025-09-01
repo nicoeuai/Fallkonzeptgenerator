@@ -379,6 +379,13 @@ body.dark-mode .menu-toggle:hover {
   margin-top: 2rem;
 }
 
+.download-controls {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /*
   Gruppe von Checkboxen für übersichtliche Mehrfachauswahl.
   Die Checkboxen werden als pill‑förmige Schaltflächen dargestellt, um die Auswahl
