@@ -509,3 +509,38 @@ body.dark-mode .menu-toggle:hover {
     font-size: 0.9rem;
   }
 }
+/* Step navigation */
+.step-nav {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+.step-nav li {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: var(--surface-color);
+  color: var(--accent-color);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.step-nav li.active {
+  background-color: var(--accent-color);
+  color: var(--on-accent-color);
+}
+.diagnosis-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.diagnosis-item .remove-diagnosis {
+  background-color: var(--accent-color);
+  color: var(--on-accent-color);
+  border: none;
+  border-radius: 4px;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}

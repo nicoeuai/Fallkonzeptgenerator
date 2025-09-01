@@ -29,6 +29,18 @@
 
   <!-- Multi‑step form container; initially hidden -->
   <section id="formContainer" class="form-container hidden">
+    <ul id="stepNav" class="step-nav">
+      <li data-step="0" class="active">Antrag</li>
+      <li data-step="1">Soziodemographie</li>
+      <li data-step="2">Symptomatik</li>
+      <li data-step="3">Befund</li>
+      <li data-step="4">Störungsmodell</li>
+      <li data-step="5">Anamnese</li>
+      <li data-step="6">Diagnosen</li>
+      <li data-step="7">Behandlungsplan</li>
+      <li data-step="8">Zusatz</li>
+      <li data-step="9">Zusammenfassung</li>
+    </ul>
     <form id="reportForm">
       <!-- Step 0: Auswahl des Antragstyps -->
       <div class="form-step" data-step="0">
@@ -872,88 +884,19 @@
         <h2>6. Diagnosen</h2>
         <!-- Primäre Diagnose -->
         <div class="input-group">
-          <label for="primaryDiagnosisSelect">Primäre Diagnose (ICD‑Code und Bezeichnung)</label>
-          <select id="primaryDiagnosisSelect" name="primaryDiagnosisSelect">
-            <option value="">– Bitte wählen –</option>
-            <option value="F32 Depressive Episode">F32 Depressive Episode</option>
-            <option value="F33 Rezidivierende depressive Störung">F33 Rezidivierende depressive Störung</option>
-            <option value="F34.1 Dysthymia">F34.1 Dysthymia</option>
-            <option value="F41.0 Panikstörung">F41.0 Panikstörung</option>
-            <option value="F41.1 Generalisierte Angststörung">F41.1 Generalisierte Angststörung</option>
-            <option value="F40.1 Soziale Phobie">F40.1 Soziale Phobie</option>
-            <option value="F45.0 Somatisierungsstörung">F45.0 Somatisierungsstörung</option>
-            <option value="F60.31 Borderline-Persönlichkeitsstörung">F60.31 Borderline-Persönlichkeitsstörung</option>
-            <option value="F84.5 Asperger-Syndrom">F84.5 Asperger-Syndrom</option>
-            <option value="F90.0 Hyperkinetische Störung (ADHS)">F90.0 Hyperkinetische Störung (ADHS)</option>
-            <option value="Andere">Andere (bitte unten angeben)</option>
-          </select>
-          <input type="text" id="primaryDiagnosisOther" name="primaryDiagnosisOther" placeholder="Falls 'Andere', ICD‑Code und Bezeichnung eintragen" />
-        </div>
-        <!-- Status der primären Diagnose -->
-        <div class="input-group">
-          <label for="primaryDiagnosisStatus">Status der primären Diagnose</label>
-          <select id="primaryDiagnosisStatus" name="primaryDiagnosisStatus">
-            <option value="">– Bitte wählen –</option>
-            <option value="gesichert">Gesichert (G)</option>
-            <option value="Verdacht">Verdachtsdiagnose (V)</option>
-            <option value="Ausschluss">Ausschluss (A)</option>
-          </select>
+          <label for="primaryDiagnosis">Primäre Diagnose</label>
+          <input type="text" id="primaryDiagnosis" list="diagnosisOptions" placeholder="Diagnose suchen oder eintragen" />
         </div>
         <!-- Weitere Diagnosen -->
         <div class="input-group">
-          <label for="comorbidDiagnosisList">Weitere Diagnosen / Komorbiditäten</label>
-          <div class="checkbox-group" id="comorbidDiagnosisList">
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="keine weiteren Diagnosen"> keine weiteren Diagnosen</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F32 Depressive Episode"> F32 Depressive Episode</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F33 Rezidivierende depressive Störung"> F33 Rezidivierende depressive Störung</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F34.1 Dysthymia"> F34.1 Dysthymia</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F41.0 Panikstörung"> F41.0 Panikstörung</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F41.1 Generalisierte Angststörung"> F41.1 Generalisierte Angststörung</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F40.1 Soziale Phobie"> F40.1 Soziale Phobie</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F45.0 Somatisierungsstörung"> F45.0 Somatisierungsstörung</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F60.31 Borderline-Persönlichkeitsstörung"> F60.31 Borderline‑Persönlichkeitsstörung</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F84.5 Asperger-Syndrom"> F84.5 Asperger‑Syndrom</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="F90.0 Hyperkinetische Störung (ADHS)"> F90.0 Hyperkinetische Störung (ADHS)</label>
-            <label><input type="checkbox" name="comorbidDiagnosisList" value="Andere"> Andere</label>
-          </div>
-          <input type="text" id="comorbidDiagnosisOther" name="comorbidDiagnosisOther" placeholder="Weitere Diagnosen (optional)" />
+          <label>Weitere Diagnosen</label>
+          <div id="additionalDiagnoses"></div>
+          <button type="button" class="secondary-btn" id="addDiagnosis">Diagnose hinzufügen</button>
         </div>
-        <!-- Differentialdiagnosen -->
-        <div class="input-group">
-          <label for="differentialDiagnosisList">Differentialdiagnosen</label>
-          <div class="checkbox-group" id="differentialDiagnosisList">
-            <label><input type="checkbox" name="differentialDiagnosisList" value="keine"> keine</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="Organische Erkrankung ausgeschlossen"> Organische Erkrankung ausgeschlossen</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="Psychotische Störung"> Psychotische Störung</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="Bipolare Störung"> Bipolare Störung</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="Demenz"> Demenz</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="ADHS"> ADHS</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="Substanzbedingte Störung"> Substanzbedingte Störung</label>
-            <label><input type="checkbox" name="differentialDiagnosisList" value="Andere"> Andere</label>
-          </div>
-          <input type="text" id="differentialDiagnosisOther" name="differentialDiagnosisOther" placeholder="Weitere Differentialdiagnosen (optional)" />
-        </div>
-        <!-- Begründung -->
-        <div class="input-group">
-          <label for="diagnosisJustificationList">Begründung der Diagnose(n)</label>
-          <div class="checkbox-group" id="diagnosisJustificationList">
-            <label><input type="checkbox" name="diagnosisJustificationList" value="Symptome erfüllen Diagnosekriterien"> Symptome erfüllen Diagnosekriterien</label>
-            <label><input type="checkbox" name="diagnosisJustificationList" value="Erheblicher Leidensdruck"> Erheblicher Leidensdruck</label>
-            <label><input type="checkbox" name="diagnosisJustificationList" value="Beeinträchtigung der sozialen/beruflichen Funktionsfähigkeit"> Beeinträchtigung der sozialen/beruflichen Funktionsfähigkeit</label>
-            <label><input type="checkbox" name="diagnosisJustificationList" value="Komorbiditäten berücksichtigt"> Komorbiditäten berücksichtigt</label>
-            <label><input type="checkbox" name="diagnosisJustificationList" value="Keine organische Ursache"> Keine organische Ursache</label>
-          </div>
-          <input type="text" id="diagnosisJustificationOther" name="diagnosisJustificationOther" placeholder="Weitere Begründungen (optional)" />
-        </div>
-
-        <!-- Weitere Angaben zu Diagnosen -->
+        <!-- Somatische Diagnosen -->
         <div class="input-group">
           <label for="somaticDiagnoses">Somatische Diagnosen (Klartext, optional)</label>
           <textarea id="somaticDiagnoses" name="somaticDiagnoses" rows="2"></textarea>
-        </div>
-        <div class="input-group">
-          <label for="emotionalProblems">Emotionale Probleme / Kernprobleme (optional)</label>
-          <textarea id="emotionalProblems" name="emotionalProblems" rows="2"></textarea>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev6">Zurück</button>
@@ -961,7 +904,20 @@
         </div>
       </div>
 
-      <!-- Step 7: Behandlungsplan und Prognose -->
+        <datalist id="diagnosisOptions">
+          <option value="F32 Depressive Episode"></option>
+          <option value="F33 Rezidivierende depressive Störung"></option>
+          <option value="F34.1 Dysthymia"></option>
+          <option value="F41.0 Panikstörung"></option>
+          <option value="F41.1 Generalisierte Angststörung"></option>
+          <option value="F40.1 Soziale Phobie"></option>
+          <option value="F45.0 Somatisierungsstörung"></option>
+          <option value="F60.31 Borderline-Persönlichkeitsstörung"></option>
+          <option value="F84.5 Asperger-Syndrom"></option>
+          <option value="F90.0 Hyperkinetische Störung (ADHS)"></option>
+        </datalist>
+
+        <!-- Step 7: Behandlungsplan und Prognose -->
       <div class="form-step" data-step="7">
         <h2>7. Behandlungsplan und Prognose</h2>
         <!-- Therapieziele -->
