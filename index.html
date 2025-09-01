@@ -7,21 +7,25 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <h1 class="site-title">Psychotherapie‑Bericht Generator</h1>
-    <p class="site-subtitle">Erstellen Sie strukturiert Berichte nach PTV 3</p>
+  <!-- Navigationsleiste und Hero‑Section -->
+  <header class="navbar">
+    <div class="nav-left">
+      <button class="menu-toggle" title="Menü öffnen">☰</button>
+      <div class="logo-placeholder"></div>
+      <span class="navbar-title">Psychotherapie‑Bericht Generator</span>
+    </div>
+    <div class="nav-right">
+      <button class="lang-btn">EN</button>
+      <button id="themeToggle" class="theme-toggle" title="Dark/Light Mode wechseln">🌙</button>
+      <button class="login-btn">Login</button>
+    </div>
   </header>
-
-  <!-- Intro section with start button -->
-  <section id="intro" class="intro-section">
-    <h2>Herzlich willkommen!</h2>
-    <p>
-      Mit diesem Tool können Sie einen strukturierten Bericht für
-      Erst‑, Umwandlungs‑ oder Fortführungsanträge erstellen. Die
-      Eingabemaske führt Sie Schritt für Schritt durch alle notwendigen
-      Angaben entsprechend der gesetzlichen Vorgaben.
-    </p>
-    <button id="startButton" class="primary-btn">Fragebogen starten</button>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Psychotherapie‑Bericht Generator</h1>
+      <p>Erstellen Sie strukturiert Berichte nach PTV 3</p>
+      <button id="startButton" class="cta-btn">Fragebogen starten</button>
+    </div>
   </section>
 
   <!-- Multi‑step form container; initially hidden -->

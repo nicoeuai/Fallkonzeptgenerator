@@ -3,7 +3,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("startButton");
   const formContainer = document.getElementById("formContainer");
-  const introSection = document.getElementById("intro");
+  // Hero‑Section statt Intro
+  const heroSection = document.querySelector(".hero");
   const steps = document.querySelectorAll(".form-step");
   let currentStep = 0;
 
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Start: Fragebogen anzeigen
   startButton.addEventListener("click", () => {
-    introSection.classList.add("hidden");
+    if (heroSection) heroSection.classList.add("hidden");
     formContainer.classList.remove("hidden");
     showStep(0);
   });
@@ -499,16 +500,21 @@ document.addEventListener("DOMContentLoaded", () => {
           label.classList.remove('checked');
         }
       });
-      // Klicken auf das Label toggelt das Kontrollkästchen manuell
-      label.addEventListener('click', (e) => {
-        // Verhindern, dass der Klick doppelt verarbeitet wird
-        if (e.target !== cb) {
-          cb.checked = !cb.checked;
-          const event = new Event('change');
-          cb.dispatchEvent(event);
-        }
-      });
     });
   }
   setupCheckboxLabels();
+
+  // Dark/Light‑Modus Umschalter
+  const themeToggleBtn = document.getElementById("themeToggle");
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      // Symbol anpassen je nach Modus
+      if (document.body.classList.contains("dark-mode")) {
+        themeToggleBtn.textContent = "☀️";
+      } else {
+        themeToggleBtn.textContent = "🌙";
+      }
+    });
+  }
 });

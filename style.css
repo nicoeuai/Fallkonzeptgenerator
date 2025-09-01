@@ -10,12 +10,27 @@
 */
 
 /* Farb‑ und Designeigenschaften */
+/* Farbschema angepasst an den EUAIDITOR‑Dark/Light‑Modus */
 :root {
-  --primary-color: #0d47a1;    /* dunkles Blau für den Kopfbereich */
-  --accent-color: #1976d2;     /* helleres Blau für Buttons und Akzente */
-  --secondary-color: #f5f7fa;  /* helles Grau für den Seitenhintergrund */
-  --text-color: #2b3e50;       /* dunkles Grau für Fließtext */
+  /* Basisfarben im Light‑Modus */
+  --primary-color: #0d2739;     /* dunkles Blau für Header/Hintergrund */
+  --accent-color: #aea27a;      /* warmes Beige als Akzentfarbe */
+  --secondary-color: #f3f5f6;   /* sehr helles Grau als Seitenhintergrund */
+  --surface-color: #ffffff;     /* Karten und Formularflächen */
+  --text-color: #04101a;        /* sehr dunkles Blau als Primärtextfarbe */
+  --subtext-color: #254d60;     /* mittleres Blau (Blue Dianne) für Untertexte */
   --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dunkler Modus: überschreibt die Variablen für eine dunkle Oberfläche */
+body.dark-mode {
+  --primary-color: #062032;     /* sehr dunkles Blau für Header/Hintergrund */
+  --accent-color: #aea27a;      /* Akzent bleibt gleich */
+  --secondary-color: #04101a;   /* tiefes Dunkelblau als Seitenhintergrund */
+  --surface-color: #0b1c29;     /* dunkle Karte */
+  --text-color: #f3f5f6;        /* helles Grau für Primärtext */
+  --subtext-color: #88a2b7;     /* bläuliches Grau für Untertexte (bleibt gleich) */
+  --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 body {
@@ -27,12 +42,153 @@ body {
   line-height: 1.6;
 }
 
-.site-header {
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-  color: #ffffff;
-  padding: 2rem 1rem;
-  text-align: center;
+/* Navigationsleiste im Stil des EUAIDITOR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--surface-color);
   box-shadow: 0 2px 6px var(--shadow-color);
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.logo-placeholder {
+  width: 32px;
+  height: 32px;
+  background-color: var(--accent-color);
+  border-radius: 4px;
+}
+.navbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--surface-color);
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lang-btn,
+.theme-toggle,
+.login-btn {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.lang-btn {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+}
+.lang-btn:hover {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+.theme-toggle {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+.theme-toggle:hover {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+.login-btn {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+.login-btn:hover {
+  background-color: #c5b485;
+  color: var(--primary-color);
+}
+
+/* Hamburger‑Menü */
+.menu-toggle {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.menu-toggle:hover {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+
+/* Hero‑Section */
+.hero {
+  position: relative;
+  background-image: url('9e5b946a-d686-4efc-8064-14124cc4bc54.png');
+  background-size: cover;
+  background-position: center;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--text-color);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  pointer-events: none;
+}
+.hero .hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  color: var(--text-color);
+}
+.hero h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+.hero p {
+  margin-top: 1rem;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+.cta-btn {
+  margin-top: 2rem;
+  padding: 0.75rem 1.6rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.cta-btn:hover {
+  background-color: #c5b485;
+  color: var(--primary-color);
 }
 
 .site-title {
@@ -55,7 +211,7 @@ body {
   margin: 2.5rem auto;
   padding: 2rem 2.5rem;
   text-align: center;
-  background-color: #ffffff;
+  background-color: var(--surface-color);
   border-radius: 12px;
   box-shadow: 0 4px 10px var(--shadow-color);
 }
@@ -100,7 +256,7 @@ body {
 .form-container {
   max-width: 920px;
   margin: 2.5rem auto;
-  background-color: #ffffff;
+  background-color: var(--surface-color);
   padding: 2.5rem 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px var(--shadow-color);
@@ -139,7 +295,7 @@ body {
   border-radius: 6px;
   font-size: 1rem;
   box-sizing: border-box;
-  background-color: #ffffff;
+  background-color: var(--surface-color);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -148,7 +304,7 @@ body {
 .input-group select:focus,
 .input-group textarea:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.25);
+  box-shadow: 0 0 0 3px rgba(174, 162, 122, 0.25);
   outline: none;
 }
 
@@ -169,61 +325,37 @@ body {
   stattdessen wird der Zustand über die Klasse `.checked` am Label gesteuert
   (per JavaScript).
 */
+/* Checkbox‑Gruppe: Mehrfachauswahl in flexiblen Zeilen */
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+/* Stil für einzelne Checkbox‑Labels. Die Checkbox bleibt sichtbar, die Beschriftung erhält Pillenoptik. */
 .checkbox-group label {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.8rem 0.35rem 2rem;
+  padding: 0.35rem 0.8rem;
   margin: 0.2rem;
   border: 1px solid var(--accent-color);
   border-radius: 20px;
   font-size: 0.9rem;
   cursor: pointer;
   user-select: none;
+  background-color: var(--surface-color);
   color: var(--accent-color);
-  background-color: #ffffff;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-/* kleine Checkbox‑Box vor dem Text */
-.checkbox-group label::before {
-  content: "";
-  position: absolute;
-  left: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--accent-color);
-  border-radius: 4px;
-  box-sizing: border-box;
+/* Checkbox selbst erhält etwas Abstand nach rechts */
+.checkbox-group label input[type="checkbox"] {
+  margin-right: 0.5rem;
+  accent-color: var(--accent-color);
 }
-/* Eingabefeld ausblenden */
-.checkbox-group input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-/* Markierter Zustand: Hintergrund und Textfarbe invertieren */
+/* Wenn Checkbox im Label angehakt ist, färbe den gesamten Chip einfärbig mit invertierter Textfarbe */
 .checkbox-group label.checked {
   background-color: var(--accent-color);
-  color: #ffffff;
   border-color: var(--accent-color);
-}
-/* Markierte Box: weißer Hintergrund mit farbigem Häkchen */
-.checkbox-group label.checked::before {
-  content: "✓";
-  background-color: #ffffff;
-  color: var(--accent-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  border-color: #ffffff;
+  color: var(--primary-color);
 }
 
 /* Kollapsible Detail-Gruppen für umfangreiche Auswahlfelder */
@@ -232,7 +364,7 @@ body {
   border-radius: 6px;
   padding: 0.6rem 0.8rem;
   margin-bottom: 1rem;
-  background-color: #f9fafa;
+  background-color: var(--secondary-color);
 }
 .details-group summary {
   font-weight: 500;
