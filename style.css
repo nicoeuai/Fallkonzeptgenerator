@@ -14,9 +14,9 @@
 :root {
   /* Basisfarben im Light‑Modus */
   /* Light‑Mode Farbschema */
-  --primary-color: #1e3a8a;     /* dunkles Blau für Header/Hintergrund im Light‑Modus */
-  --accent-color: #0d6efd;      /* klares Blau als Akzentfarbe im Light‑Modus */
-  --accent-hover-color: #0a58ca;/* dunklere Variante für Hover-Effekte */
+  --primary-color: #040d1b;     /* dunkles Blau für Header/Hintergrund im Light‑Modus */
+  --accent-color: #0a488a;      /* klares Blau als Akzentfarbe im Light‑Modus */
+  --accent-hover-color: #071e40;/* dunklere Variante für Hover-Effekte */
   --secondary-color: #f4f6f8;   /* sehr helles Grau als Seitenhintergrund */
   --surface-color: #ffffff;     /* Karten und Formularflächen */
   --text-color: #04101a;        /* sehr dunkles Blau als Primärtextfarbe */
@@ -29,8 +29,8 @@
 /* Dunkler Modus: überschreibt die Variablen für eine dunkle Oberfläche */
 body.dark-mode {
   --primary-color: #062032;     /* sehr dunkles Blau für Header/Hintergrund */
-  --accent-color: #d4af37;      /* dezentes Gold als Akzentfarbe */
-  --accent-hover-color: #b9941d;/* etwas dunkleres Gold für Hover-Effekte */
+  --accent-color: #c8af5d;      /* dezentes Gold als Akzentfarbe */
+  --accent-hover-color: #695c31;/* etwas dunkleres Gold für Hover-Effekte */
   --secondary-color: #04101a;   /* tiefes Dunkelblau als Seitenhintergrund */
   --surface-color: #0b1c29;     /* dunkle Karte */
   --text-color: #ffffff;        /* weiße Primärtextfarbe */
@@ -45,7 +45,7 @@ body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
 body.dark-mode h4 {
-  color: var(--accent-color);
+  color: var(--text-color);
 }
 
 /* Zusätzlicher Abstand für bedingte Felder */
@@ -77,12 +77,7 @@ body {
   align-items: center;
   gap: 0.75rem;
 }
-.logo-placeholder {
-  width: 32px;
-  height: 32px;
-  background-color: var(--accent-color);
-  border-radius: 4px;
-}
+
 .navbar-title {
   font-size: 1.25rem;
   font-weight: 600;
