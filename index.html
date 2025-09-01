@@ -6,7 +6,7 @@
   <title>Bericht‑Generator für Psychotherapie‑Anträge</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="dark-mode">
   <!-- Navigationsleiste und Hero‑Section -->
   <header class="navbar">
     <div class="nav-left">
@@ -59,7 +59,15 @@
         </div>
         <div class="input-group">
           <label for="patientGender">Geschlecht</label>
-          <input type="text" id="patientGender" name="patientGender" />
+          <select id="patientGender" name="patientGender">
+            <option value="">– Bitte wählen –</option>
+            <option value="männlich">männlich</option>
+            <option value="weiblich">weiblich</option>
+            <option value="divers">divers</option>
+            <option value="selbst">selbst angegeben</option>
+          </select>
+          <!-- Eingabefeld zur Spezifizierung bei Auswahl "selbst angegeben" -->
+          <input type="text" id="patientGenderOther" name="patientGenderOther" placeholder="Spezifizieren..." class="conditional-field hidden" />
         </div>
         <div class="input-group">
           <label for="occupation">Beruf (optional mit Beschäftigungsstatus)</label>
@@ -110,7 +118,22 @@
         <!-- Erweiterte soziodemographische Angaben -->
         <div class="input-group">
           <label for="education">Schulabschluss / Bildungsabschluss</label>
-          <input type="text" id="education" name="education" />
+          <!-- Auswahl des höchsten Bildungsabschlusses mit Optional "Andere" -->
+          <select id="education" name="education">
+            <option value="">– Bitte wählen –</option>
+            <option value="kein Abschluss">kein Abschluss</option>
+            <option value="Hauptschule">Hauptschule</option>
+            <option value="Realschule">Realschule</option>
+            <option value="Fachhochschulreife">Fachhochschulreife</option>
+            <option value="Abitur">Abitur</option>
+            <option value="Berufsausbildung">Berufsausbildung</option>
+            <option value="Bachelor">Bachelor</option>
+            <option value="Master">Master</option>
+            <option value="Promotion">Promotion</option>
+            <option value="Andere">Andere</option>
+          </select>
+          <!-- Freitext zur Spezifizierung bei Auswahl "Andere" -->
+          <input type="text" id="educationOther" name="educationOther" placeholder="Falls 'Andere', bitte angeben" class="conditional-field hidden" />
         </div>
         <div class="input-group">
           <label for="housingType">Wohnform / Eigentumsverhältnis</label>
@@ -124,8 +147,18 @@
           </select>
         </div>
         <div class="input-group">
-          <label for="partnerDetails">Partnersituation (Altersabstand, Dauer)</label>
-          <input type="text" id="partnerDetails" name="partnerDetails" placeholder="z.B. Partner 2 Jahre älter, seit 5 Jahren zusammen" />
+          <label for="partnerStatus">Partnersituation</label>
+          <!-- Auswahlmöglichkeiten für die Partnersituation zur Arbeitserleichterung -->
+          <select id="partnerStatus" name="partnerStatus">
+            <option value="">– Bitte wählen –</option>
+            <option value="in fester Partnerschaft">In fester Partnerschaft</option>
+            <option value="keine Partnerschaft">Keine Partnerschaft</option>
+            <option value="getrennt">Getrennt lebend</option>
+            <option value="verwitwet">Verwitwet</option>
+            <option value="Andere">Andere</option>
+          </select>
+          <!-- Optionales Freitextfeld, das nur bei Auswahl "Andere" eingeblendet wird -->
+          <input type="text" id="partnerOther" name="partnerOther" class="hidden conditional-field" placeholder="Spezifizieren…" />
         </div>
         <div class="input-group">
           <label for="financialSituation">Finanzielle Situation</label>
@@ -752,6 +785,36 @@
         <div class="input-group">
           <label for="sorkc">Verhaltensanalyse (SORKC‑Schema oder typische Situation)</label>
           <textarea id="sorkc" name="sorkc" rows="3"></textarea>
+        </div>
+
+        <!-- Schulische Anamnese -->
+        <div class="input-group">
+          <label for="schoolHistory">Schulische Anamnese (optional)</label>
+          <textarea id="schoolHistory" name="schoolHistory" rows="3" placeholder="Schulbildung, Ausbildungen, berufliche Laufbahn, besondere Belastungen"></textarea>
+        </div>
+
+        <!-- Krankheitsanamnese -->
+        <div class="input-group">
+          <label for="illnessHistory">Krankheitsanamnese (optional)</label>
+          <textarea id="illnessHistory" name="illnessHistory" rows="3" placeholder="Beginn und Verlauf psychischer und somatischer Erkrankungen, Vorbehandlungen"></textarea>
+        </div>
+
+        <!-- Verhaltensanalytische Problemdefinition: Prädisponierende Faktoren -->
+        <div class="input-group">
+          <label for="modelPredisposing">Verhaltensanalytische Problemdefinition – Prädisponierende Faktoren (optional)</label>
+          <textarea id="modelPredisposing" name="modelPredisposing" rows="2" placeholder="Genetische, familiäre oder persönliche Voraussetzungen"></textarea>
+        </div>
+
+        <!-- Verhaltensanalytische Problemdefinition: Auslösende Faktoren -->
+        <div class="input-group">
+          <label for="modelTrigger">Verhaltensanalytische Problemdefinition – Auslösende Faktoren (optional)</label>
+          <textarea id="modelTrigger" name="modelTrigger" rows="2" placeholder="Konkrete Ereignisse, Lebensveränderungen, Auslöser"></textarea>
+        </div>
+
+        <!-- Verhaltensanalytische Problemdefinition: Aufrechterhaltende Faktoren -->
+        <div class="input-group">
+          <label for="modelMaintaining">Verhaltensanalytische Problemdefinition – Aufrechterhaltende Faktoren (optional)</label>
+          <textarea id="modelMaintaining" name="modelMaintaining" rows="2" placeholder="Verhaltensweisen, Gedanken, Gewohnheiten, die die Symptomatik aufrechterhalten"></textarea>
         </div>
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev5">Zurück</button>

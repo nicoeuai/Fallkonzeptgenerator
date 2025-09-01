@@ -28,9 +28,22 @@ body.dark-mode {
   --accent-color: #aea27a;      /* Akzent bleibt gleich */
   --secondary-color: #04101a;   /* tiefes Dunkelblau als Seitenhintergrund */
   --surface-color: #0b1c29;     /* dunkle Karte */
-  --text-color: #f3f5f6;        /* helles Grau für Primärtext */
+  --text-color: #ffffff;        /* weißer Primärtext */
   --subtext-color: #88a2b7;     /* bläuliches Grau für Untertexte (bleibt gleich) */
   --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Goldene Überschriften im Dunkelmodus */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4 {
+  color: var(--accent-color);
+}
+
+/* Zusätzlicher Abstand für bedingte Felder */
+.conditional-field {
+  margin-top: 0.4rem;
 }
 
 body {
@@ -67,6 +80,11 @@ body {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--surface-color);
+}
+
+/* Navigations-Titel im Dunkelmodus heller darstellen */
+body.dark-mode .navbar-title {
+  color: var(--accent-color);
 }
 .nav-right {
   display: flex;

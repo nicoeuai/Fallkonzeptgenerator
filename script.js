@@ -8,6 +8,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const steps = document.querySelectorAll(".form-step");
   let currentStep = 0;
 
+  // Geschlechtsauswahl: zeigt optionales Textfeld bei Auswahl "selbst angegeben"
+  const genderSelect = document.getElementById("patientGender");
+  const genderOtherInput = document.getElementById("patientGenderOther");
+  if (genderSelect && genderOtherInput) {
+    genderSelect.addEventListener("change", () => {
+      if (genderSelect.value === "selbst") {
+        genderOtherInput.classList.remove("hidden");
+      } else {
+        genderOtherInput.classList.add("hidden");
+        genderOtherInput.value = "";
+      }
+    });
+  }
+
+  // Bildungsabschluss: Zeigt optionales Textfeld bei Auswahl "Andere"
+  const educationSelectEl = document.getElementById("education");
+  const educationOtherInput = document.getElementById("educationOther");
+  if (educationSelectEl && educationOtherInput) {
+    educationSelectEl.addEventListener("change", () => {
+      if (educationSelectEl.value === "Andere") {
+        educationOtherInput.classList.remove("hidden");
+      } else {
+        educationOtherInput.classList.add("hidden");
+        educationOtherInput.value = "";
+      }
+    });
+  }
+
+  // Partnersituation: Zeigt optionales Textfeld bei Auswahl "Andere"
+  const partnerStatusEl = document.getElementById("partnerStatus");
+  const partnerOtherInput = document.getElementById("partnerOther");
+  if (partnerStatusEl && partnerOtherInput) {
+    partnerStatusEl.addEventListener("change", () => {
+      if (partnerStatusEl.value === "Andere") {
+        partnerOtherInput.classList.remove("hidden");
+      } else {
+        partnerOtherInput.classList.add("hidden");
+        partnerOtherInput.value = "";
+      }
+    });
+  }
+
   // Hilfsfunktion zum Anzeigen eines bestimmten Schritts
   function showStep(stepIndex) {
     steps.forEach((step) => step.classList.remove("active"));
@@ -87,7 +129,19 @@ document.addEventListener("DOMContentLoaded", () => {
     data.applicationType = document.getElementById("applicationType").value;
     data.patientInitials = document.getElementById("patientInitials").value;
     data.patientAge = document.getElementById("patientAge").value;
-    data.patientGender = document.getElementById("patientGender").value;
+    // Geschlecht: wenn "selbst angegeben" gewählt, nutze Freitextfeld
+    const genderSelectEl = document.getElementById("patientGender");
+    const genderOtherEl = document.getElementById("patientGenderOther");
+    if (genderSelectEl) {
+      const selectedGender = genderSelectEl.value;
+      if (selectedGender === "selbst") {
+        data.patientGender = genderOtherEl ? genderOtherEl.value : "";
+      } else {
+        data.patientGender = selectedGender;
+      }
+    } else {
+      data.patientGender = "";
+    }
     data.occupation = document.getElementById("occupation").value;
     data.workStatus = document.getElementById("workStatus").value;
     data.maritalStatus = document.getElementById("maritalStatus").value;
@@ -95,9 +149,31 @@ document.addEventListener("DOMContentLoaded", () => {
     data.livingSituation = document.getElementById("livingSituation").value;
     data.socialOther = document.getElementById("socialOther").value;
     // Erweiterte soziodemographische Angaben
-    data.education = document.getElementById("education") ? document.getElementById("education").value : "";
+    // Bildungsabschluss: bei "Andere" den spezifischen Text übernehmen
+    const educationSel = document.getElementById("education");
+    const educationOtherEl2 = document.getElementById("educationOther");
+    if (educationSel) {
+      if (educationSel.value === "Andere") {
+        data.education = educationOtherEl2 ? educationOtherEl2.value : "";
+      } else {
+        data.education = educationSel.value;
+      }
+    } else {
+      data.education = "";
+    }
     data.housingType = document.getElementById("housingType") ? document.getElementById("housingType").value : "";
-    data.partnerDetails = document.getElementById("partnerDetails") ? document.getElementById("partnerDetails").value : "";
+    // Partnersituation: wenn "Andere", nutze Freitextfeld
+    const partnerStatusEl2 = document.getElementById("partnerStatus");
+    const partnerOtherEl2 = document.getElementById("partnerOther");
+    if (partnerStatusEl2) {
+      if (partnerStatusEl2.value === "Andere") {
+        data.partnerDetails = partnerOtherEl2 ? partnerOtherEl2.value : "";
+      } else {
+        data.partnerDetails = partnerStatusEl2.value;
+      }
+    } else {
+      data.partnerDetails = "";
+    }
     data.financialSituation = document.getElementById("financialSituation") ? document.getElementById("financialSituation").value : "";
     data.financialOther = document.getElementById("financialOther") ? document.getElementById("financialOther").value : "";
     data.socialNetwork = getSelectValues("socialNetwork");
@@ -210,6 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
     data.resources = getSelectValues("resources");
     data.resourcesOther = document.getElementById("resourcesOther") ? document.getElementById("resourcesOther").value : "";
     data.sorkc = document.getElementById("sorkc").value;
+    // Zusätzliche Anamnesen und Störungsmodell (Step 5)
+    data.schoolHistory = document.getElementById("schoolHistory") ? document.getElementById("schoolHistory").value : "";
+    data.illnessHistory = document.getElementById("illnessHistory") ? document.getElementById("illnessHistory").value : "";
+    data.modelPredisposing = document.getElementById("modelPredisposing") ? document.getElementById("modelPredisposing").value : "";
+    data.modelTrigger = document.getElementById("modelTrigger") ? document.getElementById("modelTrigger").value : "";
+    data.modelMaintaining = document.getElementById("modelMaintaining") ? document.getElementById("modelMaintaining").value : "";
     // Familienstruktur und prägende Erfahrungen
     data.familyBackground = document.getElementById("familyBackground") ? document.getElementById("familyBackground").value : "";
     // Diagnosen
@@ -299,8 +381,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.disabilityPension) report += `GdB/Rentenbegehren: ${data.disabilityPension}\n`;
     if (data.socialOther) report += `Weitere soziale Angaben: ${data.socialOther}\n`;
 
-    // 2. Symptomatik und subjektiver Leidensdruck
-    report += "\n2. Symptomatik und subjektiver Leidensdruck\n";
+    // 2. Symptomatik und psychischer Befund
+    report += "\n2. Symptomatik und psychischer Befund\n";
+    // Symptomatik
     report += `Hauptgrund: ${data.mainReason || "-"}\n`;
     const physStr = listWithOther(data.symptomPhys, data.symptomPhysOther);
     if (physStr) report += `Physiologische Ebene: ${physStr}\n`;
@@ -319,10 +402,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.subjectiveDistressNotes) report += ` (Anmerkungen: ${data.subjectiveDistressNotes})`;
       report += "\n";
     }
-
-    // 2a. Störungs- & Familienanamnese, Testdaten und Therapievariablen
+    // Störungs- & Familienanamnese, Testdaten und Therapievariablen (falls vorhanden)
     if (data.familyHistory || data.familyHistoryOther || data.firstOnset || data.courseDescription || data.testBDI || data.testBSI || data.testINK || data.testOther || data.familyBackground || data.motivationLevel || data.introspectionAbility || data.empathyAbility || data.illnessInsight || data.changeAbility) {
-      report += "\n2a. Störungs- & Familienanamnese, Testdaten und Therapievariablen\n";
       const familyHistStr = listWithOther(data.familyHistory, data.familyHistoryOther);
       if (familyHistStr) report += `Familienanamnese: ${familyHistStr}\n`;
       if (data.familyBackground) report += `Familienstruktur/Kindheit: ${data.familyBackground}\n`;
@@ -344,9 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.changeAbility) tvars.push(`Veränderungsfähigkeit: ${data.changeAbility}`);
       if (tvars.length > 0) report += `Therapievariablen: ${tvars.join(", ")}\n`;
     }
-
-    // 3. Psychischer Befund
-    report += "\n3. Psychischer Befund\n";
+    // Psychischer Befund
     const appearanceStr2 = joinList(data.appearance);
     if (appearanceStr2) report += `Äußeres Erscheinungsbild: ${appearanceStr2}\n`;
     const behaviourStr2 = joinList(data.behaviour);
@@ -369,15 +448,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.drive) report += `Antrieb/Psychomotorik: ${data.drive}\n`;
     const vegetativeStr2 = joinList(data.vegetative);
     if (vegetativeStr2) report += `Zirkadiane/vegetative Besonderheiten: ${vegetativeStr2}\n`;
-    // Suizidalität/Fremdgefährdung
     if (data.suicideIdeation || data.suicideAttempts || data.harmOthers || data.suicideNotes) {
       report += `Suizidalität/Fremdgefährdung: Suizidgedanken: ${data.suicideIdeation || "-"}; Frühere Suizidversuche: ${data.suicideAttempts || "-"}; Fremdgefährdung: ${data.harmOthers || "-"}`;
       if (data.suicideNotes) report += `; Anmerkungen: ${data.suicideNotes}`;
       report += "\n";
     }
 
-    // 4. Somatischer Befund / Konsiliarbericht
-    report += "\n4. Somatischer Befund / Konsiliarbericht\n";
+    // 3. Somatischer Befund / Konsiliarbericht
+    report += "\n3. Somatischer Befund / Konsiliarbericht\n";
     report += `Konsiliarbericht vorhanden: ${data.consiliar || "-"}\n`;
     const somaticStr = listWithOther(data.somaticConditions, data.somaticOther);
     if (somaticStr) report += `Relevante körperliche Erkrankungen/Behinderungen: ${somaticStr}\n`;
@@ -393,22 +471,32 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.pathologicalFindings) report += `Pathologische Befunde: ${data.pathologicalFindings}\n`;
     if (data.previousPsychotherapyDetails) report += `Bisherige psychotherapeutische Behandlungen (Details): ${data.previousPsychotherapyDetails}\n`;
 
-    // 5. Lebensgeschichte & funktionales Bedingungsmodell
-    report += "\n5. Lebensgeschichte & funktionales Bedingungsmodell\n";
+    // 4. Behandlungsrelevante Angaben zur Lebensgeschichte, zur Krankheitsanamnese, zum funktionalen Bedingungsmodell
+    report += "\n4. Behandlungsrelevante Angaben zur Lebensgeschichte, zur Krankheitsanamnese, zum funktionalen Bedingungsmodell\n";
     const lifeInfStr = listWithOther(data.lifeInfluences, data.lifeInfluencesOther);
     if (lifeInfStr) report += `Lebensgeschichtliche Einflüsse: ${lifeInfStr}\n`;
+    const familyBg = data.familyBackground;
+    if (familyBg) report += `Familienstruktur & prägende Erfahrungen: ${familyBg}\n`;
     const predisStr = listWithOther(data.predispositionsList, data.predispositionsOther);
-    if (predisStr) report += `Prädispositionen/ langfristige Faktoren: ${predisStr}\n`;
+    if (predisStr) report += `Prädispositionen / langfristige Faktoren: ${predisStr}\n`;
     const triggersStr = listWithOther(data.triggersList, data.triggersOther);
     if (triggersStr) report += `Auslösende Bedingungen: ${triggersStr}\n`;
     const maintStr = listWithOther(data.maintenanceBehaviors, data.maintenanceOther);
     if (maintStr) report += `Aufrechterhaltende Bedingungen: ${maintStr}\n`;
     const resourcesStr = listWithOther(data.resources, data.resourcesOther);
     if (resourcesStr) report += `Ressourcen/Stärken: ${resourcesStr}\n`;
+    if (data.schoolHistory) report += `Schulische Anamnese: ${data.schoolHistory}\n`;
+    if (data.illnessHistory) report += `Krankheitsanamnese: ${data.illnessHistory}\n`;
     if (data.sorkc) report += `Verhaltensanalyse (SORKC): ${data.sorkc}\n`;
+    // Verhaltensanalytische Problemdefinition (Störungsmodell)
+    if (data.modelPredisposing || data.modelTrigger || data.modelMaintaining) {
+      report += `Störungsmodell – Prädisponierende Faktoren: ${data.modelPredisposing || "-"}\n`;
+      report += `Störungsmodell – Auslösende Faktoren: ${data.modelTrigger || "-"}\n`;
+      report += `Störungsmodell – Aufrechterhaltende Faktoren: ${data.modelMaintaining || "-"}\n`;
+    }
 
-    // 6. Diagnosen
-    report += "\n6. Diagnosen\n";
+    // 5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung
+    report += "\n5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung\n";
     // Primäre Diagnose
     let primaryDiag = "";
     if (data.primaryDiagnosis === "Andere" && data.primaryDiagnosisOther) {
@@ -432,8 +520,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.somaticDiagnoses) report += `Somatische Diagnosen: ${data.somaticDiagnoses}\n`;
     if (data.emotionalProblems) report += `Emotionale Probleme/Kernprobleme: ${data.emotionalProblems}\n`;
 
-    // 7. Behandlungsplan und Prognose
-    report += "\n7. Behandlungsplan und Prognose\n";
+    // 6. Behandlungsplan und Prognose
+    report += "\n6. Behandlungsplan und Prognose\n";
     const therapyGoalsStr = listWithOther(data.therapyGoals, data.therapyGoalsOther);
     if (therapyGoalsStr) report += `Therapieziele: ${therapyGoalsStr}\n`;
     const interventionsStr = listWithOther(data.plannedInterventions, data.plannedInterventionsOther);
@@ -447,9 +535,9 @@ document.addEventListener("DOMContentLoaded", () => {
       report += `Prognose – förderliche Faktoren: ${progPosStr || "-"}, hindernde Faktoren: ${progNegStr || "-"}\n`;
     }
 
-    // 8. Zusatzabschnitt für Umwandlung/Fortführung
+    // 7. Zusatzabschnitt für Umwandlung/Fortführung
     if (data.applicationType === "umwandlung" || data.applicationType === "fortfuehrung") {
-      report += "\n8. Zusätzliche Angaben bei Umwandlungs-/Fortführungsanträgen\n";
+      report += "\n7. Zusatzabschnitt für Umwandlungs-/Fortführungsanträge\n";
       if (data.previousCourse) report += `Bisheriger Behandlungsverlauf: ${data.previousCourse}\n`;
       const updatedFindStr = listWithOther(data.updatedFindings, data.updatedFindingsOther);
       if (updatedFindStr) report += `Aktueller psychischer Befund/Testresultate: ${updatedFindStr}\n`;
