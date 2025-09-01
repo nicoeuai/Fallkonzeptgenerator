@@ -8,30 +8,28 @@
 </head>
 <body>
   <!-- Navigationsleiste und Hero‑Section -->
-  <header class="navbar">
-    <div class="nav-left">
-      <button class="menu-toggle" title="Menü öffnen">☰</button>
-      <div class="logo-placeholder"></div>
+  <header class="site-header">
+    <div class="brand">
+      <a href="index.html" class="logo-placeholder"></a>
       <span class="navbar-title">Psychotherapie‑Bericht Generator</span>
     </div>
-    <div class="nav-right">
+    <button class="menu-toggle" aria-label="Menü öffnen">☰</button>
+    <nav class="main-nav">
+      <a href="#" data-step="0">Antrag</a>
+      <a href="#" data-step="1">Soziodemographie</a>
+      <a href="#" data-step="2">Symptomatik</a>
+      <a href="#" data-step="3">Befund</a>
+      <a href="#" data-step="4">Störungsmodell</a>
+      <a href="#" data-step="5">Anamnese</a>
+      <a href="#" data-step="6">Diagnosen</a>
+      <a href="#" data-step="7">Behandlungsplan</a>
+      <a href="#" data-step="8">Zusatz</a>
+      <a href="#" data-step="9">Zusammenfassung</a>
+    </nav>
+    <div class="header-controls">
       <button id="themeToggle" class="theme-toggle" title="Dark/Light Mode wechseln">🌙</button>
     </div>
   </header>
-  <nav id="headerMenu" class="header-menu hidden">
-    <ul>
-      <li data-step="0">Antrag</li>
-      <li data-step="1">Soziodemographie</li>
-      <li data-step="2">Symptomatik</li>
-      <li data-step="3">Befund</li>
-      <li data-step="4">Störungsmodell</li>
-      <li data-step="5">Anamnese</li>
-      <li data-step="6">Diagnosen</li>
-      <li data-step="7">Behandlungsplan</li>
-      <li data-step="8">Zusatz</li>
-      <li data-step="9">Zusammenfassung</li>
-    </ul>
-  </nav>
   <section class="hero">
     <div class="hero-content">
       <h1>Psychotherapie‑Bericht Generator</h1>

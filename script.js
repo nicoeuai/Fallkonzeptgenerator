@@ -10,10 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressEl = document.getElementById("progress");
   const totalSteps = steps.length - 1;
 
-  // Header Menü
-  const menuToggle = document.querySelector(".menu-toggle");
-  const headerMenu = document.getElementById("headerMenu");
-  const menuItems = headerMenu ? headerMenu.querySelectorAll("li") : [];
+    // Header Menü
+    const headerEl = document.querySelector(".site-header");
+    const menuToggle = headerEl ? headerEl.querySelector(".menu-toggle") : null;
+    const nav = document.querySelector(".main-nav");
+    const menuItems = nav ? nav.querySelectorAll("[data-step]") : [];
 
   // Geschlechtsauswahl: zeigt optionales Textfeld bei Auswahl "selbst angegeben"
   const genderSelect = document.getElementById("patientGender");
@@ -76,19 +77,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  menuItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      const step = parseInt(item.dataset.step, 10);
-      showStep(step);
-      if (headerMenu) headerMenu.classList.add("hidden");
+    menuItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const step = parseInt(item.dataset.step, 10);
+        showStep(step);
+        if (headerEl) headerEl.classList.remove("nav-open");
+      });
     });
-  });
 
-  if (menuToggle && headerMenu) {
-    menuToggle.addEventListener("click", () => {
-      headerMenu.classList.toggle("hidden");
+    if (menuToggle && headerEl) {
+      menuToggle.addEventListener("click", () => {
+        headerEl.classList.toggle("nav-open");
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      if (headerEl && headerEl.classList.contains("nav-open") && !headerEl.contains(e.target)) {
+        headerEl.classList.remove("nav-open");
+      }
     });
-  }
 
   // Start: Fragebogen anzeigen
   startButton.addEventListener("click", () => {
