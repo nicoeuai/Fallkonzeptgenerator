@@ -369,6 +369,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return items.length > 0 ? items.join(", ") : "";
     };
 
+    const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
+    function genderTerms(gender) {
+      const g = (gender || "").toLowerCase();
+      if (g === "weiblich") return { noun: "Patientin", pronoun: "sie", possessive: "ihr" };
+      if (g === "männlich" || g === "maennlich") return { noun: "Patient", pronoun: "er", possessive: "sein" };
+      return { noun: "Patient*in", pronoun: "die Person", possessive: "deren" };
+    }
+
     let report = "";
     // Überschrift
     report += "Bericht an die Gutachterin / den Gutachter\n\n";
@@ -380,55 +388,67 @@ document.addEventListener("DOMContentLoaded", () => {
     }[data.applicationType] || "Erstantrag";
     report += `Antragstyp: ${typeLabel}\n\n`;
 
-    // 1. Soziodemographische Daten
-    report += "1. Soziodemographische Daten\n";
-    report += `Patient: ${data.patientInitials || "-"}, Alter: ${data.patientAge || "-"}, Geschlecht: ${data.patientGender || "-"}\n`;
+    // 1. Relevante soziodemographische Daten
+    report += "1. Relevante soziodemographische Daten\n";
+    const g = genderTerms(data.patientGender);
+    let socioText = `Die ${g.noun} ist ${data.patientAge || "-"} Jahre alt.`;
     if (data.occupation) {
-      report += `Beruf/Beschäftigung: ${data.occupation}`;
-      if (data.workStatus) report += ` (${data.workStatus})`;
-      report += "\n";
+      socioText += ` ${capitalize(g.pronoun)} arbeitet`;
+      if (data.workStatus) socioText += ` ${data.workStatus}`;
+      socioText += ` als ${data.occupation}.`;
     }
-    // Erweiterte soziodemographische Angaben
-    if (data.education) report += `Bildungsabschluss: ${data.education}\n`;
-    if (data.housingType) report += `Wohnform/Eigentum: ${data.housingType}\n`;
-    if (data.partnerDetails) report += `Partnersituation: ${data.partnerDetails}\n`;
-    // Familienstand, Kinder, Wohnsituation
-    report += `Familienstand: ${data.maritalStatus || "-"}, Kinder: ${data.children || "-"}, Wohnsituation: ${data.livingSituation || "-"}\n`;
-    // Finanzen
+    if (data.maritalStatus || data.children) {
+      socioText += ` ${capitalize(g.pronoun)} ist ${data.maritalStatus || "-"} und hat ${data.children || "keine"} Kinder.`;
+    }
+    if (data.livingSituation) {
+      socioText += ` ${capitalize(g.pronoun)} lebt ${data.livingSituation}.`;
+    }
+    if (data.partnerDetails) {
+      socioText += ` Partnerschaft: ${data.partnerDetails}.`;
+    }
+    if (data.education) {
+      socioText += ` Bildungsabschluss: ${data.education}.`;
+    }
     if (data.financialSituation) {
-      report += `Finanzielle Situation: ${data.financialSituation}`;
-      if (data.financialOther) report += ` (${data.financialOther})`;
-      report += "\n";
+      socioText += ` Finanzen: ${data.financialSituation}`;
+      if (data.financialOther) socioText += ` (${data.financialOther})`;
+      socioText += `.`;
     }
-    // Sozialer Freundeskreis & Freizeit
     const socialNetStr = listWithOther(data.socialNetwork, data.socialNetworkOther);
-    if (socialNetStr) report += `Freundeskreis/Freizeit: ${socialNetStr}\n`;
+    if (socialNetStr) {
+      socioText += ` Freizeit und soziale Kontakte: ${socialNetStr}.`;
+    }
+    report += socioText + "\n";
+    if (data.disabilityPension) report += `GdB/Rentenbegehren: ${data.disabilityPension}\n`;
     if (data.workHours) report += `Arbeitszeit/Bedingungen: ${data.workHours}\n`;
     if (data.vacationUsage) report += `Urlaubsnutzung: ${data.vacationUsage}\n`;
-    if (data.disabilityPension) report += `GdB/Rentenbegehren: ${data.disabilityPension}\n`;
     if (data.socialOther) report += `Weitere soziale Angaben: ${data.socialOther}\n`;
 
     // 2. Symptomatik und psychischer Befund
     report += "\n2. Symptomatik und psychischer Befund\n";
-    // Symptomatik
-    report += `Hauptgrund: ${data.mainReason || "-"}\n`;
     const physStr = listWithOther(data.symptomPhys, data.symptomPhysOther);
-    if (physStr) report += `Physiologische Ebene: ${physStr}\n`;
     const emoStr = listWithOther(data.symptomEmo, data.symptomEmoOther);
-    if (emoStr) report += `Emotionale Ebene: ${emoStr}\n`;
     const cogStr = listWithOther(data.symptomCog, data.symptomCogOther);
-    if (cogStr) report += `Kognitive Ebene: ${cogStr}\n`;
     const behStr = listWithOther(data.symptomBeh, data.symptomBehOther);
-    if (behStr) report += `Verhaltensebene: ${behStr}\n`;
     const courseStr = listWithOther(data.symptomCourse, data.symptomCourseOther);
-    if (courseStr) report += `Verlauf/Schweregrad: ${courseStr}\n`;
     const comorbStr = listWithOther(data.comorbidities, data.comorbiditiesOther);
-    if (comorbStr) report += `Weitere Beschwerden/Komorbiditäten: ${comorbStr}\n`;
-    if (data.subjectiveDistress) {
-      report += `Subjektiver Leidensdruck: ${data.subjectiveDistress}`;
-      if (data.subjectiveDistressNotes) report += ` (Anmerkungen: ${data.subjectiveDistressNotes})`;
-      report += "\n";
+    let symptomText = data.mainReason ? `${capitalize(g.pronoun)} sucht Hilfe wegen ${data.mainReason}.` : "";
+    const sympParts = [];
+    if (physStr) sympParts.push(`physiologischen Beschwerden (${physStr})`);
+    if (emoStr) sympParts.push(`emotionalen Beeinträchtigungen (${emoStr})`);
+    if (cogStr) sympParts.push(`kognitiven Einschränkungen (${cogStr})`);
+    if (behStr) sympParts.push(`Verhaltensänderungen (${behStr})`);
+    if (comorbStr) sympParts.push(`weiteren Problemen (${comorbStr})`);
+    if (sympParts.length > 0) {
+      symptomText += ` Die Symptomatik umfasst ${sympParts.join(", ")}.`;
     }
+    if (courseStr) symptomText += ` Der Verlauf wird beschrieben als ${courseStr}.`;
+    if (data.subjectiveDistress) {
+      symptomText += ` Subjektiver Leidensdruck: ${data.subjectiveDistress}`;
+      if (data.subjectiveDistressNotes) symptomText += ` (${data.subjectiveDistressNotes})`;
+      symptomText += `.`;
+    }
+    report += symptomText + "\n";
     // Störungs- & Familienanamnese, Testdaten und Therapievariablen (falls vorhanden)
     if (data.familyHistory || data.familyHistoryOther || data.firstOnset || data.courseDescription || data.testBDI || data.testBSI || data.testINK || data.testOther || data.familyBackground || data.motivationLevel || data.introspectionAbility || data.empathyAbility || data.illnessInsight || data.changeAbility) {
       const familyHistStr = listWithOther(data.familyHistory, data.familyHistoryOther);
@@ -454,36 +474,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // Psychischer Befund
     const appearanceStr2 = joinList(data.appearance);
-    if (appearanceStr2) report += `Äußeres Erscheinungsbild: ${appearanceStr2}\n`;
     const behaviourStr2 = joinList(data.behaviour);
-    if (behaviourStr2) report += `Verhalten/Psychomotorik: ${behaviourStr2}\n`;
-    if (data.consciousness) report += `Bewusstsein: ${data.consciousness}\n`;
     const orientationStr2 = joinList(data.orientation);
-    if (orientationStr2) report += `Orientierung: ${orientationStr2}\n`;
     const attentionStr2 = joinList(data.attentionMemory);
-    if (attentionStr2) report += `Aufmerksamkeit & Gedächtnis: ${attentionStr2}\n`;
     const thinkingFormalStr2 = joinList(data.thinkingFormal);
-    if (thinkingFormalStr2) report += `Formales Denken: ${thinkingFormalStr2}\n`;
     const thinkingContentStr2 = joinList(data.thinkingContent);
-    if (thinkingContentStr2) report += `Inhaltliches Denken: ${thinkingContentStr2}\n`;
     const perceptionStr2 = joinList(data.perception);
-    if (perceptionStr2) report += `Wahrnehmungsstörungen: ${perceptionStr2}\n`;
     const ichStr2 = joinList(data.ichStoerungen);
-    if (ichStr2) report += `Ich‑Störungen: ${ichStr2}\n`;
     const affectivityStr2 = joinList(data.affectivity);
-    if (affectivityStr2) report += `Affektivität: ${affectivityStr2}\n`;
-    if (data.drive) report += `Antrieb/Psychomotorik: ${data.drive}\n`;
     const vegetativeStr2 = joinList(data.vegetative);
-    if (vegetativeStr2) report += `Zirkadiane/vegetative Besonderheiten: ${vegetativeStr2}\n`;
-    if (data.suicideIdeation || data.suicideAttempts || data.harmOthers || data.suicideNotes) {
-      report += `Suizidalität/Fremdgefährdung: Suizidgedanken: ${data.suicideIdeation || "-"}; Frühere Suizidversuche: ${data.suicideAttempts || "-"}; Fremdgefährdung: ${data.harmOthers || "-"}`;
-      if (data.suicideNotes) report += `; Anmerkungen: ${data.suicideNotes}`;
-      report += "\n";
+    let befText = "";
+    const befParts = [];
+    if (appearanceStr2) befParts.push(`äußeres Erscheinungsbild: ${appearanceStr2}`);
+    if (behaviourStr2) befParts.push(`Verhalten/Psychomotorik: ${behaviourStr2}`);
+    if (data.consciousness) befParts.push(`Bewusstsein: ${data.consciousness}`);
+    if (orientationStr2) befParts.push(`Orientierung: ${orientationStr2}`);
+    if (attentionStr2) befParts.push(`Aufmerksamkeit und Gedächtnis: ${attentionStr2}`);
+    if (thinkingFormalStr2) befParts.push(`formales Denken: ${thinkingFormalStr2}`);
+    if (thinkingContentStr2) befParts.push(`inhaltliches Denken: ${thinkingContentStr2}`);
+    if (perceptionStr2) befParts.push(`Wahrnehmung: ${perceptionStr2}`);
+    if (ichStr2) befParts.push(`Ich-Störungen: ${ichStr2}`);
+    if (affectivityStr2) befParts.push(`Affektivität: ${affectivityStr2}`);
+    if (data.drive) befParts.push(`Antrieb: ${data.drive}`);
+    if (vegetativeStr2) befParts.push(`vegetative Besonderheiten: ${vegetativeStr2}`);
+    if (befParts.length > 0) {
+      befText += `Psychischer Befund: ${befParts.join("; ")}.`;
     }
+    if (data.suicideIdeation || data.suicideAttempts || data.harmOthers || data.suicideNotes) {
+      befText += ` Suizidalität/Fremdgefährdung – Suizidgedanken: ${data.suicideIdeation || "-"}; frühere Suizidversuche: ${data.suicideAttempts || "-"}; Fremdgefährdung: ${data.harmOthers || "-"}`;
+      if (data.suicideNotes) befText += `; Anmerkungen: ${data.suicideNotes}`;
+      befText += ".";
+    }
+    report += befText + "\n";
 
-    // 3. Somatischer Befund / Konsiliarbericht
-    report += "\n3. Somatischer Befund / Konsiliarbericht\n";
-    report += `Konsiliarbericht vorhanden: ${data.consiliar || "-"}\n`;
+    // 3. Somatischer Befund
+    report += "\n3. Somatischer Befund\n";
+    report += `Konsiliarbericht: ${data.consiliar || "-"}\n`;
     const somaticStr = listWithOther(data.somaticConditions, data.somaticOther);
     if (somaticStr) report += `Relevante körperliche Erkrankungen/Behinderungen: ${somaticStr}\n`;
     if (data.heightWeight) report += `Körpergröße/Gewicht: ${data.heightWeight}\n`;
@@ -534,8 +560,8 @@ document.addEventListener("DOMContentLoaded", () => {
       report += `Störungsmodell – Aufrechterhaltende Faktoren: ${data.modelMaintaining || "-"}\n`;
     }
 
-    // 5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung
-    report += "\n5. ICD‑Diagnosen zum Zeitpunkt der Antragstellung\n";
+    // 5. Diagnosen nach ICD-10
+    report += "\n5. Diagnosen nach ICD-10\n";
     // Primäre Diagnose
     let primaryDiag = "";
     if (data.primaryDiagnosis === "Andere" && data.primaryDiagnosisOther) {
