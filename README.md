@@ -6,6 +6,7 @@ Das Dokument [KONZEPT.md](KONZEPT.md) beschreibt ein vereinfachtes Eingabekonzep
 
 ## Hinweise
 
-- Ein Fortschrittsbalken und eine fixierte Navigation erleichtern die Orientierung in langen Formularen.
+- Ein Fortschrittsbalken am oberen Rand erleichtert die Orientierung in langen Formularen.
+- Über das Menüsymbol im Header lässt sich eine transparente Navigation zwischen den Formularseiten öffnen.
 - Pflichtfelder sind mit einem * markiert.
 - Alle eingegebenen Daten verbleiben lokal im Browser und werden nicht an einen Server übertragen.

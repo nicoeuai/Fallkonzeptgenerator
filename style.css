@@ -71,6 +71,7 @@ body {
   background-color: var(--primary-color);
   color: var(--on-primary-color);
   box-shadow: 0 2px 6px var(--shadow-color);
+  position: relative;
 }
 .nav-left {
   display: flex;
@@ -93,16 +94,35 @@ body.dark-mode .navbar-title {
   align-items: center;
   gap: 0.75rem;
 }
-.theme-toggle,
-.login-btn {
+
+.header-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0.5rem 1rem;
+  z-index: 90;
+}
+.header-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.header-menu li {
+  cursor: pointer;
+  color: var(--on-primary-color);
+}
+.theme-toggle {
   padding: 0.35rem 0.8rem;
   font-size: 0.9rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
-}
-.theme-toggle {
   background-color: transparent;
   color: #ffffff;
   border: 1px solid #ffffff;
@@ -114,15 +134,6 @@ body.dark-mode .navbar-title {
   font-size: 1rem;
 }
 .theme-toggle:hover {
-  background-color: var(--accent-hover-color);
-  color: var(--on-accent-color);
-}
-.login-btn {
-  background-color: var(--accent-color);
-  color: var(--on-accent-color);
-  font-weight: 600;
-}
-.login-btn:hover {
   background-color: var(--accent-hover-color);
   color: var(--on-accent-color);
 }
@@ -510,37 +521,14 @@ body.dark-mode .menu-toggle:hover {
     font-size: 0.9rem;
   }
 }
-/* Step navigation */
-.step-nav {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: var(--surface-color);
-}
-.step-nav li {
-  padding: 0.35rem 0.8rem;
-  border: 1px solid var(--accent-color);
-  border-radius: 20px;
-  cursor: pointer;
-  background-color: var(--surface-color);
-  color: var(--accent-color);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.step-nav li.active {
-  background-color: var(--accent-color);
-  color: var(--on-accent-color);
-}
 #progressBar {
   height: 4px;
   width: 100%;
   background-color: var(--secondary-color);
   margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 80;
 }
 #progress {
   height: 100%;

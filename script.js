@@ -6,10 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Hero‑Section statt Intro
   const heroSection = document.querySelector(".hero");
   const steps = document.querySelectorAll(".form-step");
-  const navItems = document.querySelectorAll("#stepNav li");
   let currentStep = 0;
   const progressEl = document.getElementById("progress");
   const totalSteps = steps.length - 1;
+
+  // Header Menü
+  const menuToggle = document.querySelector(".menu-toggle");
+  const headerMenu = document.getElementById("headerMenu");
+  const menuItems = headerMenu ? headerMenu.querySelectorAll("li") : [];
 
   // Geschlechtsauswahl: zeigt optionales Textfeld bei Auswahl "selbst angegeben"
   const genderSelect = document.getElementById("patientGender");
@@ -55,14 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Hilfsfunktion zum Anzeigen eines bestimmten Schritts
   function showStep(stepIndex) {
+    if (heroSection) heroSection.classList.add("hidden");
+    if (formContainer) formContainer.classList.remove("hidden");
     steps.forEach((step) => step.classList.remove("active"));
     const target = document.querySelector(`.form-step[data-step="${stepIndex}"]`);
     if (target) {
       target.classList.add("active");
       currentStep = stepIndex;
-      navItems.forEach((nav) => {
-        nav.classList.toggle("active", parseInt(nav.dataset.step, 10) === stepIndex);
-      });
       if (progressEl) {
         const percent = (stepIndex / totalSteps) * 100;
         progressEl.style.width = `${percent}%`;
@@ -73,12 +76,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  navItems.forEach((item) => {
+  menuItems.forEach((item) => {
     item.addEventListener("click", () => {
       const step = parseInt(item.dataset.step, 10);
       showStep(step);
+      if (headerMenu) headerMenu.classList.add("hidden");
     });
   });
+
+  if (menuToggle && headerMenu) {
+    menuToggle.addEventListener("click", () => {
+      headerMenu.classList.toggle("hidden");
+    });
+  }
 
   // Start: Fragebogen anzeigen
   startButton.addEventListener("click", () => {
@@ -708,12 +718,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupDynamicOtherFields() {
-    document.querySelectorAll('input[id$="Other"]').forEach((input) => {
+    const ids = [
+      'familyHistoryOther',
+      'symptomPhysOther',
+      'symptomEmoOther',
+      'symptomCogOther',
+      'symptomBehOther',
+      'symptomCourseOther',
+      'comorbiditiesOther',
+      'somaticOther',
+      'substanceUseOther',
+      'medicationOther',
+      'previousTreatmentsOther',
+      'lifeInfluencesOther',
+      'predispositionsOther',
+      'triggersOther',
+      'maintenanceOther',
+      'resourcesOther',
+      'therapyGoalsOther',
+      'plannedInterventionsOther',
+      'prognosisPositiveOther',
+      'prognosisNegativeOther',
+      'updatedFindingsOther',
+      'justificationOther',
+      'changedGoalsOther',
+      'closingPlanOther'
+    ];
+    ids.forEach((id) => {
+      const input = document.getElementById(id);
+      if (!input) return;
       const wrapper = document.createElement('div');
       wrapper.classList.add('additional-inputs');
       input.parentNode.insertBefore(wrapper, input);
       wrapper.appendChild(input);
-      input.name = input.id + '[]';
+      input.name = id + '[]';
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'secondary-btn add-more';
