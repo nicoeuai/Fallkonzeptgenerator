@@ -14,32 +14,38 @@
 :root {
   /* Basisfarben im Light‑Modus */
   /* Light‑Mode Farbschema */
-  --primary-color: #254d60;     /* gedämpftes Blau für Header/Hintergrund im Light‑Modus */
-  --accent-color: #bfa96b;      /* warmes Gold‑Beige als Akzentfarbe im Light‑Modus */
+  --primary-color: #040d1b;     /* dunkles Blau für Header/Hintergrund im Light‑Modus */
+  --accent-color: #0a488a;      /* klares Blau als Akzentfarbe im Light‑Modus */
+  --accent-hover-color: #071e40;/* dunklere Variante für Hover-Effekte */
   --secondary-color: #f4f6f8;   /* sehr helles Grau als Seitenhintergrund */
   --surface-color: #ffffff;     /* Karten und Formularflächen */
   --text-color: #04101a;        /* sehr dunkles Blau als Primärtextfarbe */
-  --subtext-color: #254d60;     /* mittleres Blau für Untertexte */
+  --subtext-color: #475569;     /* gedämpftes Grau‑Blau für Untertexte */
+  --on-accent-color: #ffffff;   /* Text auf Akzentflächen */
+  --on-primary-color: #ffffff;  /* Text auf Primärflächen */
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Dunkler Modus: überschreibt die Variablen für eine dunkle Oberfläche */
 body.dark-mode {
   --primary-color: #062032;     /* sehr dunkles Blau für Header/Hintergrund */
-  --accent-color: #bfa96b;      /* Akzentfarbe im Dunkelmodus (leicht goldener Ton) */
+  --accent-color: #c8af5d;      /* dezentes Gold als Akzentfarbe */
+  --accent-hover-color: #695c31;/* etwas dunkleres Gold für Hover-Effekte */
   --secondary-color: #04101a;   /* tiefes Dunkelblau als Seitenhintergrund */
   --surface-color: #0b1c29;     /* dunkle Karte */
-  --text-color: #ffffff;        /* weißer Primärtext */
-  --subtext-color: #88a2b7;     /* bläuliches Grau für Untertexte (bleibt gleich) */
+  --text-color: #ffffff;        /* weiße Primärtextfarbe */
+  --subtext-color: #cbd5e1;     /* helles Blau‑Grau für Untertexte */
+  --on-accent-color: #04101a;   /* dunkler Text auf Gold */
+  --on-primary-color: #ffffff;  /* Text auf Primärflächen */
   --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Goldene Überschriften im Dunkelmodus */
+/* Akzentfarbene Überschriften im Dunkelmodus */
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
 body.dark-mode h4 {
-  color: var(--accent-color);
+  color: var(--text-color);
 }
 
 /* Zusätzlicher Abstand für bedingte Felder */
@@ -63,7 +69,7 @@ body {
   align-items: center;
   padding: 1rem 1.5rem;
   background-color: var(--primary-color);
-  color: var(--surface-color);
+  color: var(--on-primary-color);
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 .nav-left {
@@ -71,21 +77,16 @@ body {
   align-items: center;
   gap: 0.75rem;
 }
-.logo-placeholder {
-  width: 32px;
-  height: 32px;
-  background-color: var(--accent-color);
-  border-radius: 4px;
-}
+
 .navbar-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--surface-color);
+  color: var(--on-primary-color);
 }
 
-/* Navigations-Titel im Dunkelmodus heller darstellen */
+/* Titel im Dunkelmodus in Primärfarbe halten */
 body.dark-mode .navbar-title {
-  color: var(--accent-color);
+  color: var(--on-primary-color);
 }
 .nav-right {
   display: flex;
@@ -108,8 +109,8 @@ body.dark-mode .navbar-title {
   border: 1px solid var(--accent-color);
 }
 .lang-btn:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 .theme-toggle {
   background-color: transparent;
@@ -123,17 +124,33 @@ body.dark-mode .navbar-title {
   font-size: 1rem;
 }
 .theme-toggle:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 .login-btn {
   background-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
   font-weight: 600;
 }
 .login-btn:hover {
-  background-color: #c5b485;
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
+}
+
+/* Weniger Gold im Header des Dunkelmodus */
+body.dark-mode .lang-btn,
+body.dark-mode .theme-toggle,
+body.dark-mode .menu-toggle {
+  color: var(--subtext-color);
+  border-color: var(--subtext-color);
+}
+
+body.dark-mode .lang-btn:hover,
+body.dark-mode .theme-toggle:hover,
+body.dark-mode .menu-toggle:hover {
+  background-color: var(--accent-color);
+  color: var(--on-accent-color);
+  border-color: var(--accent-color);
 }
 
 /* Hamburger‑Menü */
@@ -148,8 +165,8 @@ body.dark-mode .navbar-title {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .menu-toggle:hover {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 
 /* Hero‑Section */
@@ -200,14 +217,14 @@ body.dark-mode .navbar-title {
   border: none;
   border-radius: 6px;
   background-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
   cursor: pointer;
   font-weight: 600;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .cta-btn:hover {
-  background-color: #c5b485;
-  color: var(--primary-color);
+  background-color: var(--accent-hover-color);
+  color: var(--on-accent-color);
 }
 
 .site-title {
@@ -249,12 +266,12 @@ body.dark-mode .navbar-title {
 
 .primary-btn {
   background-color: var(--accent-color);
-  color: #ffffff;
+  color: var(--on-accent-color);
   font-weight: 600;
 }
 
 .primary-btn:hover {
-  background-color: #145ba0;
+  background-color: var(--accent-hover-color);
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 
@@ -267,7 +284,7 @@ body.dark-mode .navbar-title {
 
 .secondary-btn:hover {
   background-color: var(--accent-color);
-  color: #ffffff;
+  color: var(--on-accent-color);
   box-shadow: 0 2px 6px var(--shadow-color);
 }
 
@@ -323,8 +340,20 @@ body.dark-mode .navbar-title {
 .input-group select:focus,
 .input-group textarea:focus {
   border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(174, 162, 122, 0.25);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
   outline: none;
+}
+
+.input-group select {
+  color: var(--text-color);
+}
+
+.input-group select option {
+  color: var(--text-color);
+}
+
+.input-group select option[disabled] {
+  color: var(--subtext-color);
 }
 
 .input-group textarea {
@@ -374,7 +403,7 @@ body.dark-mode .navbar-title {
 .checkbox-group label.checked {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
 }
 
 /* Radio-Button-Gruppen im gleichen Stil wie Checkboxen */
@@ -404,7 +433,7 @@ body.dark-mode .navbar-title {
 .radio-group label.checked {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
-  color: var(--primary-color);
+  color: var(--on-accent-color);
 }
 
 /* Tabelle für Testverfahren */
@@ -464,7 +493,7 @@ body.dark-mode .navbar-title {
 /* Conditional note styling */
 .conditional-note {
   font-size: 0.9rem;
-  color: #666666;
+  color: var(--subtext-color);
   margin-bottom: 1rem;
   font-style: italic;
 }
