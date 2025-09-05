@@ -1,5 +1,20 @@
 // Skript zur Steuerung des mehrstufigen Formulars und zum Generieren des Berichts
 
+// Importiere die HuggingFace Transformers Pipeline, um die Zusammenfassung lokal im Browser auszuführen.
+// Durch die Nutzung eines ES‑Moduls können wir moderne JavaScript‑Importe verwenden.
+import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2/dist/transformers.esm.min.js';
+
+// Globale Variable für den Summarizer. Dieser wird lazy‑initialisiert, sobald der Nutzer
+// erstmals den KI‑Button anklickt. Die Verwendung einer kleinen T5‑Variante mit quantisierter
+// Genauigkeit (dtype: 'q4') reduziert die Ladezeit und Ressourcen auf mobilen Geräten.
+let summarizer;
+async function getSummarizer() {
+  if (!summarizer) {
+    summarizer = await pipeline('summarization', 'Xenova/t5-small', { dtype: 'q4' });
+  }
+  return summarizer;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("startButton");
   const formContainer = document.getElementById("formContainer");
@@ -808,6 +823,30 @@ document.addEventListener("DOMContentLoaded", () => {
         themeToggleBtn.textContent = "☀️";
       } else {
         themeToggleBtn.textContent = "🌙";
+      }
+    });
+  }
+
+  // KI‑Schaltfläche: Wandelt den strukturierten Bericht in einen fließenden Text um
+  const aiSummaryBtn = document.getElementById("aiSummaryBtn");
+  if (aiSummaryBtn) {
+    aiSummaryBtn.addEventListener("click", async () => {
+      const textarea = document.getElementById("reportOutput");
+      if (!textarea) return;
+      const rawText = textarea.value;
+      // Initialisiere das Modell bei Bedarf
+      const summarizerPipe = await getSummarizer();
+      try {
+        const result = await summarizerPipe(rawText, {
+          max_length: 300,
+          min_length: 150,
+          do_sample: false,
+        });
+        if (Array.isArray(result) && result.length > 0 && result[0].summary_text) {
+          textarea.value = result[0].summary_text;
+        }
+      } catch (error) {
+        console.error('Fehler bei der Zusammenfassung:', error);
       }
     });
   }
