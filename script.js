@@ -7,12 +7,10 @@
 // persönlichen Token unten ein. Die Anfrage erfolgt per HTTP POST. Beachten Sie, dass der Bericht
 // beim Zusammenfassen an einen externen Dienst gesendet wird.
 
-// URL des Hugging‑Face Summarization‑Endpunkts. Sie können bei Bedarf ein anderes Modell wählen.
-const HF_API_URL = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn';
-
-// TODO: Geben Sie hier Ihren Hugging‑Face API‑Token ein. Ohne Token wird der Endpunkt
-// wahrscheinlich mit einer Fehlermeldung antworten. Das Format lautet "hf_...".
-const HF_API_TOKEN = '';
+// URL des eigenen Proxy‑Servers für die Zusammenfassung. Dieser Server muss die Eingabe
+// an die Hugging‑Face‑API oder ein anderes Modell weiterleiten. Wenn Sie den mitgelieferten
+// server.js verwenden, läuft der Endpunkt unter /summarize im gleichen Ursprung.
+const SUMMARY_API_ENDPOINT = '/summarize';
 
 /**
  * Sendet den gegebenen Text an die Hugging‑Face‑Inference‑API und gibt die Zusammenfassung zurück.
@@ -20,40 +18,26 @@ const HF_API_TOKEN = '';
  * @returns {Promise<string|null>} Die zusammengefasste Version des Textes oder null bei Fehler
  */
 async function fetchSummaryFromAPI(text) {
-  if (!HF_API_TOKEN) {
-    console.warn('Hugging‑Face API‑Token ist nicht gesetzt. Bitte tragen Sie Ihren Token in script.js ein.');
-    return null;
-  }
   try {
-    const response = await fetch(HF_API_URL, {
+    const response = await fetch(SUMMARY_API_ENDPOINT, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${HF_API_TOKEN}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        inputs: text,
-        parameters: {
-          // Begrenzen Sie die Länge der Ausgabe. Passen Sie diese Werte bei Bedarf an.
-          max_length: 512,
-          min_length: 150,
-          do_sample: false
-        }
-      })
+      body: JSON.stringify({ text })
     });
     if (!response.ok) {
-      console.error('Fehler beim API‑Request:', response.status, response.statusText);
+      console.error('Fehler beim Aufruf des Zusammenfassungs-Endpunkts:', response.status, response.statusText);
       return null;
     }
     const result = await response.json();
-    // Die API liefert entweder ein Array von Objekten mit summary_text oder ein Fehlerobjekt
-    if (Array.isArray(result) && result.length > 0 && result[0].summary_text) {
-      return result[0].summary_text.trim();
+    if (result && result.summary) {
+      return result.summary.trim();
     }
-    console.error('Unerwartetes Antwortformat:', result);
+    console.error('Unerwartetes Antwortformat vom Proxy:', result);
     return null;
   } catch (err) {
-    console.error('Fehler bei der Kommunikation mit der Hugging‑Face API:', err);
+    console.error('Fehler bei der Kommunikation mit dem Zusammenfassungs-Endpunkt:', err);
     return null;
   }
 }
