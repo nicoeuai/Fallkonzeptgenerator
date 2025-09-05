@@ -1,8 +1,8 @@
 // Skript zur Steuerung des mehrstufigen Formulars und zum Generieren des Berichts
 
-// Importiere die HuggingFace Transformers Pipeline, um die Zusammenfassung lokal im Browser auszuführen.
-// Durch die Nutzung eines ES‑Moduls können wir moderne JavaScript‑Importe verwenden.
-import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2/dist/transformers.esm.min.js';
+// Für die KI‑Zusammenfassung verwenden wir das Transformers‑JS‑Paket von Hugging Face.
+// Um sicherzustellen, dass das restliche Skript auch ohne Netzwerkverbindung läuft, laden wir
+// das Modul erst dynamisch, wenn der Benutzer die KI‑Funktion nutzt.
 
 // Globale Variable für den Summarizer. Dieser wird lazy‑initialisiert, sobald der Nutzer
 // erstmals den KI‑Button anklickt. Die Verwendung einer kleinen T5‑Variante mit quantisierter
@@ -10,6 +10,8 @@ import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers
 let summarizer;
 async function getSummarizer() {
   if (!summarizer) {
+    // Dynamischer Import des Transformers‑Pipelines, damit das Script ohne Netzwerk weiterhin funktioniert.
+    const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2/dist/transformers.esm.min.js');
     summarizer = await pipeline('summarization', 'Xenova/t5-small', { dtype: 'q4' });
   }
   return summarizer;
