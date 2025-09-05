@@ -836,9 +836,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const textarea = document.getElementById("reportOutput");
       if (!textarea) return;
       const rawText = textarea.value;
-      // Initialisiere das Modell bei Bedarf
-      const summarizerPipe = await getSummarizer();
       try {
+        // Initialisiere das Modell bei Bedarf. Dieser Aufruf lädt die Bibliothek dynamisch.
+        const summarizerPipe = await getSummarizer();
         const result = await summarizerPipe(rawText, {
           max_length: 300,
           min_length: 150,
@@ -848,7 +848,9 @@ document.addEventListener("DOMContentLoaded", () => {
           textarea.value = result[0].summary_text;
         }
       } catch (error) {
-        console.error('Fehler bei der Zusammenfassung:', error);
+        // Falls das Laden der Bibliothek oder die Zusammenfassung fehlschlägt, informieren wir den Benutzer.
+        console.error('Fehler beim Laden oder Ausführen des Summarizers:', error);
+        alert('Die KI‑Zusammenfassung konnte nicht geladen werden. Bitte stellen Sie sicher, dass Sie online sind und versuchen Sie es erneut.');
       }
     });
   }
