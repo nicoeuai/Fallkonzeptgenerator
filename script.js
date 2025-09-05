@@ -15,7 +15,10 @@ async function getSummarizer() {
     // Xenova‑Implementierung, die als eigenständiges Paket verfügbar ist. Das dynamische
     // import() lädt die komplette Bibliothek inklusive ONNX‑Runtime nur bei Bedarf.
     const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
-    summarizer = await pipeline('summarization', 'Xenova/t5-small', { dtype: 'q4' });
+    // Wir verwenden für die Textgenerierung ein FLAN‑T5‑Modell. Dieses Modell beherrscht
+    // "text2text-generation" und kann Anweisungen folgen, um aus Stichpunkten einen
+    // zusammenhängenden Bericht zu erstellen.
+    summarizer = await pipeline('text2text-generation', 'Xenova/flan-t5-small', { dtype: 'q4' });
   }
   return summarizer;
 }
@@ -842,13 +845,16 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         // Initialisiere das Modell bei Bedarf. Dieser Aufruf lädt die Bibliothek dynamisch.
         const summarizerPipe = await getSummarizer();
-        const result = await summarizerPipe(rawText, {
-          max_length: 300,
-          min_length: 150,
+        // Formuliere einen Prompt, der das Modell anweist, aus den Stichpunkten einen
+        // flüssigen, psychotherapeutischen Bericht zu generieren. Wir hängen die
+        // Stichpunkte an, damit der Kontext enthalten ist.
+        const prompt = `Schreibe einen zusammenhängenden, strukturierten psychotherapeutischen Bericht aus den folgenden Stichpunkten. Verwende vollständige Sätze und orientiere dich an professionellen Berichtskonventionen. Stichpunkte: ${rawText}`;
+        const result = await summarizerPipe(prompt, {
+          max_length: 512,
           do_sample: false,
         });
-        if (Array.isArray(result) && result.length > 0 && result[0].summary_text) {
-          textarea.value = result[0].summary_text;
+        if (Array.isArray(result) && result.length > 0 && result[0].generated_text) {
+          textarea.value = result[0].generated_text.trim();
         }
       } catch (error) {
         // Falls das Laden der Bibliothek oder die Zusammenfassung fehlschlägt, informieren wir den Benutzer.
