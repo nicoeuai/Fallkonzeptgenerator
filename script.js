@@ -11,7 +11,10 @@ let summarizer;
 async function getSummarizer() {
   if (!summarizer) {
     // Dynamischer Import des Transformers‑Pipelines, damit das Script ohne Netzwerk weiterhin funktioniert.
-    const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2/dist/transformers.esm.min.js');
+    // Die Transformers.js‑Bibliothek wird über jsDelivr geladen. Wir nutzen die offizielle
+    // Xenova‑Implementierung, die als eigenständiges Paket verfügbar ist. Das dynamische
+    // import() lädt die komplette Bibliothek inklusive ONNX‑Runtime nur bei Bedarf.
+    const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
     summarizer = await pipeline('summarization', 'Xenova/t5-small', { dtype: 'q4' });
   }
   return summarizer;
