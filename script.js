@@ -1,26 +1,61 @@
 // Skript zur Steuerung des mehrstufigen Formulars und zum Generieren des Berichts
 
-// Für die KI‑Zusammenfassung verwenden wir das Transformers‑JS‑Paket von Hugging Face.
-// Um sicherzustellen, dass das restliche Skript auch ohne Netzwerkverbindung läuft, laden wir
-// das Modul erst dynamisch, wenn der Benutzer die KI‑Funktion nutzt.
+// In dieser Variante wird die Umformulierung des Berichts nicht mehr lokal im Browser ausgeführt,
+// sondern über eine externe API. Wir verwenden den Hugging‑Face Inference‑API‑Endpunkt für das
+// Summarization‑Modell `facebook/bart-large-cnn`. Um die API nutzen zu können, wird ein gültiger
+// API‑Token benötigt. Der Token kann kostenlos bei Hugging Face erzeugt werden. Tragen Sie Ihren
+// persönlichen Token unten ein. Die Anfrage erfolgt per HTTP POST. Beachten Sie, dass der Bericht
+// beim Zusammenfassen an einen externen Dienst gesendet wird.
 
-// Globale Variable für den Summarizer. Dieser wird lazy‑initialisiert, sobald der Nutzer
-// erstmals den KI‑Button anklickt. Die Verwendung einer kleinen T5‑Variante mit quantisierter
-// Genauigkeit (dtype: 'q4') reduziert die Ladezeit und Ressourcen auf mobilen Geräten.
-let summarizer;
-async function getSummarizer() {
-  if (!summarizer) {
-    // Dynamischer Import des Transformers‑Pipelines, damit das Script ohne Netzwerk weiterhin funktioniert.
-    // Die Transformers.js‑Bibliothek wird über jsDelivr geladen. Wir nutzen die offizielle
-    // Xenova‑Implementierung, die als eigenständiges Paket verfügbar ist. Das dynamische
-    // import() lädt die komplette Bibliothek inklusive ONNX‑Runtime nur bei Bedarf.
-    const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
-    // Wir verwenden für die Textgenerierung ein FLAN‑T5‑Modell. Dieses Modell beherrscht
-    // "text2text-generation" und kann Anweisungen folgen, um aus Stichpunkten einen
-    // zusammenhängenden Bericht zu erstellen.
-    summarizer = await pipeline('text2text-generation', 'Xenova/flan-t5-small', { dtype: 'q4' });
+// URL des Hugging‑Face Summarization‑Endpunkts. Sie können bei Bedarf ein anderes Modell wählen.
+const HF_API_URL = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn';
+
+// TODO: Geben Sie hier Ihren Hugging‑Face API‑Token ein. Ohne Token wird der Endpunkt
+// wahrscheinlich mit einer Fehlermeldung antworten. Das Format lautet "hf_...".
+const HF_API_TOKEN = '';
+
+/**
+ * Sendet den gegebenen Text an die Hugging‑Face‑Inference‑API und gibt die Zusammenfassung zurück.
+ * @param {string} text Der zu verarbeitende Bericht
+ * @returns {Promise<string|null>} Die zusammengefasste Version des Textes oder null bei Fehler
+ */
+async function fetchSummaryFromAPI(text) {
+  if (!HF_API_TOKEN) {
+    console.warn('Hugging‑Face API‑Token ist nicht gesetzt. Bitte tragen Sie Ihren Token in script.js ein.');
+    return null;
   }
-  return summarizer;
+  try {
+    const response = await fetch(HF_API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${HF_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        inputs: text,
+        parameters: {
+          // Begrenzen Sie die Länge der Ausgabe. Passen Sie diese Werte bei Bedarf an.
+          max_length: 512,
+          min_length: 150,
+          do_sample: false
+        }
+      })
+    });
+    if (!response.ok) {
+      console.error('Fehler beim API‑Request:', response.status, response.statusText);
+      return null;
+    }
+    const result = await response.json();
+    // Die API liefert entweder ein Array von Objekten mit summary_text oder ein Fehlerobjekt
+    if (Array.isArray(result) && result.length > 0 && result[0].summary_text) {
+      return result[0].summary_text.trim();
+    }
+    console.error('Unerwartetes Antwortformat:', result);
+    return null;
+  } catch (err) {
+    console.error('Fehler bei der Kommunikation mit der Hugging‑Face API:', err);
+    return null;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -835,31 +870,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // KI‑Schaltfläche: Wandelt den strukturierten Bericht in einen fließenden Text um
+  // KI‑Schaltfläche: sendet den Bericht an eine externe API und ersetzt das Ergebnis im Textfeld
   const aiSummaryBtn = document.getElementById("aiSummaryBtn");
   if (aiSummaryBtn) {
     aiSummaryBtn.addEventListener("click", async () => {
       const textarea = document.getElementById("reportOutput");
       if (!textarea) return;
       const rawText = textarea.value;
-      try {
-        // Initialisiere das Modell bei Bedarf. Dieser Aufruf lädt die Bibliothek dynamisch.
-        const summarizerPipe = await getSummarizer();
-        // Formuliere einen Prompt, der das Modell anweist, aus den Stichpunkten einen
-        // flüssigen, psychotherapeutischen Bericht zu generieren. Wir hängen die
-        // Stichpunkte an, damit der Kontext enthalten ist.
-        const prompt = `Schreibe einen zusammenhängenden, strukturierten psychotherapeutischen Bericht aus den folgenden Stichpunkten. Verwende vollständige Sätze und orientiere dich an professionellen Berichtskonventionen. Stichpunkte: ${rawText}`;
-        const result = await summarizerPipe(prompt, {
-          max_length: 512,
-          do_sample: false,
-        });
-        if (Array.isArray(result) && result.length > 0 && result[0].generated_text) {
-          textarea.value = result[0].generated_text.trim();
-        }
-      } catch (error) {
-        // Falls das Laden der Bibliothek oder die Zusammenfassung fehlschlägt, informieren wir den Benutzer.
-        console.error('Fehler beim Laden oder Ausführen des Summarizers:', error);
-        alert('Die KI‑Zusammenfassung konnte nicht geladen werden. Bitte stellen Sie sicher, dass Sie online sind und versuchen Sie es erneut.');
+      // Wenn kein Text vorhanden ist, generiere zunächst den Bericht.
+      if (!rawText || rawText.trim() === '') {
+        compileReport();
+      }
+      // Aktualisiere rawText nach eventueller Neuerstellung
+      const textToSend = textarea.value;
+      const summary = await fetchSummaryFromAPI(textToSend);
+      if (summary) {
+        textarea.value = summary;
+      } else {
+        alert('Die KI‑Zusammenfassung konnte nicht geladen werden. Bitte prüfen Sie Ihren API‑Token und Ihre Internetverbindung.');
       }
     });
   }
