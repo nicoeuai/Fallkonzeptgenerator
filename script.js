@@ -1,5 +1,49 @@
 // Skript zur Steuerung des mehrstufigen Formulars und zum Generieren des Berichts
 
+// In dieser Variante wird die Umformulierung des Berichts nicht mehr lokal im Browser ausgeführt,
+// sondern über eine externe API. Wir verwenden den Hugging‑Face Inference‑API‑Endpunkt für das
+// Summarization‑Modell `facebook/bart-large-cnn`. Um die API nutzen zu können, wird ein gültiger
+// API‑Token benötigt. Der Token kann kostenlos bei Hugging Face erzeugt werden. Tragen Sie Ihren
+// persönlichen Token unten ein. Die Anfrage erfolgt per HTTP POST. Beachten Sie, dass der Bericht
+// beim Zusammenfassen an einen externen Dienst gesendet wird.
+
+// URL des eigenen Proxy‑Servers für die Zusammenfassung. Dieser Server muss die Eingabe
+// an die Hugging‑Face‑API oder ein anderes Modell weiterleiten. Wenn Sie den mitgelieferten
+// server.js verwenden, läuft der Endpunkt unter /summarize im gleichen Ursprung.
+// Für die Netlify‑Deployment setzen wir den Endpunkt auf den Pfad der Serverless‑Function.
+// Wenn Sie den Proxy lokal betreiben, können Sie diesen Wert auf '/summarize' lassen.
+const SUMMARY_API_ENDPOINT = '/.netlify/functions/summarize';
+
+/**
+ * Sendet den gegebenen Text an die Hugging‑Face‑Inference‑API und gibt die Zusammenfassung zurück.
+ * @param {string} text Der zu verarbeitende Bericht
+ * @returns {Promise<string|null>} Die zusammengefasste Version des Textes oder null bei Fehler
+ */
+async function fetchSummaryFromAPI(text) {
+  try {
+    const response = await fetch(SUMMARY_API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text })
+    });
+    if (!response.ok) {
+      console.error('Fehler beim Aufruf des Zusammenfassungs-Endpunkts:', response.status, response.statusText);
+      return null;
+    }
+    const result = await response.json();
+    if (result && result.summary) {
+      return result.summary.trim();
+    }
+    console.error('Unerwartetes Antwortformat vom Proxy:', result);
+    return null;
+  } catch (err) {
+    console.error('Fehler bei der Kommunikation mit dem Zusammenfassungs-Endpunkt:', err);
+    return null;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("startButton");
   const formContainer = document.getElementById("formContainer");
@@ -808,6 +852,28 @@ document.addEventListener("DOMContentLoaded", () => {
         themeToggleBtn.textContent = "☀️";
       } else {
         themeToggleBtn.textContent = "🌙";
+      }
+    });
+  }
+
+  // KI‑Schaltfläche: sendet den Bericht an eine externe API und ersetzt das Ergebnis im Textfeld
+  const aiSummaryBtn = document.getElementById("aiSummaryBtn");
+  if (aiSummaryBtn) {
+    aiSummaryBtn.addEventListener("click", async () => {
+      const textarea = document.getElementById("reportOutput");
+      if (!textarea) return;
+      const rawText = textarea.value;
+      // Wenn kein Text vorhanden ist, generiere zunächst den Bericht.
+      if (!rawText || rawText.trim() === '') {
+        compileReport();
+      }
+      // Aktualisiere rawText nach eventueller Neuerstellung
+      const textToSend = textarea.value;
+      const summary = await fetchSummaryFromAPI(textToSend);
+      if (summary) {
+        textarea.value = summary;
+      } else {
+        alert('Die KI‑Zusammenfassung konnte nicht geladen werden. Bitte prüfen Sie Ihren API‑Token und Ihre Internetverbindung.');
       }
     });
   }

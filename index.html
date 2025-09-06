@@ -1269,6 +1269,8 @@
         <div class="navigation-buttons">
           <button type="button" class="secondary-btn" id="prev9">Zurück</button>
           <button type="button" class="primary-btn" id="downloadReport">Herunterladen</button>
+          <!-- Neuer Button: Erzeugt einen zusammenhängenden KI‑Bericht aus dem generierten Text -->
+          <button type="button" class="primary-btn" id="aiSummaryBtn">KI‑Text erzeugen</button>
         </div>
       </div>
     </form>
@@ -1280,6 +1282,7 @@
       gesicherten Geräten und beachten Sie die geltenden Datenschutzrichtlinien (DSGVO).
     </p>
   </footer>
-  <script src="script.js"></script>
+  <!-- Script als ES‑Modul laden, damit wir Transformermodelle importieren können -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
