@@ -10,7 +10,9 @@
 // URL des eigenen Proxy‑Servers für die Zusammenfassung. Dieser Server muss die Eingabe
 // an die Hugging‑Face‑API oder ein anderes Modell weiterleiten. Wenn Sie den mitgelieferten
 // server.js verwenden, läuft der Endpunkt unter /summarize im gleichen Ursprung.
-const SUMMARY_API_ENDPOINT = '/summarize';
+// Für die Netlify‑Deployment setzen wir den Endpunkt auf den Pfad der Serverless‑Function.
+// Wenn Sie den Proxy lokal betreiben, können Sie diesen Wert auf '/summarize' lassen.
+const SUMMARY_API_ENDPOINT = '/.netlify/functions/summarize';
 
 /**
  * Sendet den gegebenen Text an die Hugging‑Face‑Inference‑API und gibt die Zusammenfassung zurück.
