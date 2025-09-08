@@ -86,7 +86,7 @@ exports.handler = async function(event, context) {
       };
     }
     const result = await resp.json();
-    if (Array.isArray(result) && result[0] && result[0].summary_text) {
+    if (Array.isArray(result) && result[0] && result[0].generated_text) {
       return {
         statusCode: 200,
         headers: corsHeaders,
