@@ -47,7 +47,9 @@ exports.handler = async function(event, context) {
     };
   }
 
-  const HF_API_URL = 'https://api-inference.huggingface.co/models/facebook/bart-large-cnn';
+  // Verwenden Sie ein text2text‑Generierungsmodell (FLAN‑T5‑Base), das Anweisungen versteht.
+  // Dieses Modell kann aus stichpunktartigen Angaben einen kohärenten Bericht erzeugen.
+  const HF_API_URL = 'https://api-inference.huggingface.co/models/google/flan-t5-base';
   const token = process.env.HF_API_TOKEN;
   if (!token) {
     return {
@@ -58,6 +60,9 @@ exports.handler = async function(event, context) {
   }
 
   try {
+    // Formuliere eine Anweisung, damit das Modell aus den Notizen einen zusammenhängenden
+    // psychotherapeutischen Bericht erstellt. Diese Aufforderung wird an das Modell gesendet.
+    const prompt = `Schreibe einen zusammenhängenden, strukturierten psychotherapeutischen Bericht für eine Begutachtung. Verwende vollständige Sätze und fasse die folgenden Notizen sinnvoll zusammen. Notizen: ${text}`;
     const resp = await fetch(HF_API_URL, {
       method: 'POST',
       headers: {
@@ -65,11 +70,10 @@ exports.handler = async function(event, context) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        inputs: text,
+        inputs: prompt,
         parameters: {
           max_length: 512,
-          min_length: 150,
-          do_sample: false,
+          do_sample: false
         },
       }),
     });
