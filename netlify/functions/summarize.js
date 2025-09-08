@@ -1,4 +1,6 @@
-const fetch = require('node-fetch');
+// In Netlify Functions steht ab Node.js 18 die Fetch‑API global zur Verfügung,
+// sodass kein zusätzliches Modul geladen werden muss. Wenn Sie eine frühere Node‑Version
+// verwenden, können Sie stattdessen das Paket 'node-fetch' installieren und importieren.
 
 // Netlify Function Handler
 exports.handler = async function(event, context) {
